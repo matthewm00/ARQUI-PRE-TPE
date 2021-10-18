@@ -3,9 +3,10 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
-
+#include <idtLoader.h>
 #include <clock.h>
 #include <keyboard.h>
+#include <time.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -135,6 +136,31 @@ int main()
 			ncPrintHex(teclahex);
 			teclahexant = teclahex;
 		}
+	}
+
+	ncNewline();
+	load_idt();
+
+	uint8_t changeDetected = 0;
+	int t = 0;
+	while (t < 100)
+	{
+		if (!changeDetected && ticks_elapsed() % 6 == 0)
+		{
+			changeDetected = 1;
+			ncPrint("6");
+			if (ticks_elapsed() % 18 == 0)
+			{
+				ncPrint("T");
+			}
+		}
+
+		if (changeDetected && ticks_elapsed() % 6 != 0)
+		{
+			changeDetected = 0;
+		}
+
+		t++;
 	}
 
 	ncNewline();
