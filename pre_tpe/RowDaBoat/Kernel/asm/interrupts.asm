@@ -18,6 +18,7 @@ GLOBAL _exception6Handler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
+EXTERN syscallDispatcher
 
 SECTION .text
 
@@ -83,6 +84,26 @@ SECTION .text
 	iretq
 %endmacro
 
+%macro syscallHandlerMaster 0
+	pushState
+	sti
+
+	// rax o r8 ?
+	mov rcx, rax ; puede ser 0 (read), 1 (write), etc
+	call syscallDispatcher
+
+	push rax
+	; signal pic EOI (End of Interrupt)
+	mov al, 20h
+	out 20h, al
+	;
+	pop rax
+
+	cli
+	popState
+	iretq
+%endmacro
+
 
 _hlt:
 	sti
@@ -139,7 +160,6 @@ _irq04Handler:
 _irq05Handler:
 	irqHandlerMaster 5
 
-;USB
 _syscall80Handler:
 	syscallHandlerMaster
 
@@ -148,7 +168,7 @@ _syscall80Handler:
 _exception0Handler:
 	exceptionHandler 0
 
-;Invalid operation
+;Invalid opcode
 _exception6Handler:
 	exceptionHandler 6
 
