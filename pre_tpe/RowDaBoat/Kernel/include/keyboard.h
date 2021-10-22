@@ -14,6 +14,7 @@
 #define R_SHIFT_RELEASED 0xB6
 #define L_SHIFT_RELEASED 0xAA
 #define ESC_RELEASED 0x81
+#define IS_LETTER(c) (c >= 'a' && c <= 'z' ? 1 : 0)
 
 void keyboardHandler();
 

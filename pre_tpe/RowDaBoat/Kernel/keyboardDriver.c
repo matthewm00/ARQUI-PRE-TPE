@@ -21,9 +21,11 @@ void keyboardHandler()
     if (hasKeyboardKey())
     {
         unsigned int key = readKeyboard();
+
         // Key is pressed
         if (key >= ESC && key <= CAPS_LCK)
         {
+            // Flags
             if (key == L_SHIFT || key == R_SHIFT)
             {
                 shift = 1;
@@ -32,13 +34,17 @@ void keyboardHandler()
             {
                 capsLock = !capsLock;
             }
-
-            if (capsLock && keyCodes[key][0] >= 0)
+            // Is a letter
+            if (IS_LETTER(keyCodes[key][0]))
             {
-                if (capsLock)
-                    buffer[buff_dim++] = keyCodes[key][0];
-                else
-                    buffer[buff_dim++] = keyCodes[key][1];
+                if(shift){
+                    buffer[buff_dim++] = capsLock ? keyCodes[key][1] : keyCodes[key][0];
+                } else {
+                    buffer[buff_dim++] = capsLock ? keyCodes[key][0] : keyCodes[key][1];
+                }
+            // Is not a letter
+            } else {
+                buffer[buff_dim++] = shift ? keyCodes[key][1] : keyCodes[key][0];
             }
         }
         // Key is released
