@@ -1,25 +1,50 @@
-#include <stdint.h>
-#include <naiveConsole.h>
-#include <lib.h>
-#include <interrupts.h>
+#include <syscallDispatcher.h>
 
-typedef uint64_t (*FunSyscall)(uint64_t, uint64_t, uint64_t); // puntero a funcion
-
-uint64_t read(unsigned int fd, const char *buff, unsigned int count);
-uint64_t write(unsigned int fd, const char *buff, unsigned int count);
-
-static FunSyscall sysCalls[255] = {(FunSyscall)&read, (FunSyscall)&write};
-
-uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx)
+uint64_t syscallDispatcher(uint64_t *r[REGISTERS])
 {
-    FunSyscall syscall = sysCalls[rcx];
-    if (syscall != 0)
+    switch (*r[RAX])
     {
-        return syscall(rdi, rsi, rdx);
+    case 0:
+        read(r[RDI], *r[RSI]);
+        break;
+
+    case 1:
+        // ver el tema de los registros
+        write(r[RDI], *r[RSI], *r[RDX], *r[RCX]);
+        break;
+
+    default:
+        break;
     }
-    return 0;
 }
 
-static int putChar(char c)
-static char getChar(int index)
-static void clearBuffer(int index)
+void read(uint64_t *buff, uint64_t length)
+{
+    char *keyboardBuffer = getKeyboardBuffer();
+    cleanBuffer();
+
+    for (int i = 0; i < length && keyboardBuffer[i] != 0; i++)
+    {
+        if (keyboardBuffer[i] == SPACE_BAR)
+        {
+            ((char *)buff)[i] = ' ';
+        }
+        else if (L_SHIFT == keyboardBuffer[i] || R_SHIFT == keyboardBuffer[i] || R_SHIFT_RELEASED == keyboardBuffer[i] || L_SHIFT_RELEASED == keyboardBuffer[i])
+        {
+            ; /// chequear que no se agrega al buffer ningun shift, etc
+            // para estas teclas solo se deberian prender los flags
+        }
+        else
+        {
+            ((char *)buff)[i] = keyboardBuffer[i];
+        }
+    }
+}
+void write(uint64_t *buff, uint64_t length, uint64_t fontColor, uint64_t background_color)
+{
+    if (length <= 0 || fontColor < 0 || background_color < 0)
+    {
+        return;
+    }
+    print((char *)buff, length, fontColor, background_color);
+}
