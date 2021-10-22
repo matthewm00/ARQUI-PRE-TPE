@@ -12,7 +12,7 @@ void exceptionDispatcher(uint64_t exception, uint64_t *registers)
 		break;
 	}
 	// print registers
-	printRegisters(*registers);
+	printRegisters(registers);
 }
 
 void zero_division()
