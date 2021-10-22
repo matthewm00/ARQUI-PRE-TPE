@@ -3,11 +3,6 @@
 
 #include <stdint.h>
 
-int getScanCode();
-int isLetter(char c);
-void pressedKey(char c);
-char getKey();
-
 #define KEYS 59
 #define ESC 0x01
 #define DELETE_KEY 0x0E
@@ -21,5 +16,10 @@ char getKey();
 #define R_SHIFT_RELEASED 0xFFFFFFFFFFFFFFB6
 #define L_SHIFT_RELEASED 0xFFFFFFFFFFFFFFAA
 #define ESC_RELEASED 0x81
+
+void keyboardHandler();
+
+extern unsigned char hasKeyboardKey();
+extern unsigned char readKeyboard();
 
 #endif

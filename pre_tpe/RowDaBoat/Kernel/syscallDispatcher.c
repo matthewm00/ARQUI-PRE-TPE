@@ -10,14 +10,6 @@ uint64_t write(unsigned int fd, const char *buff, unsigned int count);
 
 static FunSyscall sysCalls[255] = {(FunSyscall)&read, (FunSyscall)&write};
 
-// otra opcion usar un switch para las distintas syscalls
-
-// read
-
-// write
-
-// resto...
-
 uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx)
 {
     FunSyscall syscall = sysCalls[rcx];
@@ -27,3 +19,7 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
     }
     return 0;
 }
+
+static int putChar(char c)
+static char getChar(int index)
+static void clearBuffer(int index)
