@@ -89,7 +89,7 @@ SECTION .text
 	pushState
 	sti
 
-	// rax o r8 ?
+	; rax o r8 ?
 	mov rcx, rax ; puede ser 0 (read), 1 (write), etc
 	call syscallDispatcher
 
