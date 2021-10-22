@@ -1,36 +1,19 @@
 GLOBAL cpuVendor
 GLOBAL clock
-GLOBAL kbFlag
 GLOBAL readKeyboard
+GLOBAL hasKeyboardKey
 
 section .text
 
-
-kbFlag:
-        push rbp
-        mov rbp, rsp
-		
-		mov rax,0
-loop:
-		in al,0x64       
-    	mov cl,al
-        and al,0x01       
-    	cmp al,0
-        je loop
-    	in al,0x60
-       
-    mov rsp, rbp
-    pop rbp
+hasKeyboardKey:
+    mov rax, 0
+    in al, 64h //keyboard status
+    and al, 0x01
     ret
 
 readKeyboard:
 	xor rax, rax
-	in al, 64h
-	and al, 1 ;Me quedo con el ultimo bit
-	test al, al
-	jz readKeyboard
-	in al, 60h
-	.end:
+	in al, 60h //read the buffer
 	ret
 
 clock:

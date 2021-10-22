@@ -139,6 +139,7 @@ int main()
 	}
 
 	ncNewline();
+	// ej 5
 	load_idt();
 
 	uint8_t changeDetected = 0;
