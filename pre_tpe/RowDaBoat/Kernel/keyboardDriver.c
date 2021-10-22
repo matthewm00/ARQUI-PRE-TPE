@@ -60,3 +60,12 @@ void keyboardBuffer()
             return;
     }
 }
+
+void cleanKeyboardBuffer()
+{
+    for (int i = 0; i < BUFF_SIZE; i++)
+    {
+        buffer[i] = 0;
+    }
+    buff_dim = 0;
+}
