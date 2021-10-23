@@ -12,9 +12,6 @@ uint64_t syscallDispatcher(uint64_t *r[REGISTERS])
         // ver el tema de los registros
         write(r[RDI], *r[RSI], *r[RDX], *r[RCX]);
         break;
-
-    default:
-        break;
     }
 }
 
@@ -27,7 +24,7 @@ void read(uint64_t *buff, uint64_t length)
         ((char *)buff)[i] = keyboardBuffer[i];
     }
 
-    cleanBuffer();
+    clearBuffer();
 }
 
 void write(uint64_t *buff, uint64_t length, uint64_t fontColor, uint64_t background_color)
@@ -37,4 +34,8 @@ void write(uint64_t *buff, uint64_t length, uint64_t fontColor, uint64_t backgro
         return;
     }
     print((char *)buff, length, fontColor, background_color);
+}
+
+void print(char *buff, uint64_t length, uint64_t fontColor, uint64_t background_color)
+{
 }

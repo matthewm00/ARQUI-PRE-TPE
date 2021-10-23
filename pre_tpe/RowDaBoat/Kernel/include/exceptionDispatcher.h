@@ -9,6 +9,7 @@
 
 void printRegisters(uint64_t *registers);
 void exceptionRegisters(uint64_t exception, uint64_t *registers);
-void divideByZeroException();
-void invalidOpCodeException();
+void zero_division();
+void invalid_OpCode();
+void exceptionDispatcher(uint64_t exception, uint64_t *registers);
 #endif

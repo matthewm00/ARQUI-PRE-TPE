@@ -21,4 +21,6 @@ void write(uint64_t *buff, uint64_t length, uint64_t fontColor, uint64_t backgro
 
 uint64_t sysCallDispatcher(uint64_t *r[REGISTERS]);
 
+// ver de agregarla en otra libreria
+void print(char *buff, uint64_t length, uint64_t fontColor, uint64_t background_color);
 #endif

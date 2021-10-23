@@ -101,68 +101,8 @@ int main()
 
 	ncClear();
 
-	// ej 1 y 2
 	ncNewline();
 	ncPrintString(0xFA, "Arquitectura de las computadoras"); // green on white
-
-	// ej 3
-	ncNewline();
-	char *time;
-	char *date;
-	timeToStr(time);
-	ncPrint(time);
-	ncNewline();
-	dateToStr(date);
-	ncPrint(date);
-
-	// ej 4
-	ncNewline();
-	ncNewline();
-	ncPrint("Esperando tecla...");
-	char i = getKey();
-	char teclahex = i;
-	ncNewline();
-	ncPrint("Tecla recibida");
-	ncNewline();
-	ncPrintHex(teclahex);
-	char teclahexant;
-
-	for (int j = 1; j < 10; j++)
-	{
-		i = getKey();
-		teclahex = i;
-		if (teclahex != teclahexant)
-		{
-			ncPrintHex(teclahex);
-			teclahexant = teclahex;
-		}
-	}
-
-	ncNewline();
-	// ej 5
-	load_idt();
-
-	uint8_t changeDetected = 0;
-	int t = 0;
-	while (t < 100)
-	{
-		if (!changeDetected && ticks_elapsed() % 6 == 0)
-		{
-			changeDetected = 1;
-			ncPrint("6");
-			if (ticks_elapsed() % 18 == 0)
-			{
-				ncPrint("T");
-			}
-		}
-
-		if (changeDetected && ticks_elapsed() % 6 != 0)
-		{
-			changeDetected = 0;
-		}
-
-		t++;
-	}
 
 	ncNewline();
 	ncPrint("[Finished]");

@@ -17,6 +17,9 @@
 #define IS_LETTER(c) (c >= 'a' && c <= 'z' ? 1 : 0)
 
 void keyboardHandler();
+void clearBuffer();
+void checkBuffer();
+char *getKeyboardBuffer();
 
 extern unsigned int hasKeyboardKey();
 extern unsigned int readKeyboard();

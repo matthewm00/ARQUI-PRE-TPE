@@ -7,13 +7,13 @@ section .text
 
 hasKeyboardKey:
     mov rax, 0
-    in al, 64h //keyboard status
+    in al, 64h ;keyboard status
     and al, 0x01
     ret
 
 readKeyboard:
 	xor rax, rax
-	in al, 60h //read the buffer
+	in al, 60h ;read the buffer
 	ret
 
 clock:
