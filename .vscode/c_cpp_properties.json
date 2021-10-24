@@ -4,7 +4,8 @@
             "name": "Linux",
             "includePath": [
                 "${default}",
-                "${workspaceFolder}/pre_tpe/RowDaBoat/Kernel/include"
+                "${workspaceFolder}/pre_tpe/RowDaBoat/Kernel/include",
+                "${workspaceFolder}/pre_tpe/RowDaBoat/Userland/SampleCodeModule/include"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "gnu17",

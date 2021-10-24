@@ -13,6 +13,7 @@ uint64_t syscallDispatcher(uint64_t *r[REGISTERS])
         write(r[RDI], *r[RSI], *r[RDX], *r[RCX]);
         break;
     }
+    return 0;
 }
 
 void read(uint64_t *buff, uint64_t length)
