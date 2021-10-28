@@ -13,9 +13,14 @@
 
 void drawLetter(int key, int x, int y, int color, int background_color);
 void drawPixel(int x, int y, int color);
-char *getPosition(int x, int y);
+char *getPosition(uint32_t x, uint32_t y);
 void drawRectangle(int x, int y, int color, int width, int height);
 int getScreenWidth();
 int getScreenHeight();
-void newLine(int width, int height, uint64_t fontColor, uint64_t backgroundColor);
+void newLine(uint32_t width, uint32_t height, uint64_t fontColor, uint64_t backgroundColor);
+int getColorOfPixel(int x, int y);
+void deleteLast();
+void clearLineOnScreen();
+void print(char *buff, uint64_t length, uint64_t fontColor, uint64_t backgroundColor);
+
 #endif

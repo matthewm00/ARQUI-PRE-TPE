@@ -42,9 +42,10 @@ struct vbe_mode_info_structure
 static struct vbe_mode_info_structure *screenData = (void *)0x5C00;
 
 // Retorna un puntero de la posicion en pantalla a escribir
-char *getPosition(int x, int y)
+char *getPosition(uint32_t x, uint32_t y)
 {
-    return (char *)(screenData->framebuffer + (x + screenData->width * y) * 3);
+    return (char *)(((uint64_t)(screenData->framebuffer)) + (x + screenData->width * y) * 3);
+    // casteo a uint64 para evitar warning
 }
 int getScreenWidth()
 {
@@ -121,7 +122,7 @@ void print(char *buff, uint64_t length, uint64_t fontColor, uint64_t backgroundC
     {                                                                    // currentScreen->width en vez de screenData->width?
         if (buff[i] == '\n' || currentScreen->posX == screenData->width) // si se introdujo un \n o se llego al final de la pantalla
         {
-            newLine(currentScreen->posX, currentScreen->posY, fontColor, backgroundColor); // sigue en una nueva linea, mueve lo anterior para arriba, elimina la de mas arriba si es necesario
+            newLine(CHAR_WIDTH, CHAR_HEIGHT, fontColor, backgroundColor); // sigue en una nueva linea, mueve lo anterior para arriba, elimina la de mas arriba si es necesario
         }
         else if (buff[i] == '\b') // backspace
         {
@@ -160,5 +161,36 @@ void deleteLast()
         }
         currentScreen->posX -= CHAR_WIDTH;
     }
+    return;
+}
+
+// retorna el color (en formato hexadecimal) del pixel
+int getColorOfPixel(int x, int y)
+{
+    char *pos = getPosition(x, y);
+    return ((pos[2] & 0xFF) << 16) + ((pos[1] & 0xFF) << 8) + (pos[0] & 0xFF);
+}
+
+void newLine(uint32_t width, uint32_t height, uint64_t fontColor, uint64_t background_color)
+{
+    // lleno fondo
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < screenData->width; x++)
+        {
+            drawPixel(x, y, BLACK);
+        }
+    }
+    //  muevo lo anterior hacia arriba
+    for (int y = 0; y < screenData->height - height; y++)
+    {
+        for (int x = 0; x < screenData->width; x++)
+        {
+            int color = getColorOfPixel(x, y);
+            drawPixel(x, y, getColorOfPixel(x, y + height));
+            drawPixel(x, y + height, color);
+        }
+    }
+    currentScreen->posX = 0;
     return;
 }

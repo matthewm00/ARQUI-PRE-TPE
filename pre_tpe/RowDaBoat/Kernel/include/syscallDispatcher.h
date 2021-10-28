@@ -6,7 +6,6 @@
 #include <lib.h>
 #include <interrupts.h>
 #include <keyboard.h>
-#include <shell.h>
 #define RAX 0
 #define RDI 1
 #define RSI 2
