@@ -89,16 +89,23 @@ SECTION .text
 	pushState
 	sti
 
-	; rax o r8 ?
-	mov rcx, rax ; puede ser 0 (read), 1 (write), etc
+	push rdi
+
+	mov [sysRegisters+8*0],rax ; syscall_id
+	mov [sysRegisters+8*1],rdi ; buffer
+	mov [sysRegisters+8*2],rsi ; length
+	mov [sysRegisters+8*3],rdx ; backgroundColor
+	mov [sysRegisters+8*4],r10 ; fontColor
+	mov [sysRegisters+8*5],r8 ; ?
+	mov [sysRegisters+8*6],r9 ; ?
+
+	mov rdi,sysRegisters
+
 	call syscallDispatcher
 
-	push rax
-	; signal pic EOI (End of Interrupt)
-	mov al, 20h
-	out 20h, al
-	;
-	pop rax
+	pop rdi
+
+	iretq
 
 	cli
 	popState
@@ -161,6 +168,7 @@ _irq04Handler:
 _irq05Handler:
 	irqHandlerMaster 5
 
+; int 80h
 _syscall80Handler:
 	syscallHandlerMaster
 
@@ -182,3 +190,12 @@ haltcpu:
 
 SECTION .bss
 	aux resq 1
+
+	sysRegisters:
+		rsrax resq 1
+		rsrdi resq 1
+		rsrsi resq 1
+		rsrdx resq 1
+		rsr10 resq 1
+		rsr8 resq 1
+		rsr9 resq 1

@@ -1,15 +1,15 @@
 #include <syscallDispatcher.h>
 
-uint64_t syscallDispatcher(uint64_t *r[REGISTERS])
+uint64_t syscallDispatcher(uint64_t r[REGISTERS])
 {
-    switch (*r[RAX])
+    switch (r[RAX])
     {
     case 0:
-        read(r[RDI], *r[RSI]);
+        read((uint64_t *)r[RDI], r[RSI]);
         break;
 
     case 1:
-        write(r[RDI], *r[RSI], *r[RDX], *r[RCX]);
+        write((uint64_t *)r[RDI], r[RSI], r[R10], r[RDX]);
         break;
     }
     return 0;
