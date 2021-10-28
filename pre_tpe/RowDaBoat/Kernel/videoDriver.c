@@ -103,3 +103,62 @@ void drawRectangle(int x, int y, int color, int width, int height)
         }
     }
 }
+
+typedef struct
+{
+    uint32_t posX;
+    uint32_t posY;
+    uint32_t height;
+    uint32_t width;
+} t_screen;
+
+t_screen screens[4];
+t_screen *currentScreen;
+
+void print(char *buff, uint64_t length, uint64_t fontColor, uint64_t backgroundColor)
+{
+    for (int i = 0; i < length; i++)
+    {                                                                    // currentScreen->width en vez de screenData->width?
+        if (buff[i] == '\n' || currentScreen->posX == screenData->width) // si se introdujo un \n o se llego al final de la pantalla
+        {
+            newLine(currentScreen->posX, currentScreen->posY, fontColor, backgroundColor); // sigue en una nueva linea, mueve lo anterior para arriba, elimina la de mas arriba si es necesario
+        }
+        else if (buff[i] == '\b') // backspace
+        {
+            deleteLast();
+        }
+        else
+        {
+            drawLetter(buff[i], currentScreen->posX, currentScreen->posY, fontColor, backgroundColor);
+            currentScreen->posX += CHAR_WIDTH;
+        }
+    }
+    return;
+}
+
+void clearLineOnScreen()
+{
+    for (int y = 0; y < currentScreen->height; y++)
+    {
+        for (int x = 0; x < currentScreen->width; x++)
+        {
+            drawPixel(x + currentScreen->posX, currentScreen->posY + y, BLACK);
+        }
+    }
+}
+
+void deleteLast()
+{
+    if (currentScreen->posX)
+    {
+        for (int j = 0; j < CHAR_HEIGHT; j++)
+        {
+            for (int i = 0; i < CHAR_WIDTH; i++)
+            {
+                drawPixel(currentScreen->posX - i, currentScreen->posY + j, BLACK);
+            }
+        }
+        currentScreen->posX -= CHAR_WIDTH;
+    }
+    return;
+}

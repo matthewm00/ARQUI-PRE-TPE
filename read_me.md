@@ -1,8 +1,8 @@
-mateo:
-1).
-alias dcom='docker run -v ~/arqui/pre_tpe/RowDaBoat:/root --security-opt seccomp:unconfined -ti -w /root agodio/itba-so:1.0 ${1}';
-2).
-alias dcom2='docker run -v  ~/arqui/ARQUI-PRE-TPE/pre_tpe/RowDaBoat:/root --security-opt seccomp:unconfined -ti -w /root agodio/itba-so:1.0 ${1}';
 
-santi:
+Para compilar:
 
+Parado desde $HOME o RowDaBoat (es lo mismo)
+dcom make clean
+dcom make all
+
+Para hacer el push antes hacer un make clean (asi no subimos los ejecutables y las imagenes creadas por el make all)

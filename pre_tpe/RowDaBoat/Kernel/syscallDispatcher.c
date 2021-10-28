@@ -9,7 +9,6 @@ uint64_t syscallDispatcher(uint64_t *r[REGISTERS])
         break;
 
     case 1:
-        // ver el tema de los registros
         write(r[RDI], *r[RSI], *r[RDX], *r[RCX]);
         break;
     }
