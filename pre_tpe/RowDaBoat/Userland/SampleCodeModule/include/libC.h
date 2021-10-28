@@ -5,7 +5,30 @@
 #include <stdarg.h>
 #include <utils.h>
 
-void putChar(char str);
+#define BGR 3
+typedef enum
+{
+    BLACK = 0x000000,
+    WHITE = 0xFFFFFF,
+    RED = 0x0000FF,
+    BLUE = 0xFF0000,
+    GREEN = 0x00FF00,
+    DARK_RED = 0x001BB5
+} t_colour;
+
+typedef enum
+{
+    READ = 0,
+    RTC_TIME = 1,
+    WRITE = 3,
+    GETCHAR = 4,
+    CLEAR = 5,
+    RUN = 7,
+    EXIT = 8,
+    INFOREG = 9
+} syscallID;
+
+void putChar(char c);
 char getChar();
 
 void printf(const char *format, ...);

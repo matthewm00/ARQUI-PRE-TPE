@@ -1,5 +1,4 @@
 GLOBAL syscall
-GLOBAL sys_changeApp
 GLOBAL cpuVendor
 GLOBAL cpuModel
 
