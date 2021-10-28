@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include <utils.h>
 
+#define SCREEN_WIDTH 1024
 #define BGR 3
 typedef enum
 {
