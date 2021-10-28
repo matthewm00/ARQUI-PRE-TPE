@@ -36,7 +36,3 @@ void write(uint64_t *buff, uint64_t length, uint64_t fontColor, uint64_t backgro
     }
     print((char *)buff, length, fontColor, background_color);
 }
-
-void print(char *buff, uint64_t length, uint64_t fontColor, uint64_t background_color)
-{
-}

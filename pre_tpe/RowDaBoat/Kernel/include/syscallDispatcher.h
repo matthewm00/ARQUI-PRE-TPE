@@ -6,7 +6,7 @@
 #include <lib.h>
 #include <interrupts.h>
 #include <keyboard.h>
-
+#include <shell.h>
 #define RAX 0
 #define RDI 1
 #define RSI 2
@@ -21,6 +21,4 @@ void write(uint64_t *buff, uint64_t length, uint64_t fontColor, uint64_t backgro
 
 uint64_t sysCallDispatcher(uint64_t *r[REGISTERS]);
 
-// ver de agregarla en otra libreria
-void print(char *buff, uint64_t length, uint64_t fontColor, uint64_t background_color);
 #endif

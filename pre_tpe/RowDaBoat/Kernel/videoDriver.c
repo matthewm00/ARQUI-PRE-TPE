@@ -39,7 +39,67 @@ struct vbe_mode_info_structure
     uint8_t reserved1[206];
 } __attribute__((packed));
 
-static struct vbe_mode_info_structure *screen_info = (void *)0x5C00;
+static struct vbe_mode_info_structure *screenData = (void *)0x5C00;
 
-static uint32_t SCREEN_WIDTH = 1024; // VESA default values
-static uint32_t SCREEN_HEIGHT = 768;
+// Retorna un puntero de la posicion en pantalla a escribir
+char *getPosition(int x, int y)
+{
+    return (char *)(screenData->framebuffer + (x + screenData->width * y) * 3);
+}
+int getScreenWidth()
+{
+    return screenData->width;
+}
+
+int getScreenHeight()
+{
+    return screenData->height;
+}
+
+void drawPixel(int x, int y, int color)
+{
+    char *pos = getPosition(x, y);
+
+    int r = (color >> 16) & 0x0000FF;
+    int g = (color >> 8) & 0x0000FF;
+    int b = color & 0x0000FF;
+
+    *pos = b;
+    pos++;
+    *pos = g;
+    pos++;
+    *pos = r;
+}
+
+// usa font.c
+void drawLetter(int key, int x, int y, int color, int background_color)
+{
+    unsigned char *letter = charBitmap(key);
+
+    for (int i = 0; i < CHAR_WIDTH; i++)
+    {
+        for (int j = 0; j < CHAR_HEIGHT; j++)
+        {
+            if ((letter[j] >> (CHAR_WIDTH - i)) & 0x01)
+            {
+                drawPixel(x + i, j + y, color);
+            }
+            else
+            {
+                drawPixel(x + i, j + y, background_color);
+            }
+        }
+    }
+}
+
+void drawRectangle(int x, int y, int color, int width, int height)
+{
+
+    for (int i = x; i < x + width; i++)
+    {
+        for (int j = y; j < y + height; j++)
+        {
+            drawPixel(i, j, color);
+        }
+    }
+}
