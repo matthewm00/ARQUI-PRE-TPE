@@ -11,6 +11,9 @@
 #define GREEN 0x00FF00
 #define DARK_RED 0x001BB5
 
+void initVideoDriver(uint64_t backgroundColor, uint64_t fontColor);
+void separateMainScreen();
+void changeScreen(int index);
 void drawLetter(int key, int x, int y, int color, int background_color);
 void drawPixel(int x, int y, int color);
 char *getPosition(uint32_t x, uint32_t y);

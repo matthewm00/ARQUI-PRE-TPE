@@ -111,31 +111,12 @@ typedef struct
     uint32_t posY;
     uint32_t height;
     uint32_t width;
+    uint64_t backgroundColor;
+    uint64_t fontColor;
 } t_screen;
 
 t_screen screens[4];
 t_screen *currentScreen;
-
-void print(char *buff, uint64_t length, uint64_t fontColor, uint64_t backgroundColor)
-{
-    for (int i = 0; i < length; i++)
-    {                                                                    // currentScreen->width en vez de screenData->width?
-        if (buff[i] == '\n' || currentScreen->posX == screenData->width) // si se introdujo un \n o se llego al final de la pantalla
-        {
-            newLine(CHAR_WIDTH, CHAR_HEIGHT, fontColor, backgroundColor); // sigue en una nueva linea, mueve lo anterior para arriba, elimina la de mas arriba si es necesario
-        }
-        else if (buff[i] == '\b') // backspace
-        {
-            deleteLast();
-        }
-        else
-        {
-            drawLetter(buff[i], currentScreen->posX, currentScreen->posY, fontColor, backgroundColor);
-            currentScreen->posX += CHAR_WIDTH;
-        }
-    }
-    return;
-}
 
 void clearLineOnScreen()
 {
@@ -192,5 +173,63 @@ void newLine(uint32_t width, uint32_t height, uint64_t fontColor, uint64_t backg
         }
     }
     currentScreen->posX = 0;
+    return;
+}
+
+void initVideoDriver(uint64_t backgroundColor, uint64_t fontColor)
+{
+    t_screen screen1;
+    screen1.backgroundColor = backgroundColor;
+    screen1.fontColor = fontColor;
+    screen1.posX = 0;
+    screen1.posY = 0;
+    screen1.height = screenData->height;
+    screen1.width = screenData->width / 2 - 3 * CHAR_WIDTH - 2 * CHAR_WIDTH;
+    screens[0] = screen1;
+
+    // t_screen screen2;
+    // screen2.backgroundColor = backgroundColor;
+    // screen2.fontColor = fontColor;
+    // screen2.posX = 0;
+    // screen2.posY = 0;
+    // screen2.height = screenData->height;
+    // screen2.width = screenData->width / 2 - 2 * CHAR_WIDTH - 4 * CHAR_WIDTH;
+    // screens[1] = screen2;
+
+    // separateMainScreen();
+}
+void separateMainScreen()
+{
+    for (int y = 0; y < screenData->height; y++)
+    {
+        for (int x = 0; x < 2 * CHAR_WIDTH; x++)
+        {
+            drawPixel(screenData->width / 2 - CHAR_WIDTH + x, y, DARK_RED);
+        }
+    }
+}
+void changeScreen(int index)
+{
+    currentScreen = &screens[index];
+}
+
+void print(char *buff, uint64_t length, uint64_t fontColor, uint64_t backgroundColor)
+{
+    for (int i = 0; i < length; i++)
+    {
+        if (buff[i] == '\n' || currentScreen->posX == currentScreen->width) // si se introdujo un \n o se llego al final de la pantalla
+        {
+            newLine(CHAR_WIDTH, CHAR_HEIGHT, fontColor, backgroundColor); // sigue en una nueva linea, mueve lo anterior para arriba, elimina la de mas arriba si es necesario
+        }
+        else if (buff[i] == '\b') // backspace
+        {
+            deleteLast();
+        }
+        else
+        {
+            drawLetter(buff[i], currentScreen->posX, currentScreen->posY, fontColor, backgroundColor);
+            currentScreen->posX += CHAR_WIDTH;
+        }
+    }
     return;
 }
