@@ -1,9 +1,9 @@
 /* sampleCodeModule.c */
 
-#include <stdio.h>
-#include <string.h>
+#include <libC.h>
 
 int main()
 {
+	putChar('a');
 	return 0;
 }

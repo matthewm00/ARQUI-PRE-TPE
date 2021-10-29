@@ -1,6 +1,6 @@
 #include <syscallDispatcher.h>
 
-uint64_t syscallDispatcher(uint64_t r[REGISTERS])
+void syscallDispatcher(uint64_t r[REGISTERS])
 {
     switch (r[RAX])
     {

@@ -19,6 +19,6 @@
 void read(uint64_t *buff, uint64_t length);
 void write(uint64_t *buff, uint64_t length, uint64_t fontColor, uint64_t background_color);
 
-uint64_t sysCallDispatcher(uint64_t *r[REGISTERS]);
+void sysCallDispatcher(uint64_t *r[REGISTERS]);
 
 #endif

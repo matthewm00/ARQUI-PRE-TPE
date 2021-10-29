@@ -29,6 +29,8 @@ typedef enum
     INFOREG = 9
 } syscallID;
 
+extern void syscall(uint64_t syscallId, ...);
+
 void putChar(char c);
 char getChar();
 

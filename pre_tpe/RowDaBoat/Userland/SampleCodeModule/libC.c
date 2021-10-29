@@ -28,87 +28,6 @@ char getChar()
     return c;
 }
 
-void printf2(char* format, ...){
-  va_list arg;
-  va_start(arg, format);
-  int i;
-  char* s;
-  for(; *format != 0; format++){
-    if(*format == '%'){
-      format++;
-      switch(*format){
-            case 'c' :
-              i = va_arg(arg,int);
-              putchar(i);
-              break;
-
-            case 'd' :
-              i = va_arg(arg,int);
-              putint(i, 10);
-             break;
-
-            case 's':
-              s = va_arg(arg,char*);
-              while(*s){
-                putchar(*s);
-                s++;
-              }
-              break;
-      }
-    }else{
-      putchar(*format);
-    }
-  }
-}
-
-int scanf2(char* format, ...){
-  va_list arg;
-  va_start(arg, format);
-  int i = 0;
-  char c;
-  int reading = 1;
-  void * loadValue;
-  int valuesLoaded = 0;
-  int number = 0;
-
-  while((c = getchar()) != '\n' && c != 0){
-    if(!reading && c == format[0])
-      reading = 1;
-    if(reading){
-      if(format[i] == '%'){
-        loadValue = va_arg(arg,void *);
-        switch(format[i+1]){
-            case 'c' :
-              *(char *)loadValue = c;
-              break;
-            case 'd' :
-              do{
-                number *= 10;
-                number += (c - '0');
-              }while((c = getchar()) >= '0' && c <= '9');
-
-              *(int *)loadValue = number;
-              number = 0;
-              break;
-            case 's':
-              do{
-                *(char *)loadValue = c;
-                loadValue++;
-              }while((c = getchar()) != ' ' && c != '\n' && c != 0);
-              break;
-        }
-        valuesLoaded++;
-      }
-      else if(c != format[i]){
-        reading = 0;
-        continue;
-      }
-      i++;
-    }
-  }
-  return valuesLoaded;
-}
-
 
 // EL DE TOMY Y SANTI:
 
@@ -197,25 +116,11 @@ int scanf(const char *format, ...)
 
     while (in != '\n')
     {
-
-        if (in == '\b') //Si el usr borro
-        {
-            if (index != 0)
-            {
-
-                index--;
-                usrInput[index] = 0;
-                deleteN(1); // TOMAR DECICISION REPESCTO AL 1 SI CORRESPONDE QUE PUEDA HACER MAS DE 1 O NO !!!!!!!!!!!!!
-            }
-        }
-        else //Sino, lo carga al arreglo
-        {
-            usrInput[index++] = in;
-            putChar(in);
-        }
-        //
-        // printf("%s|| %d",usrInput,index);
-        in = getChar(); //Y espera al proximo caracter
+      usrInput[index++] = in;
+      putChar(in);
+      
+      // printf("%s|| %d",usrInput,index);
+      in = getChar(); //Y espera al proximo caracter
     }
     putChar('\n');
 

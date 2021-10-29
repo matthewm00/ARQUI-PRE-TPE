@@ -4,7 +4,8 @@ GLOBAL cpuModel
 
 section .text
 
-%macro pushStateNoRax 0
+%macro pushState 0
+	push rax
 	push rbx
 	push rcx
 	push rdx
@@ -21,7 +22,7 @@ section .text
 	push r15
 %endmacro
 
-%macro popStateNoRax 0
+%macro popState 0
 	pop r15
 	pop r14
 	pop r13
@@ -36,12 +37,13 @@ section .text
 	pop rdx
 	pop rcx
 	pop rbx
+	pop rax
 %endmacro
 
 syscall:
     push rbp
     mov rbp, rsp
-	pushStateNoRax
+	pushState
 
     mov rax,rdi
     mov rdi, rsi
@@ -53,7 +55,7 @@ syscall:
     
     int 80h
 
-	popStateNoRax
+	popState
 	mov rsp, rbp
     pop rbp
 
