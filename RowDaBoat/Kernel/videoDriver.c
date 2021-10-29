@@ -128,7 +128,7 @@ void divideScreen(t_color color)
 }
 void printChar(char c, t_color fontColor, t_color bgColor, int next)
 {
-    char *map = charBitmap(c);
+    unsigned char *map = charBitmap(c);
 
     uint32_t x = currentScreen->currentX + currentScreen->offset;
     uint32_t y = currentScreen->currentY;

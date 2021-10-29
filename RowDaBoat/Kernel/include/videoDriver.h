@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <font.h>
-
+#include <time.h>
 typedef enum
 {
     BLACK = 0x000000,
