@@ -1,5 +1,9 @@
 {
     "files.associations": {
-        "syscalldispatcher.h": "c"
+        "syscalldispatcher.h": "c",
+        "libc.h": "c",
+        "inforeg.h": "c",
+        "rtcid.h": "c",
+        "syscall.h": "c"
     }
 }

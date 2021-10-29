@@ -2,6 +2,7 @@ GLOBAL cpuVendor
 GLOBAL clock
 GLOBAL readKeyboard
 GLOBAL hasKeyboardKey
+GLOBAL exit
 
 section .text
 
@@ -52,3 +53,6 @@ cpuVendor:
 	mov rsp, rbp
 	pop rbp
 	ret
+
+exit:
+    jmp $

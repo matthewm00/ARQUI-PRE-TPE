@@ -89,21 +89,21 @@ SECTION .text
 	pushState
 	sti
 
-	push rdi
+;	push rdi
 
-	mov [sysRegisters+8*0],rax ; syscall_id
-	mov [sysRegisters+8*1],rdi ; buffer
-	mov [sysRegisters+8*2],rsi ; length
-	mov [sysRegisters+8*3],rdx ; backgroundColor
-	mov [sysRegisters+8*4],r10 ; fontColor
-	mov [sysRegisters+8*5],r8 ; ?
-	mov [sysRegisters+8*6],r9 ; ?
+;	mov [sysRegisters+8*0],rax ; syscall_id
+;	mov [sysRegisters+8*1],rdi ; buffer
+;	mov [sysRegisters+8*2],rsi ; length
+;	mov [sysRegisters+8*3],rdx ; backgroundColor
+;	mov [sysRegisters+8*4],r10 ; fontColor
+;	mov [sysRegisters+8*5],r8 ; ?
+;	mov [sysRegisters+8*6],r9 ; ?
 
-	mov rdi,sysRegisters
+;	mov rdi,sysRegisters
 
 	call syscallDispatcher
 
-	pop rdi
+;	pop rdi
 
 	iretq
 

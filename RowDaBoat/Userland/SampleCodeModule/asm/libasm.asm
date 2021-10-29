@@ -1,6 +1,5 @@
 GLOBAL syscall
-GLOBAL cpuVendor
-GLOBAL cpuModel
+GLOBAL opcodeExp
 
 section .text
 
@@ -41,18 +40,30 @@ section .text
 %endmacro
 
 syscall:
-    push rbp
+  ;  push rbp
+   ; mov rbp, rsp
+	;pushState
+
+    ;mov rax,rdi
+ ;   mov rdi, rsi
+  ;  mov rsi,rdx
+   ; mov rdx,rcx
+    ;mov r10,r8
+  ;  mov r8,r9
+;	mov r9,[rbp+16]
+    
+ ;   int 80h
+
+;	popState
+;	mov rsp, rbp
+ ;   pop rbp
+
+  ;  ret
+
+ 	push rbp
     mov rbp, rsp
 	pushState
 
-    mov rax,rdi
-    mov rdi, rsi
-    mov rsi,rdx
-    mov rdx,rcx
-    mov r10,r8
-    mov r8,r9
-	mov r9,[rbp+16]
-    
     int 80h
 
 	popState
@@ -61,44 +72,6 @@ syscall:
 
     ret
 
-cpuVendor:
-	push rbp
-	mov rbp, rsp
-
-	push rbx
-	push rcx
-	push rdx
-
-	mov rax, 0
-	cpuid
-
-	mov [rdi], ebx
-	mov [rdi + 4], edx
-	mov [rdi + 8], ecx
-
-	mov byte [rdi+12], 0
-
-	mov rax,rdi
-
-	pop rdx
-	pop rcx
-	pop rbx
-
-	mov rsp, rbp
-	pop rbp
-	ret
-
-cpuModel:
-	push rbp
-	mov rbp, rsp
-
-	mov rax,0
-	mov rax,1
-	cpuid
-
-	shr rax,4
-	and rax,0xF ;0x000000000000000F
-	
-	mov rsp, rbp
-	pop rbp
+opcodeExp:
+	UD2
 	ret

@@ -4,26 +4,29 @@
 #include <stdint.h>
 #include <font.h>
 
-#define BLACK 0x000000
-#define WHITE 0xFFFFFF
-#define RED 0x0000FF
-#define BLUE 0xFF0000
-#define GREEN 0x00FF00
-#define DARK_RED 0x001BB5
+typedef enum
+{
+    BLACK = 0x000000,
+    WHITE = 0xFFFFFF,
+    RED = 0xFF0001,
+    BLUE = 0x0000FF,
+    GREEN = 0x00FF00
+} t_color;
 
-void initVideoDriver(uint64_t backgroundColor, uint64_t fontColor);
-void separateMainScreen();
-void changeScreen(int index);
-void drawLetter(int key, int x, int y, int color, int background_color);
-void drawPixel(int x, int y, int color);
-char *getPosition(uint32_t x, uint32_t y);
-void drawRectangle(int x, int y, int color, int width, int height);
-int getScreenWidth();
-int getScreenHeight();
-void newLine(uint32_t width, uint32_t height, uint64_t fontColor, uint64_t backgroundColor);
-int getColorOfPixel(int x, int y);
-void deleteLast();
-void clearLineOnScreen();
-void print(char *buff, uint64_t length, uint64_t fontColor, uint64_t backgroundColor);
+// PRE TP MODO TEXTO
+//  void printChar(char character, int colour);
+//  void printString(const char * string);
 
+void putPixel(int x, int y, int colour);
+void printChar(char c, t_color fontColour, t_color bgColour, int stop);
+void initializeVideo();
+void clearScreen();
+void newLine();
+void deleteChar();
+void clearLine();
+void scrollDown();
+void divideScreen(t_color color);
+void changeCurrentScreen();
+void cursor();
+void stopCursor();
 #endif

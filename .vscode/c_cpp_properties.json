@@ -5,7 +5,9 @@
             "includePath": [
                 "${default}",
                 "${workspaceFolder}/pre_tpe/RowDaBoat/Kernel/include",
-                "${workspaceFolder}/pre_tpe/RowDaBoat/Userland/SampleCodeModule/include"
+                "${workspaceFolder}/pre_tpe/RowDaBoat/Userland/SampleCodeModule/include",
+                "${workspaceFolder}/RowDaBoat/Userland/SampleCodeModule/include",
+                "${workspaceFolder}/RowDaBoat/Kernel/include"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "gnu17",

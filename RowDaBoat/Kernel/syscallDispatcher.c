@@ -1,17 +1,41 @@
 #include <syscallDispatcher.h>
 
-void syscallDispatcher(uint64_t r[REGISTERS])
+uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
-    switch (r[RAX])
+    switch (rdi)
     {
-    case 0:
-        read((uint64_t *)r[RDI], r[RSI]);
+    case READ:
+        read((uint64_t *)rsi, rdx);
         break;
 
-    case 1:
-        write((uint64_t *)r[RDI], r[RSI], r[R10], r[RDX]);
+    case WRITE:
+        write((uint64_t *)rsi, rdx, rcx, r8);
+        break;
+
+    case RTC_TIME:
+        // return getCurrentTime((uint8_t)rsi);
+        break;
+
+    case PRINTMEM:
+        // getMem(rsi, (uint8_t *)rdx, rcx);
+        break;
+
+    case INFOREG:
+        // return getRegisters();
+        break;
+
+    case CLEAR:
+        clearScreen();
+        break;
+
+    case EXIT:
+        exit();
+        break;
+
+    default:
         break;
     }
+    return 0;
 }
 
 void read(uint64_t *buff, uint64_t length)
@@ -32,5 +56,6 @@ void write(uint64_t *buff, uint64_t length, uint64_t fontColor, uint64_t backgro
     {
         return;
     }
-    print((char *)buff, length, fontColor, background_color);
+    for (int i = 0; buff[i] != 0 && i < length; i++)
+        printChar(buff[i], fontColor, background_color, 1);
 }

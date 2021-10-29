@@ -20,12 +20,12 @@ void putChar(char c)
 
 char getChar()
 {
-    char c = 0;
+    uint64_t c = 0;
     while (c == 0)
     {
-        syscall(READ, &c);
+        syscall(READ, c, 1, 0, 0, 0);
     }
-    return c;
+    return (char)c;
 }
 
 // EL DE TOMY Y SANTI:
@@ -101,7 +101,7 @@ void printf(const char *format, ...) //... ya que los parametros son variables
     va_end(valist);
     toRet[index] = 0;
 
-    syscall(WRITE, (uint64_t)toRet, index, BLACK, WHITE);
+    syscall(WRITE, (uint64_t)toRet, index, BLACK, WHITE, 0);
 }
 
 int scanf(const char *format, ...)
