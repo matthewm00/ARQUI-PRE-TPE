@@ -9,8 +9,6 @@ unsigned int PIXEL_SIZE = 3; // bytes por pixel
 unsigned int DEFAULT_BG_COLOUR = 0X000000;
 unsigned int DEFAULT_FONT_COLOUR = 0XFFFFFF;
 
-unsigned int lineCounter = 0;
-
 // cursor basado en codigo de ayudante en practica
 // codigo basado de https://wiki.osdev.org/User:Omarrx024/VESA_Tutorial
 
@@ -59,7 +57,7 @@ static struct vbe_mode_info_structure *screenData = (void *)0x5C00; // direccion
 
 static t_screen screens[MAX_SCREENS];
 static t_screen *currentScreen;
-static t_currentScreen ACTUALSCREEN;
+
 void initializeVideo()
 {
     WIDTH = screenData->width;
@@ -71,34 +69,17 @@ void initializeVideo()
     sc1.currentX = 0;
     sc1.offset = 0;
     sc1.currentY = 0;
-    sc1.width = WIDTH / 2;
+    sc1.width = WIDTH;
     sc1.height = HEIGHT;
 
-    // inicializacion de la segunda pantalla
-    t_screen sc2;
-    sc2.defaultBGColour = DEFAULT_BG_COLOUR;
-    sc2.defaultFontColour = DEFAULT_FONT_COLOUR;
-    sc2.offset = (WIDTH / 2) + 2 * CHAR_WIDTH;
-    sc2.currentX = 0;
-    sc2.currentY = 0;
-    sc2.width = WIDTH / 2;
-    sc2.height = HEIGHT;
-
-    // linea divisoria
-    divideScreen(WHITE);
     screens[SCREEN1] = sc1;
-    screens[SCREEN2] = sc2;
-
     currentScreen = &screens[SCREEN1];
-    ACTUALSCREEN = SCREEN1;
 }
 
-void changeCurrentScreen()
+void changeCurrentScreen(int screen_number)
 {
-    lineCounter = 0;
     stopCursor();
-    ACTUALSCREEN = (ACTUALSCREEN + 1) % 2;
-    currentScreen = &screens[ACTUALSCREEN];
+    currentScreen = &screens[screen_number];
 }
 
 void putPixel(int x, int y, int colour)
@@ -137,12 +118,10 @@ void printChar(char c, t_color fontColor, t_color bgColor, int next)
     {
 
         y += CHAR_HEIGHT;
-        lineCounter++;
         newLine();
     }
     if (c == '\n')
     {
-        lineCounter = 0;
         newLine();
         return;
     }
@@ -184,7 +163,6 @@ void newLine()
         currentScreen->currentY -= CHAR_HEIGHT;
 
         scrollDown();
-        divideScreen(WHITE);
     }
     else
     {
@@ -217,7 +195,6 @@ void deleteChar()
             return;
         }
         currentScreen->currentY -= CHAR_HEIGHT;
-        lineCounter--;
         currentScreen->currentX = currentScreen->width - (2 * CHAR_WIDTH);
     }
     currentScreen->currentX -= CHAR_WIDTH;
@@ -226,22 +203,6 @@ void deleteChar()
 
 void scrollDown()
 {
-    /*
-        si no fueran dos pantallas independientes se podria usar el siguiente codigo comentado, pero como las dos pantallas son independientes
-        es necesario hacer un memcpy el cual se encargue solo de copiar la mitad del estado de la pantalla
-    */
-    // basado en: https://forum.osdev.org/viewtopic.php?f=1&t=22702
-    //  unsigned long x=0;
-    //  unsigned long long *vidmem = (unsigned long long*)screenData->framebuffer;
-
-    // while(x<=HEIGHT*WIDTH/2) //1024*768/2== HEIGHT * WIDTH /2
-    // {
-    // vidmem[x]=vidmem[x+(CHAR_HEIGHT*screenData->width/4)*3];    /* Valid only for 1024x768x32bpp */
-    // x=x+1;
-    // }
-
-    // void *memcpy(void *dest, const void * src, size_t n)
-    //  sc2.offset=(WIDTH/2)+2*CHAR_WIDTH;
     if (currentScreen == &screens[SCREEN1])
     {
         for (int i = 0; i < CHAR_HEIGHT * 2; i++)
@@ -251,18 +212,6 @@ void scrollDown()
                 memcpy((void *)((uint64_t)screenData->framebuffer + j * WIDTH * PIXEL_SIZE),
                        (void *)((uint64_t)screenData->framebuffer + (j + 1) * WIDTH * PIXEL_SIZE),
                        WIDTH * PIXEL_SIZE / 2);
-            }
-        }
-    }
-    else
-    {
-        for (int i = 0; i < CHAR_HEIGHT * 2; i++)
-        {
-            for (int j = 0; j < HEIGHT; j++)
-            {
-                memcpy((void *)((uint64_t)screenData->framebuffer + j * WIDTH * PIXEL_SIZE + (WIDTH / 2 + 2 * CHAR_WIDTH) * PIXEL_SIZE),
-                       (void *)((uint64_t)screenData->framebuffer + (j + 1) * WIDTH * PIXEL_SIZE + (WIDTH / 2 + 2 * CHAR_WIDTH) * PIXEL_SIZE),
-                       WIDTH * PIXEL_SIZE / 2 - 4 * CHAR_WIDTH * PIXEL_SIZE);
             }
         }
     }

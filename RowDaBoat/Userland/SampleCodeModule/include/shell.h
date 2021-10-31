@@ -10,7 +10,7 @@
 #include <commands.h>
 #include <utils.h>
 
-void startShell();
-void shellExecute();
+void initialize();
+void getCommandAndRun();
 void printUser();
 #endif

@@ -1,9 +1,10 @@
 /* sampleCodeModule.c */
 
 #include <libC.h>
+#include <shell.h>
 
 int main()
 {
-	putChar('a');
+	initialize();
 	return 0;
 }

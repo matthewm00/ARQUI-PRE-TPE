@@ -1,20 +1,16 @@
 #include <shell.h>
 
-static char userName[USER_SIZE] = "DefaultUser";
-static int shellStartup = 1;
+static char userName[USER_SIZE] = "ArquiUser";
 
-void startShell()
+void initialize()
 {
-    if (shellStartup)
-    {
-        printf("\n         Arquitectura de Computadoras - 2Q 2021\n\n");
-        printf("\n  Utilice el comando /help para obtener el manual de usuario.\n\n\n\n");
-        shellStartup = 0;
-    }
-    shellExecute();
+
+    printf("\n\tArquitectura de Computadoras - 2Q 2021\n\n");
+    printf("\n\tPara mas informacion sobre los funcionalidades del programa utilice el comando /help\n\n\n");
+    getCommandAndRun();
 }
 
-static int getCommandArgs(char *userInput, char *command, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
+static int readAux(char *userInput, char *command, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 {
     int argc = 0;
     int i = 0;
@@ -53,7 +49,7 @@ void printUser()
     printf("%s", userName);
     printf(" > ");
 }
-void shellExecute()
+void getCommandAndRun()
 {
     char command[BUFFER_SIZE] = {0};
     char argv[MAX_ARGUMENTS][BUFFER_SIZE];
@@ -68,7 +64,7 @@ void shellExecute()
 
         scanf("%s", userInput);
 
-        argc = getCommandArgs(userInput, command, argv);
+        argc = readAux(userInput, command, argv);
 
         if (argc == -1)
         {

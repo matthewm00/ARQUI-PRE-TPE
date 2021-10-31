@@ -154,24 +154,21 @@ void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	printf("\nUse ctrl + tab para cambiar de pantalla.\n");
-	printf("\nTabla de colores: \n");
-	printf("\nBLANCO | NEGRO | ROJO | VERDE | AZUL\n");
-	printf("  1    |   2   |  3   |   4   |  5\n");
-
 	printf("\nLista de comandos: \n");
 
 	printf("\n/help : Listado de comandos\n");
 
 	printf("\n/clear : Limpia la pantalla actual\n");
 
-	printf("\n/inforeg : Estado de todos los resgitros.\nUse ctrl + r para capturar los mismos.\n");
+	printf("\n/inforeg : Estado de todos los resgitros.\n");
 
 	printf("\n/date&time : Fecha y hora actual\n");
-	printf("\n/printmem : Volcado de memoria de 32 bytes a partir de\ndireccion de memoria en hexa ingresada como argumento.\n");
-	// printf("La direccion debe estar comprendida en el rango: 0 - %x\n", LAST_MEM_POSITION - 32); CHEQUEO MAXMEM
+
+	printf("\n/printmem : Volcado de memoria de 32 bytes a partir de\ndireccion de memoria en hexa ingresada como argumento\n");
+
 	printf("\n/divzero : Excepcion division por cero\n");
+
 	printf("\n/opcode : Excepcion opcode invalido\n");
 
-	printf("\n/exit : Finaliza la ejecucion.\n\n");
+	printf("\n/exit : Finaliza la ejecucion\n\n");
 }

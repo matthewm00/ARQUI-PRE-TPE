@@ -22,7 +22,7 @@ void printBase(uint64_t value, uint_least32_t base);
 int strToHex(const char *str);
 char *intToStr(int value, char *buffer, int base);
 int strlen(char *str);
-void *memcpy(void *destination, const void *source, uint64_t length);
+
 int isNum(char *str);
 char *reverse(char *buffer, int i, int j);
 void swap(char *x, char *y);

@@ -28,8 +28,6 @@ char getChar()
     return (char)c;
 }
 
-// EL DE TOMY Y SANTI:
-
 // Ayuda sacada de: https://iq.opengenus.org/how-printf-and-scanf-function-works-in-c-internally/
 
 void printf(const char *format, ...) //... ya que los parametros son variables

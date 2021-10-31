@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <utils.h>
-#include <syscall.h>
+#include <syscalls.h>
 #include <colors.h>
 
 void putChar(char c);
