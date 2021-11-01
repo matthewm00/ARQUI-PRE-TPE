@@ -3,8 +3,19 @@ GLOBAL clock
 GLOBAL readKeyboard
 GLOBAL hasKeyboardKey
 GLOBAL exit
+GLOBAL saveRegistersASM
+
+EXTERN saveRegisters
 
 section .text
+
+saveRegistersASM:
+	pushState
+	mov rdi,rsp
+	call saveRegisters
+
+	popState
+	ret
 
 hasKeyboardKey:
     mov rax, 0

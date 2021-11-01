@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <lib.h>
 #include <naiveConsole.h>
+#include <registers.h>
 
 #define ZERO_EXCEPTION_ID 0
 #define INVALID_OPCODE_EXCEPTION_ID 6

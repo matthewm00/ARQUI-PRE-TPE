@@ -11,6 +11,7 @@ void exceptionDispatcher(uint64_t exception, uint64_t *registers)
 		invalid_OpCode();
 		break;
 	}
+	saveRegistersASM();
 	printRegisters(registers);
 }
 
@@ -55,4 +56,5 @@ void invalid_OpCode()
 }
 void printRegisters(uint64_t *registers)
 {
+
 }

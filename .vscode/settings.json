@@ -4,6 +4,9 @@
         "libc.h": "c",
         "inforeg.h": "c",
         "rtcid.h": "c",
-        "syscall.h": "c"
-    }
+        "syscall.h": "c",
+        "registers.h": "c",
+        "exceptiondispatcher.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

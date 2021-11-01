@@ -4,6 +4,7 @@
 #include <stdint.h>
 #define REGISTERS 19
 
-void getRegisterState(uint64_t *buff);
+void saveRegisters(uint64_t *stackFrame);
+void saveRegistersASM();
 
 #endif

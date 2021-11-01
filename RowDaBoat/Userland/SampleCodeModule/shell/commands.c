@@ -162,6 +162,12 @@ void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 
 	printf("\n/inforeg : Estado de todos los resgitros.\n");
 
+	printf("\n/games : Se divide la pantalla en 4 ventanas con las siguientes funciones:\n\
+	a) Se desplega la hora actual.\n\
+	b) Se dispone de un cronometro.\n\
+	c) Se juega un sudoku\n\
+	d) Se juega al ahorcado\n");
+
 	printf("\n/date&time : Fecha y hora actual\n");
 
 	printf("\n/printmem : Volcado de memoria de 32 bytes a partir de\ndireccion de memoria en hexa ingresada como argumento\n");

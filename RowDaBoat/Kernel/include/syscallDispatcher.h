@@ -6,6 +6,7 @@
 #include <lib.h>
 #include <interrupts.h>
 #include <keyboard.h>
+#include <registers.h>
 
 // #define RAX 0 // syscall_id
 // #define RDI 1 // buffer

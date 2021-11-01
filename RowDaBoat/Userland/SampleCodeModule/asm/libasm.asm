@@ -75,3 +75,12 @@ syscall:
 opcodeExp:
 	UD2
 	ret
+
+getRegisterState:
+    push rbp
+    mov rbp,rsp
+
+    int 80h
+    mov rsp,rbp
+    pop rbp
+    ret
