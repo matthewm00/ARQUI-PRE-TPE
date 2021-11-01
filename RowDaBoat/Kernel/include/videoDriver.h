@@ -17,7 +17,7 @@ typedef enum
 //  void printChar(char character, int colour);
 //  void printString(const char * string);
 
-void putPixel(int x, int y, int colour);
+void drawPixel(int x, int y, int colour);
 void printChar(char c, t_color fontColour, t_color bgColour, int stop);
 void initializeVideo();
 void clearScreen();

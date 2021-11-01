@@ -4,7 +4,7 @@ GLOBAL opcodeExp
 section .text
 
 %macro pushState 0
-	push rax
+	; push rax ; PREGUNTAR
 	push rbx
 	push rcx
 	push rdx
@@ -36,7 +36,7 @@ section .text
 	pop rdx
 	pop rcx
 	pop rbx
-	pop rax
+	; pop rax ; PREGUNTAR
 %endmacro
 
 syscall:

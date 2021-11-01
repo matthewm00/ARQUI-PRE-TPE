@@ -85,6 +85,12 @@ void getCommandAndRun()
         else if (strcmp("/exit", command) == 0)
         {
             exit(argc, argv);
+            // otra forma de hacer el exit seria con un flag de exit = 0
+            // while (!exit), y dentro de esto se corre todo el codigo
+            // entonces no haria falta una funcion exit.
+            // Solo hacer:
+            //              printf("Hasta a la vista bby");
+            //              exit = 1;
         }
         else if (strcmp("/opcode", command) == 0)
         {

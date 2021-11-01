@@ -82,7 +82,7 @@ void changeCurrentScreen(int screen_number)
     currentScreen = &screens[screen_number];
 }
 
-void putPixel(int x, int y, int colour)
+void drawPixel(int x, int y, int colour)
 {
     char *currentFrame = (char *)((uint64_t)screenData->framebuffer);
     int offset = getPixData(x, y);
@@ -103,7 +103,7 @@ void divideScreen(t_color color)
     {
         for (int y = 0; y < HEIGHT; y++)
         {
-            putPixel(x, y, color);
+            drawPixel(x, y, color);
         }
     }
 }
@@ -138,11 +138,11 @@ void printChar(char c, t_color fontColor, t_color bgColor, int next)
             int8_t isFont = (map[i] >> (CHAR_WIDTH - j - 1)) & 0x01; //-1 para no romper el decalaje, primera vez tengo q decalar 7
             if (isFont)
             {
-                putPixel(x, y, fontColor);
+                drawPixel(x, y, fontColor);
             }
             else
             {
-                putPixel(x, y, bgColor);
+                drawPixel(x, y, bgColor);
             }
             x++;
         }
@@ -179,7 +179,7 @@ void clearScreen()
     {
         for (int j = 0; j < currentScreen->width - 2 * CHAR_WIDTH; j++)
         {
-            putPixel(j + currentScreen->offset, i, BLACK);
+            drawPixel(j + currentScreen->offset, i, BLACK);
         }
     }
     currentScreen->currentX = 0;
@@ -224,7 +224,7 @@ void clearLine()
     {
         for (int y = currentScreen->currentY; y <= currentScreen->height; y++)
         {
-            putPixel(x + currentScreen->offset, y, BLACK);
+            drawPixel(x + currentScreen->offset, y, BLACK);
         }
     }
 }
