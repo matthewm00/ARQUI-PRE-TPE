@@ -7,10 +7,12 @@
 #include <syscalls.h>
 #include <colors.h>
 
+#define BUFF_LEN 100
+
 void putChar(char c);
 char getChar();
 
-void printf(const char *format, ...);
-int scanf(const char *format, ...);
+void printf(char *str, ...);
+int scanf(char *str, ...);
 
 #endif
