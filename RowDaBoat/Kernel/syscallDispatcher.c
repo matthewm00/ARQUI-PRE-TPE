@@ -22,7 +22,7 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
 
     case INFOREG:
         saveRegistersASM();
-        return getRegisters();
+        return (uint64_t)getRegisters();
         break;
 
     case CLEAR:
@@ -51,7 +51,7 @@ void read(uint64_t *buff, uint64_t length)
     clearBuffer();
 }
 
-void write(uint64_t *buff, uint64_t length, uint64_t fontColor, uint64_t background_color)
+void write(uint64_t *buff, uint64_t length, t_color fontColor, t_color background_color)
 {
     if (length <= 0 || fontColor < 0 || background_color < 0)
     {

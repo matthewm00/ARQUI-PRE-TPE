@@ -96,6 +96,10 @@ void getCommandAndRun()
         {
             opCode(argc, argv);
         }
+        else if (strcmp("/divzero", command) == 0)
+        {
+            divZero(argc, argv);
+        }
         else if (strcmp("/date&time", command) == 0)
         {
             getCurrentDayTime(argc, argv);
@@ -103,10 +107,6 @@ void getCommandAndRun()
         else if (strcmp("/printmem", command) == 0)
         {
             getMem(argc, argv);
-        }
-        else if (strcmp("/divzero", command) == 0)
-        {
-            divZero(argc, argv);
         }
         // else if (strcmp("/games", command) == 0)
         // {

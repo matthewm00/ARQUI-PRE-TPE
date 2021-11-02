@@ -31,7 +31,7 @@ typedef enum
 } syscallID;
 
 void read(uint64_t *buff, uint64_t length);
-void write(uint64_t *buff, uint64_t length, uint64_t fontColor, uint64_t background_color);
+void write(uint64_t *buff, uint64_t length, t_color fontColor, t_color background_color);
 
 extern void exit(void);
 // void sysCallDispatcher(uint64_t *r[REGISTERS]);
