@@ -6,5 +6,5 @@
 
 void saveRegisters(uint64_t *stackFrame);
 void saveRegistersASM();
-
+uint64_t *getRegisters();
 #endif
