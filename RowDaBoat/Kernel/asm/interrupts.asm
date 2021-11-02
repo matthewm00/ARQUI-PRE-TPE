@@ -23,7 +23,7 @@ EXTERN syscallDispatcher
 SECTION .text
 
 %macro pushState 0
-	push rax
+	; push rax ; PREGUNTAR
 	push rbx
 	push rcx
 	push rdx
@@ -55,7 +55,7 @@ SECTION .text
 	pop rdx
 	pop rcx
 	pop rbx
-	pop rax
+	; pop rax ; PREGUNTAR
 %endmacro
 
 %macro irqHandlerMaster 1
