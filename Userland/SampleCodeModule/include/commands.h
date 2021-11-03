@@ -13,4 +13,5 @@ void exit(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
 void getMem(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
 void _opcodeExp(void);
 // void changeColour(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE], int bg);
+void games(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
 #endif

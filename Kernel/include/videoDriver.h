@@ -1,6 +1,5 @@
 #ifndef VIDEODRIVER_H
 #define VIDEODRIVER_H
-#include <screens.h>
 #include <colors.h>
 #include <time.h>
 
@@ -16,7 +15,7 @@ void newLine();
 void deleteChar();
 void clearLine();
 void scrollDown();
-// void divideScreen(t_color color);
+void divideScreen(t_color color);
 // void changeCurrentScreen();
 void cursor();
 void stopCursor();

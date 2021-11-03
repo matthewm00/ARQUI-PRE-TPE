@@ -224,3 +224,13 @@ void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	// printf("\nbgcolour : Cambia el color del fondo del texto. Pase el color como argumento usando la tabla de colores.\n\n");
 	printf("\nexit : Finaliza la ejecucion.\n\n");
 }
+
+void games(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
+{
+	if (argc != 0)
+	{
+		printf("\nCantidad invalida de argumentos.\n\n");
+		return;
+	}
+	_syscall(SYS_GAMES_ID, 0, 0, 0, 0, 0);
+}

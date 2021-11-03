@@ -5,14 +5,13 @@
 
 void setBGC(t_color colour);
 void setFTC(t_color colour);
-int scanf(char * str, ...);
+int scanf(char *str, ...);
 void printf(char *str, ...);
 void putChar(char c);
-// int getChar(); // MODO ESPERA ACTIVA
-char getChar(); // MODO HLT
+char getChar();
 int strlen(const char *s);
 int strcmp(char string1[], char string2[]);
-int strToInt(char *str, int* size);
+int strToInt(char *str, int *size);
 char *intToStr(int value, char *buffer, int base);
 void newLine();
 char *reverse(char *buffer, int i, int j);

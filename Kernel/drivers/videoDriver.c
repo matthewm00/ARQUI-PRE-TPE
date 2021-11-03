@@ -1,7 +1,6 @@
 #include <videoDriver.h>
 #include <stdint.h>
 #include <fonts.h>
-#include <screens.h>
 #include <colors.h>
 #include <lib.h>
 unsigned int WIDTH = 1024;
@@ -55,26 +54,37 @@ struct vbe_mode_info_structure
     uint8_t reserved1[206];
 } __attribute__((packed));
 
+typedef struct
+{
+    int defaultBGColour;
+    int defaultFontColour;
+    uint32_t currentX;
+    uint32_t currentY;
+    uint32_t offset;
+    uint32_t width;
+    uint32_t height;
+} t_screen;
+
 static int getPixData(uint32_t x, uint32_t y);
 
 static struct vbe_mode_info_structure *screenData = (void *)0x5C00; // direccion de memoria donde esta la informacion de modo video
 
-static t_screen screens[MAX_SCREENS];
 static t_screen *currentScreen;
-static t_currentScreen ACTUALSCREEN;
+
 void initializeVideo()
 {
     WIDTH = screenData->width;
     HEIGHT = screenData->height;
+    t_screen screen;
+    screen.defaultBGColour = DEFAULT_BG_COLOUR;
+    screen.defaultFontColour = DEFAULT_FONT_COLOUR;
+    screen.currentX = 0;
+    screen.offset = 0;
+    screen.currentY = 0;
+    screen.width = WIDTH;
+    screen.height = HEIGHT;
 
-    t_screen sc1;
-    sc1.defaultBGColour = DEFAULT_BG_COLOUR;
-    sc1.defaultFontColour = DEFAULT_FONT_COLOUR;
-    sc1.currentX = 0;
-    sc1.offset = 0;
-    sc1.currentY = 0;
-    sc1.width = WIDTH;
-    sc1.height = HEIGHT;
+    currentScreen = &screen;
 
     // inicializacion de la segunda pantalla
     //  t_screen sc2;
@@ -85,22 +95,14 @@ void initializeVideo()
     //  sc2.currentY = 0;
     //  sc2.width = WIDTH/2 ;
     //  sc2.height = HEIGHT;
-
-    // linea divisoria
-    // divideScreen(WHITE);
-    screens[SCREEN1] = sc1;
-    // screens[SCREEN2] = sc2;
-
-    currentScreen = &screens[SCREEN1];
-    ACTUALSCREEN = SCREEN1;
 }
 
-// void changeCurrentScreen()
+// void changescreen()
 // {
 //     lineCounter = 0;
 //     stopCursor();
 //     ACTUALSCREEN = (ACTUALSCREEN + 1) % 2;
-//     currentScreen = &screens[ACTUALSCREEN];
+//     screen = &screens[ACTUALSCREEN];
 // }
 
 void putPixel(int x, int y, int colour)
@@ -118,16 +120,24 @@ static int getPixData(uint32_t x, uint32_t y)
     return (x + y * WIDTH) * PIXEL_SIZE;
 }
 
-// void divideScreen(t_color color)
-// {
-//     for (int x = (WIDTH / 2); x < (WIDTH / 2) + CHAR_WIDTH; x++)
-//     {
-//         for (int y = 0; y < HEIGHT; y++)
-//         {
-//             putPixel(x, y, color);
-//         }
-//     }
-// }
+void divideScreen(t_color color)
+{
+    for (int x = (WIDTH / 2); x < (WIDTH / 2) + CHAR_WIDTH; x++)
+    {
+        for (int y = 0; y < HEIGHT; y++)
+        {
+            putPixel(x, y, color);
+        }
+    }
+    for (int y = (HEIGHT / 2); y < (HEIGHT / 2) + CHAR_HEIGHT; y++)
+    {
+        for (int x = 0; x < WIDTH; x++)
+        {
+            putPixel(x, y, color);
+        }
+    }
+}
+
 void printChar(char c, t_color fontColor, t_color bgColor, int next)
 {
     char *map = getCharMap(c);
@@ -232,49 +242,22 @@ void deleteChar()
 
 void scrollDown()
 {
-    /*
-        si no fueran dos pantallas independientes se podria usar el siguiente codigo comentado, pero como las dos pantallas son independientes
-        es necesario hacer un memcpy el cual se encargue solo de copiar la mitad del estado de la pantalla
-    */
+
     // basado en: https://forum.osdev.org/viewtopic.php?f=1&t=22702
-    //  unsigned long x=0;
-    //  unsigned long long *vidmem = (unsigned long long*)screenData->framebuffer;
 
-    // while(x<=HEIGHT*WIDTH/2) //1024*768/2== HEIGHT * WIDTH /2
-    // {
-    // vidmem[x]=vidmem[x+(CHAR_HEIGHT*screenData->width/4)*3];    /* Valid only for 1024x768x32bpp */
-    // x=x+1;
-    // }
-
-    // void *memcpy(void *dest, const void * src, size_t n)
-    //  sc2.offset=(WIDTH/2)+2*CHAR_WIDTH;
-    if (currentScreen == &screens[SCREEN1])
+    for (int i = 0; i < CHAR_HEIGHT * 2; i++)
     {
-        for (int i = 0; i < CHAR_HEIGHT * 2; i++)
+        for (int j = 0; j < HEIGHT; j++)
         {
-            for (int j = 0; j < HEIGHT; j++)
-            {
-                // memcpy((void *)((uint64_t)screenData->framebuffer + j * WIDTH * PIXEL_SIZE),
-                //        (void *)((uint64_t)screenData->framebuffer + (j + 1) * WIDTH * PIXEL_SIZE),
-                //        WIDTH * PIXEL_SIZE / 2);
-                memcpy((void *)((uint64_t)screenData->framebuffer + j * WIDTH * PIXEL_SIZE),
-                       (void *)((uint64_t)screenData->framebuffer + (j + 1) * WIDTH * PIXEL_SIZE),
-                       WIDTH * PIXEL_SIZE);
-            }
+            // memcpy((void *)((uint64_t)screenData->framebuffer + j * WIDTH * PIXEL_SIZE),
+            //        (void *)((uint64_t)screenData->framebuffer + (j + 1) * WIDTH * PIXEL_SIZE),
+            //        WIDTH * PIXEL_SIZE / 2);
+            memcpy((void *)((uint64_t)screenData->framebuffer + j * WIDTH * PIXEL_SIZE),
+                   (void *)((uint64_t)screenData->framebuffer + (j + 1) * WIDTH * PIXEL_SIZE),
+                   WIDTH * PIXEL_SIZE);
         }
     }
-    // else
-    // {
-    //     for (int i = 0; i < CHAR_HEIGHT * 2; i++)
-    //     {
-    //         for (int j = 0; j < HEIGHT; j++)
-    //         {
-    //             memcpy((void *)((uint64_t)screenData->framebuffer + j * WIDTH * PIXEL_SIZE + (WIDTH / 2 + 2 * CHAR_WIDTH) * PIXEL_SIZE),
-    //                    (void *)((uint64_t)screenData->framebuffer + (j + 1) * WIDTH * PIXEL_SIZE + (WIDTH / 2 + 2 * CHAR_WIDTH) * PIXEL_SIZE),
-    //                    WIDTH * PIXEL_SIZE / 2 - 4 * CHAR_WIDTH * PIXEL_SIZE);
-    //         }
-    //     }
-    // }
+
     clearLine();
 }
 void setUsernameLen(int len)

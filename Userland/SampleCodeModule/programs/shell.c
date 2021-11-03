@@ -106,6 +106,10 @@ void shellExecute()
         // {
         //     changeColour(argc, argv, 1);
         // }
+        else if (strcmp("games", command) == 0)
+        {
+            games(argc, argv);
+        }
         else
         {
             printf("\nComando invalido: use help\n\n");
