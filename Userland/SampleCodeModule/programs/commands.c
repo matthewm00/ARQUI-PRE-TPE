@@ -139,7 +139,7 @@ void exit(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	printf("\n¡Hasta la próxima!\n\n");
+	printf("\nSaliendo del TPE\n\n");
 	_syscall(SYS_EXIT_ID, 0, 0, 0, 0, 0);
 }
 
@@ -208,14 +208,13 @@ void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	printf("\nUse ctrl + tab para cambiar de pantalla.\n");
 	printf("\nTabla de colores: \n");
 	printf("\nBLANCO | NEGRO | ROJO | VERDE | AZUL\n");
 	printf("  1    |   2   |  3   |   4   |  5\n");
 	printf("\nLista de comandos: \n");
 	printf("\nhelp : Listado de comandos\n");
 	printf("\nclear : Limpia la pantalla actual\n");
-	printf("\ninforeg : Estado de todos los resgitros. Use ctrl + r para capturar los mismos.\n");
+	printf("\ninforeg : Estado de todos los resgitros.\n");
 	printf("\ndate : Fecha y hora actual\n");
 	printf("\nprintmem : Volcado de memoria de 32 bytes a partir de direccion de memoria en hexa ingresada como argumento.\n");
 	// printf("La direccion debe estar comprendida en el rango: 0 - %x\n", LAST_MEM_POSITION - 32); CHEQUEO MAXMEM

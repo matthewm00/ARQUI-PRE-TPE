@@ -26,7 +26,7 @@ uint64_t syscallSelector(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx,
         clearScreen();
         break;
     case SYS_EXIT_ID:
-        _exit();
+        _exit(0);
         break;
     default:
         break;

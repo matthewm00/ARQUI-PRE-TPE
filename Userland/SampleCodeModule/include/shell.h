@@ -4,7 +4,6 @@
 #define BUFFER_SIZE 100
 #define MAX_ARGUMENTS 3
 
-void shellWelcomeMessage();
-void startShell();
+void initialize();
 void shellExecute();
 #endif

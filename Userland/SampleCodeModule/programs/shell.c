@@ -3,19 +3,10 @@
 #include <commands.h>
 #include <stdint.h>
 
-static int shellStartup = 1;
-
-void startShell()
+void initialize()
 {
-    if (shellStartup)
-        shellWelcomeMessage();
+    printf("\n  Utilice el comando help para obtener el manual de usuario.\n\n\n\n");
     shellExecute();
-}
-
-void shellWelcomeMessage()
-{
-    printf("\n  Utilice el comando /help para obtener un manual de usuario.\n\n\n\n");
-    shellStartup = 0;
 }
 
 static int getCommandArgs(char *userInput, char *command, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
