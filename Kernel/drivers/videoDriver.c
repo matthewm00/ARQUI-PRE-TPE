@@ -95,13 +95,13 @@ void initializeVideo()
     ACTUALSCREEN = SCREEN1;
 }
 
-void changeCurrentScreen()
-{
-    lineCounter = 0;
-    stopCursor();
-    ACTUALSCREEN = (ACTUALSCREEN + 1) % 2;
-    currentScreen = &screens[ACTUALSCREEN];
-}
+// void changeCurrentScreen()
+// {
+//     lineCounter = 0;
+//     stopCursor();
+//     ACTUALSCREEN = (ACTUALSCREEN + 1) % 2;
+//     currentScreen = &screens[ACTUALSCREEN];
+// }
 
 void putPixel(int x, int y, int colour)
 {

@@ -17,7 +17,7 @@ void deleteChar();
 void clearLine();
 void scrollDown();
 // void divideScreen(t_color color);
-void changeCurrentScreen();
+// void changeCurrentScreen();
 void cursor();
 void stopCursor();
 void setUsernameLen(int len);

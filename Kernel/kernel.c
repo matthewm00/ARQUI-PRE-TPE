@@ -40,13 +40,6 @@ void * initializeKernelBinary()
 {
 	char buffer[10];
 
-	ncPrint("[x64BareBones]");
-	ncNewline();
-
-	ncPrint("CPU Vendor:");
-	ncPrint(cpuVendor(buffer));
-	ncNewline();
-
 	ncPrint("[Loading modules]");
 	ncNewline();
 	void * moduleAddresses[] = {

@@ -16,14 +16,8 @@ uint64_t syscallSelector(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx,
     case SYS_READ_ID:
         return sys_read();
         break;
-    case SYS_CPUFEATURES_ID:
-        getCPUFeatures((uint32_t *)rsi);
-        break;
     case SYS_PRINTMEM_ID:
         getMem(rsi, (uint8_t *)rdx, rcx);
-        break;
-    case SYS_CPUID_ID:
-        return _checkCPUID();
         break;
     case SYS_INFOREG_ID:
         return (uint64_t)getRegisters();
@@ -33,9 +27,6 @@ uint64_t syscallSelector(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx,
         break;
     case SYS_EXIT_ID:
         _exit();
-        break;
-    case SYS_CPUVENDOR_ID:
-        getCPUVendor((char *)(rsi));
         break;
     default:
         break;

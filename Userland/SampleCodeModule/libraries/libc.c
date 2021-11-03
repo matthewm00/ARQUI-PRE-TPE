@@ -25,14 +25,6 @@ void putChar(char c){
     _syscall(SYS_WRITE_ID, (uint64_t)&c, 1, currentBGC, currentFTC, 0);
 }
 
-void sendUserData(char *userName, int len){
-   _syscall(SYS_WRITE_ID, (uint64_t)userName, len+1, currentBGC, currentFTC, (uint64_t) &len);
-}
-void setFirstChange(int number){
-    if(number<0 || number>1)return;
-    changedUserName=number;
-}
-
 //https://stackoverflow.com/questions/54352400/implementation-of-printf-function
 void printf(char *str, ...){
     va_list args;
@@ -95,20 +87,6 @@ void printf(char *str, ...){
     return ;
 }
 
-
-
-//https://stackoverflow.com/questions/26860574/pow-implementation-in-cmath-and-efficient-replacement
-int pow(int x, unsigned int y)
-{
-    if (y == 0)
-        return 1;
-    else if ((y % 2) == 0)
-        return pow (x, y / 2) * pow (x, y / 2);
-    else
-        return x * pow (x, y / 2) * pow (x, y / 2);
-
-}
-
 static void reverseAUX(char* str, int len)
 {
     int i = 0, j = len - 1, temp;
@@ -138,44 +116,6 @@ static int intToStrAUX(int x, char str[], int d)
     str[i] = '\0';
     return i;
 }
-
-// https://www.geeksforgeeks.org/convert-floating-point-number-string/
-// Converts a floating-point/double number to a string.
-void doubleToStr(double n, char* res, int afterpoint)
-{
-    // Extract integer part
-    int ipart = (int)n;
-  
-    // Extract floating part
-    double fpart = n - (double)ipart;
-
-    if(n < 0 && n > -1) {
-         res[0] = '-';
-         intToStr(ipart, res + 1, 10);
-    } else {
-         intToStr(ipart, res, 10);
-    }
-  
-    // convert integer part to string
-   
-
-    int resIdx = strlen(res);
-  
-    // check for display option after point
-    if (afterpoint != 0) {
-        res[resIdx] = '.'; // add dot
-  
-        // Get the value of fraction part upto given no.
-        // of points after dot. The third parameter 
-        // is needed to handle cases like 233.007
-        fpart = fpart * pow(10, afterpoint);
-        if(n < 0)
-            fpart *= -1;
-  
-        intToStrAUX((int)fpart, res + resIdx + 1, afterpoint);
-    }
-}
-
 
 // inspirado en https://iq.opengenus.org/how-printf-and-scanf-function-works-in-c-internally/
 int scanf(char * str, ...)
@@ -249,26 +189,10 @@ int readText(){
             if(buffSize < BUFF_LEN-1){
                 buffer[buffSize++]=c;
             }
-            if(c=='\t'){
-                if(firstChange){
-                    firstChange=0;
-                    printUser();    
-                }else{
-                    if(changedUserName){
-                        newLine();
-                    printUser();    
-
-                        changedUserName=0;
-
-                    }
-                }
-                buffSize=0;
-            }else{
-                if(c=='\b'){
-                    buffSize-=2;
-                }
-                putChar(c);
+            if(c=='\b'){
+                buffSize-=2;
             }
+            putChar(c);
         }
     }
     newLine();
@@ -365,36 +289,6 @@ int strToHex(const char *str)
     }
     return val;   
 }
-
-void strToDouble(char *numStr, double *result) {
-      *result = 0;
-      int i = 0, k = 0, sign = 0;
-      double commaOffset = 0;
-      char integerPart[BUFF_LEN] = {0};
-
-    if (numStr[i] == '-' && numStr[i + 1] == '0') {
-        sign = 1;
-        i++;
-    }
-
-    for (k = 0; numStr[i] != 0 && numStr[i] != '.'; i++, k++) {
-        integerPart[k] = numStr[i];
-    }
-    int aux;
-    *result += strToInt(integerPart, &aux);
-    if (numStr[i] == '.') {
-        i++;
-        for (; numStr[i] != 0; i++, commaOffset++) {
-                *result *= 10;
-                *result += numStr[i] - '0';
-        }
-        *result /= pow(10, commaOffset);
-    }
-    if (sign && numStr[1] == '0') {
-        *result *= -1;
-    }
-}
-
 
 // https://www.techiedelight.com/implement-itoa-function-in-c/
 

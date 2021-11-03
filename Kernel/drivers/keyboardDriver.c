@@ -47,13 +47,15 @@ uint8_t getAction(uint8_t scanCode) {
     }
     return ERROR;
 }
-static void cleanBufferofScreen(){
-    stopCursor();
-    for(int i=0; i<bufferSize;i++){
-        deleteChar();
-    }
-    cleanKeyboardBuffer();
-}
+
+// static void cleanBufferofScreen(){
+//     stopCursor();
+//     for(int i=0; i<bufferSize;i++){
+//         deleteChar();
+//     }
+//     cleanKeyboardBuffer();
+// }
+
 void cleanKeyboardBuffer(){
     buffSize=0;
     widx=0;
@@ -80,14 +82,14 @@ void keyboardHandler(uint64_t rsp) {
             }
             else {
                 if (charTable[scanCode][0] != 0) {
-                    if(ctrl && charTable[scanCode][0] == '\t'){
-                        cleanBufferofScreen();
-                        changeCurrentScreen();
-                        putCharInBuffer('\t');
-                    } else if(ctrl && charTable[scanCode][0] == 'r') {
-                        updateRegisters((uint64_t*) rsp);
-                    }
-                    else if((shift && !capsLock) || (shift && capsLock && !(charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z')) || (!shift && capsLock && charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z') ) {
+                    // if(ctrl && charTable[scanCode][0] == '\t'){
+                    //     cleanBufferofScreen();
+                    //     changeCurrentScreen();
+                    //     putCharInBuffer('\t');
+                    // } else if(ctrl && charTable[scanCode][0] == 'r') {
+                    //     updateRegisters((uint64_t*) rsp);
+                    // }
+                    if ((shift && !capsLock) || (shift && capsLock && !(charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z')) || (!shift && capsLock && charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z') ) {
                         putCharInBuffer(charTable[scanCode][1]);
                     }
                     else {

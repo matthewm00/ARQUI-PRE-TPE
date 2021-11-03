@@ -3,7 +3,6 @@
 #include <commands.h>
 #include <stdint.h>
 
-static char userName[USER_SIZE] = "DefaultUser";
 static int shellStartup = 1;
 
 void startShell()
@@ -15,9 +14,6 @@ void startShell()
 
 void shellWelcomeMessage()
 {
-    printf("\n                 Le damos la bienvenida a\n\n");
-    logo();
-    printf("\n         Arquitectura de Computadoras --- 1C 2021\n\n");
     printf("\n  Utilice el comando /help para obtener un manual de usuario.\n\n\n\n");
     shellStartup = 0;
 }
@@ -53,14 +49,7 @@ static int getCommandArgs(char *userInput, char *command, char argv[MAX_ARGUMENT
         return -1;
     return argc;
 }
-void printUser()
-{
-    int len = strlen(userName);
-    len += 4;
-    printf("$ ");
-    sendUserData(userName, len);
-    printf(" > ");
-}
+
 void shellExecute()
 {
     char command[BUFFER_SIZE] = {0};
@@ -70,7 +59,7 @@ void shellExecute()
 
     while (1)
     {
-        printUser();
+        printf("$> ");
 
         userInput[0] = 0;
 
@@ -90,10 +79,10 @@ void shellExecute()
         {
             getInfoReg(argc, argv);
         }
-        else if (strcmp("cpufeatures", command) == 0)
-        {
-            getCPUFeatures(argc, argv);
-        }
+        // else if (strcmp("cpufeatures", command) == 0)
+        // {
+        //     getCPUFeatures(argc, argv);
+        // }
         else if (strcmp("clear", command) == 0)
         {
             clear(argc, argv);
@@ -106,7 +95,7 @@ void shellExecute()
         {
             opCode(argc, argv);
         }
-        else if (strcmp("date&time", command) == 0)
+        else if (strcmp("date", command) == 0)
         {
             getCurrentDayTime(argc, argv);
         }
@@ -118,30 +107,14 @@ void shellExecute()
         {
             divZero(argc, argv);
         }
-        else if (strcmp("user", command) == 0)
-        {
-            changeUser(argc, argv, userName);
-        }
-        else if (strcmp("cpuvendor", command) == 0)
-        {
-            getCPUVendor(argc, argv);
-        }
-        else if (strcmp("roots", command) == 0)
-        {
-            getRoots(argc, argv);
-        }
-        else if (strcmp("dog", command) == 0)
-        {
-            logo();
-        }
-        else if (strcmp("bgcolour", command) == 0)
-        {
-            changeColour(argc, argv, 0);
-        }
-        else if (strcmp("ftcolour", command) == 0)
-        {
-            changeColour(argc, argv, 1);
-        }
+        // else if (strcmp("bgcolour", command) == 0)
+        // {
+        //     changeColour(argc, argv, 0);
+        // }
+        // else if (strcmp("ftcolour", command) == 0)
+        // {
+        //     changeColour(argc, argv, 1);
+        // }
         else
         {
             printf("\nComando invalido: use help\n\n");
