@@ -2,23 +2,27 @@
 
 static unsigned long ticks = 0;
 static unsigned long ticksCronometro = 0;
-static int cron = 0;
+// static int time = 0;
 
 void timer_handler()
 {
 	ticks++;
 	ticksCronometro++;
-	if (cron)
-	{
-		// posicion donde se imprime el cronometro:
-		setCursor(WIDTH / 4 * CHAR_WIDTH, 2);
+	// if (cron)
+	// {
+	// 	// posicion donde se imprime el cronometro:
+	// 	setCursor(WIDTH / 4 * CHAR_WIDTH, 2);
 
-		sys_write("STOPWATCH: ", 11, BLACK, WHITE, 0);
+	// 	sys_write("STOPWATCH: ", 11, BLACK, WHITE, 0);
 
-		printIntDec(ticksCronometro / 18);
+	// printIntDec(ticksCronometro / 18);
 
-		stopCursor();
-	}
+	// 	stopCursor();
+	// }
+	// if (time)
+	// {
+	// 	printTime();
+	// }
 }
 
 int ticks_elapsed()
@@ -31,21 +35,73 @@ int seconds_elapsed()
 	return ticks / 18;
 }
 
-void setStopwatch(int activate)
+void setStopwatch()
 {
-	if (activate)
-	{
-		ticksCronometro = 0;
-		cron = 1;
-	}
-	else
-	{
-		cron = 0;
-	}
+
+	ticksCronometro = 0;
 }
 
-int getSecondsStopwatch()
+int getStopwatchTicks()
 {
-	char buffer[10];
-	return uintToBase(ticksCronometro / 18, buffer, 10);
+	return ticksCronometro;
 }
+
+// void setTime(int activate)
+// {
+// 	time = activate;
+// }
+
+// uint64_t hourAux;
+// uint64_t minAux;
+// uint64_t secAux;
+
+// void printTime()
+// {
+// 	uint64_t hour = getCurrentTime(HOUR_RTC_ID);
+// 	uint64_t minutes = getCurrentTime(MINUTE_RTC_ID);
+// 	uint64_t seconds = getCurrentTime(SECOND_RTC_ID);
+
+// 	if (hour != hourAux)
+// 	{
+// 		if (hour < 10)
+// 		{
+// 			setCursor(800, 70);
+// 			printf(" 0%d::", hour);
+// 			sys_write()
+// 		}
+// 		else
+// 		{
+// 			setCursor(800, 70);
+// 			printf(" %d::", hour);
+// 		}
+// 		hourAux = hour;
+// 	}
+// 	if (minutes != minAux)
+// 	{
+// 		if (minutes < 10)
+// 		{
+// 			setCursor(800 + 5 * CHAR_WIDTH, 70);
+// 			printf("0%d::", minutes);
+// 		}
+// 		else
+// 		{
+// 			setCursor(800 + 5 * CHAR_WIDTH, 70);
+// 			printf("%d::", minutes);
+// 		}
+// 		minAux = minutes;
+// 	}
+// 	if (seconds != secAux)
+// 	{
+// 		if (seconds < 10)
+// 		{
+// 			setCursor(800 + 9 * CHAR_WIDTH, 70);
+// 			printf("0%d", seconds);
+// 		}
+// 		else
+// 		{
+// 			setCursor(800 + 9 * CHAR_WIDTH, 70);
+// 			printf("%d", seconds);
+// 		}
+// 		secAux = seconds;
+// 	}
+// }

@@ -28,15 +28,16 @@ uint64_t syscallSelector(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx,
     case SYS_GAMES_ID:
         divideScreen(rsi);
     case SYS_TIME_ID:
-        return getDecimalTime(rsi);
+        return ticks_elapsed();
+        // antes estaba setTime(rsi);
     case SYS_CURSOR_ID:
         setCursor(rsi, rdx); // pasa la posicion donde imprimir
-    case SYS_DISABLECURSOR_ID:
-        stopCursor();
+    case SYS_CURSORSTATE_ID:
+        changeCursorState(rsi);
     case SYS_STOPWATCH_ID:
-        setStopwatch(rsi); // prende o apaga el cronometro
-    case SYS_STOPWATCHSEC_ID:
-        return getSecondsStopwatch();
+        setStopwatch(); // prende o apaga el cronometro
+    case SYS_STOPWATCHTICKS_ID:
+        return getStopwatchTicks();
     default:
         break;
     }

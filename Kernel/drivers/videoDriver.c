@@ -60,9 +60,7 @@ typedef struct
     uint32_t height;
 } t_screen;
 
-uint32_t isSettedCursor = 0;
-uint64_t settedX = 0;
-uint64_t settedY = 0;
+static int cursorOn = 1;
 
 static int getPixData(uint32_t x, uint32_t y);
 
@@ -142,12 +140,6 @@ void printChar(char c, t_color fontColor, t_color bgColor, int next)
     uint32_t x = currentScreen->currentX + currentScreen->offset;
     uint32_t y = currentScreen->currentY;
 
-    if (isSettedCursor)
-    {
-        x = settedX;
-        y = settedY;
-    }
-
     if (x + (2 * CHAR_WIDTH) - currentScreen->offset >= currentScreen->width)
     {
 
@@ -212,11 +204,11 @@ void newLine()
 // funcion para limpiar la pantalla
 void clearScreen()
 {
-    for (int i = 0; i < currentScreen->height; i++)
+    for (int i = 0; i < WIDTH; i++)
     {
-        for (int j = 0; j < currentScreen->width - 2 * CHAR_WIDTH; j++)
+        for (int j = 0; j < HEIGHT; j++)
         {
-            putPixel(j + currentScreen->offset, i, BLACK);
+            putPixel(i + currentScreen->offset, j, BLACK);
         }
     }
     currentScreen->currentX = 0;
@@ -280,32 +272,44 @@ void clearLine()
 
 void cursor()
 {
-    int changeDetected = 0;
-    if (!changeDetected && ticks_elapsed() % 9 == 0)
+    if (cursorOn)
     {
-        changeDetected = 1;
-        printChar('_', WHITE, BLACK, 0);
-        if (ticks_elapsed() % 18 == 0)
+        int changeDetected = 0;
+        if (!changeDetected && ticks_elapsed() % 9 == 0)
         {
-            printChar(' ', WHITE, BLACK, 0);
+            changeDetected = 1;
+            printChar('_', WHITE, BLACK, 0);
+            if (ticks_elapsed() % 18 == 0)
+            {
+                printChar(' ', WHITE, BLACK, 0);
+            }
+        }
+        if (changeDetected && ticks_elapsed() % 6 != 0)
+        {
+            changeDetected = 0;
         }
     }
-    if (changeDetected && ticks_elapsed() % 6 != 0)
-    {
-        changeDetected = 0;
-    }
-}
-void setCursor(uint64_t x, uint64_t y)
-{
-    settedX = x;
-    settedY = y;
-    isSettedCursor = 1;
-    return;
+    else
+        stopCursor();
 }
 void stopCursor()
 {
     printChar(' ', BLACK, BLACK, 0);
-    isSettedCursor = 0;
+}
+
+void setCursor(uint64_t x, uint64_t y)
+{
+    currentScreen->currentX = x;
+    currentScreen->currentY = y;
+}
+
+void changeCursorState(int state)
+{
+    cursorOn = state;
+}
+int isCursorOn()
+{
+    return cursorOn;
 }
 
 // PRE TP MODO TEXTO

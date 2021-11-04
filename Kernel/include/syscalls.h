@@ -18,9 +18,9 @@
 #define SYS_TIME_ID 9
 
 #define SYS_CURSOR_ID 10
-#define SYS_DISABLECURSOR_ID 11
+#define SYS_CURSORSTATE_ID 11
 #define SYS_STOPWATCH_ID 12
-#define SYS_STOPWATCHSEC_ID 13
+#define SYS_STOPWATCHTICKS_ID 13
 
 uint8_t getCurrentTime(uint64_t rtcID);
 uint8_t _getRTCInfo(uint64_t rtcID);

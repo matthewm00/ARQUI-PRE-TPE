@@ -26,4 +26,6 @@ void cursor();
 void stopCursor();
 void setUsernameLen(int len);
 void setCursor(uint64_t x, uint64_t y);
+void changeCursorState(int state);
+int isCursorOn();
 #endif

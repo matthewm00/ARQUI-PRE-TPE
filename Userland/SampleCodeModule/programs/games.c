@@ -4,23 +4,65 @@ static void clearScreen()
 {
     _syscall(SYS_CLEAR_ID, 0, 0, 0, 0, 0);
 }
+
 static void divideScreen()
 {
     _syscall(SYS_GAMES_ID, WHITE, 0, 0, 0, 0);
 }
 
-static int setStopwatch = 0;
-static int secondsStopwatch;
+void changeCursorState(int state)
+{
+    _syscall(SYS_CURSORSTATE_ID, state, 0, 0, 0, 0);
+}
+
+static uint64_t getTicks()
+{
+    return _syscall(SYS_TIME_ID, 0, 0, 0, 0, 0);
+}
+
+static uint64_t getStopWatchTicks()
+{
+    return _syscall(SYS_STOPWATCHTICKS_ID, 0, 0, 0, 0, 0);
+}
+
+void setCursor(uint64_t x, uint64_t y)
+{
+    _syscall(SYS_CURSOR_ID, x, y, 0, 0, 0);
+}
+
+static void setStopWatch()
+{
+    _syscall(SYS_STOPWATCH_ID, 0, 0, 0, 0, 0);
+}
+
+uint64_t hourAux = 0;
+uint64_t minAux = 0;
+uint64_t secAux = 0;
+uint64_t ticksAux = 0;
+uint64_t swTicksAux = 0;
 
 void startGames()
 {
     clearScreen();
     divideScreen();
+    changeCursorState(0);
 
-    while (1)
+    baseSudoku();
+
+    setCursor(WIDTH / 10, 56);
+    printf("STOPWATCH:  ");
+    changeCursorState(0);
+
+    int exit = 0;
+
+    while (!exit)
     {
         printTime();
+
+        stopWatch();
+
         char c = getChar();
+
         if (c >= 'A' && c <= 'Z')
         {
             hangman(c);
@@ -28,66 +70,104 @@ void startGames()
         else if (c >= '1' && c <= '9')
         {
             sudoku(c);
+            changeCursorState(0);
         }
-        else if (c == 's') // boton que controla el prendido/apagado del cronometro
+        else if (c == 's') // prende o apaga el cronometro
         {
-            stopWatch(); // cuando activo esto se vuelve loco je
-            // fijarse time.c en kernel
+            setStopWatch();
         }
+
         else if (c == '0')
         {
-            clearScreen();
-            printf("Volviendo a la shell...\n");
-            return;
+            exit = 1;
         }
     }
+
+    clearScreen();
+    changeCursorState(1);
+    printf("Volviendo a la shell...\n");
 }
 
 void hangman(char c)
 {
 }
-void sudoku(char c)
-{
-}
-void printTime()
-{
-    uint8_t hour = (uint8_t)_syscall(SYS_TIME_ID, 0, 0, 0, 0, 0);
-    uint8_t minutes = (uint8_t)_syscall(SYS_TIME_ID, 1, 0, 0, 0, 0);
-    uint8_t seconds = (uint8_t)_syscall(SYS_TIME_ID, 2, 0, 0, 0, 0);
-
-    if (hour < 10)
-    {
-        printf(" 0%d:", hour);
-    }
-    else
-    {
-        printf(" %d:", hour);
-    }
-    if (minutes < 10)
-    {
-        printf("0%d:", minutes);
-    }
-    else
-    {
-        printf("%d:", minutes);
-    }
-    if (seconds < 10)
-    {
-        printf("0%d", seconds);
-    }
-    else
-    {
-        printf("%d", seconds);
-    }
-}
 
 void stopWatch()
 {
-    setStopwatch = !setStopwatch;
-    _syscall(SYS_STOPWATCH_ID, setStopwatch, 0, 0, 0, 0);
+    uint64_t swTicks = getStopWatchTicks();
+
+    if (swTicks != swTicksAux)
+    {
+        setCursor((WIDTH / 10) + (11 * CHAR_WIDTH), 56);
+
+        changeCursorState(0);
+
+        printIntDec(swTicks / 18); // en segundos
+
+        changeCursorState(0);
+
+        swTicksAux = swTicks;
+    }
 }
 
-void updateSecondsStopwatch()
+void printTime()
 {
-    secondsStopwatch = _syscall(SYS_STOPWATCHSEC_ID, 0, 0, 0, 0, 0);
+    uint64_t ticks = getTicks();
+
+    if (ticks / 18 <= ticksAux / 18)
+        return;
+
+    uint64_t hour = _syscall(SYS_RTC_ID, HOUR_RTC_ID, 0, 0, 0, 0);
+    uint64_t minutes = _syscall(SYS_RTC_ID, MINUTE_RTC_ID, 0, 0, 0, 0);
+    uint64_t seconds = _syscall(SYS_RTC_ID, SECOND_RTC_ID, 0, 0, 0, 0);
+    ticksAux = ticks;
+
+    if (hour != hourAux)
+    {
+        if (hour < 10)
+        {
+            setCursor(800, 70);
+            printf(" 0%d::", hour);
+            changeCursorState(0);
+        }
+        else
+        {
+            setCursor(800, 70);
+            printf(" %d::", hour);
+            changeCursorState(0);
+        }
+        hourAux = hour;
+    }
+    if (minutes != minAux)
+    {
+        if (minutes < 10)
+        {
+            setCursor(800 + 5 * CHAR_WIDTH, 70);
+            printf("0%d::", minutes);
+            changeCursorState(0);
+        }
+        else
+        {
+            setCursor(800 + 5 * CHAR_WIDTH, 70);
+            printf("%d::", minutes);
+            changeCursorState(0);
+        }
+        minAux = minutes;
+    }
+    if (seconds != secAux)
+    {
+        if (seconds < 10)
+        {
+            setCursor(800 + 9 * CHAR_WIDTH, 70);
+            printf("0%d", seconds);
+            changeCursorState(0);
+        }
+        else
+        {
+            setCursor(800 + 9 * CHAR_WIDTH, 70);
+            printf("%d", seconds);
+            changeCursorState(0);
+        }
+        secAux = seconds;
+    }
 }

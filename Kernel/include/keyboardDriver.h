@@ -11,7 +11,7 @@ char removeCharFromBuffer();
 // void updateRegisters(uint64_t* rsp);
 uint8_t _getKey(void);
 uint8_t _hasKey(void);
-char getChar(void); // MODO HLT
+char getCharFromBuffer(); // MODO HLT
 void clearBuffer();
 void cleanKeyboardBuffer();
 int bufferSize();

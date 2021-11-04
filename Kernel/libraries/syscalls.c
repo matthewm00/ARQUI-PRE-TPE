@@ -2,12 +2,19 @@
 
 static uint64_t registers[16] = {0};
 
+static int BCDtoInt(uint64_t number)
+{
+
+	return ((number & 0xF0) >> 4) * 10 + (number & 0xF);
+}
+
 // https://wiki.osdev.org/CMOS#Format_of_Bytes
 uint8_t getCurrentTime(uint64_t rtcID)
 {
 	uint8_t x = _getRTCInfo(rtcID);
-	uint8_t result = ((x / 16) * 10) + (x & 0xf);
-	return result;
+	// uint8_t result = ((x / 16) * 10) + (x & 0xf);
+	// return result;
+	return BCDtoInt(x);
 }
 
 void getMem(uint64_t direc, uint8_t *buffer, uint64_t bytes)
@@ -32,7 +39,7 @@ void sys_write(char *str, uint8_t len, t_color bgColor, t_color ftColor, int usr
 
 uint64_t sys_read()
 {
-	return getChar();
+	return getCharFromBuffer();
 }
 
 uint64_t *getRegisters()
@@ -47,12 +54,6 @@ void saveRegisters(uint64_t *rsp)
 	{
 		registers[i] = rsp[i];
 	}
-}
-
-static int BCDtoInt(uint64_t number)
-{
-
-	return ((number & 0xF0) >> 4) * 10 + (number & 0xF);
 }
 
 uint8_t getDecimalTime(uint64_t type)

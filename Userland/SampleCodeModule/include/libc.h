@@ -2,6 +2,7 @@
 #define LIBC_H
 
 #include <colors.h>
+#include <stdint.h>
 
 void setBGC(t_color colour);
 void setFTC(t_color colour);
@@ -21,4 +22,6 @@ char *strcpy(char *destination, const char *source);
 void newLine();
 int readText();
 int strToHex(const char *str);
+void printIntDec(uint64_t num);
+uint64_t uintToBase(uint64_t value, char *buffer, uint32_t base);
 #endif

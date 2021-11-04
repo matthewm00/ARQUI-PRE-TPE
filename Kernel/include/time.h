@@ -7,10 +7,18 @@
 #include <prints.h>
 #include <stdint.h>
 
+#define DAY_RTC_ID 0x07
+#define MONTH_RTC_ID 0x08
+#define YEAR_RTC_ID 0x09
+#define HOUR_RTC_ID 0x04
+#define MINUTE_RTC_ID 0x02
+#define SECOND_RTC_ID 0x00
+
 void timer_handler();
 int ticks_elapsed();
 int seconds_elapsed();
 
-void setStopwatch(int activate);
-int getSecondsStopwatch();
+void setStopwatch();
+int getStopwatchTicks();
+void setTime(int activate);
 #endif
