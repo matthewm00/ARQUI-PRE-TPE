@@ -4,6 +4,9 @@ GLOBAL _hasKey
 GLOBAL _getMem
 GLOBAL _exit
 GLOBAL _saveRegisters
+GLOBAL getHour
+GLOBAL getMins
+GLOBAL getSeconds
 
 EXTERN saveRegisters
 
@@ -98,4 +101,48 @@ _saveRegisters:
 	call saveRegisters
 
 	popState
+	ret
+
+;; http://helppc.netcore2k.net/hardware/cmos-clock
+
+getHour: ; recordar que clock devuelve la hora en formato BCD de 8 bits
+	push rbp
+	mov rbp,rsp
+	
+	mov rax,0
+	mov al,4
+	out 70h,al
+	mov rax,0
+	in al,71h
+
+	mov rsp,rbp
+	pop rbp
+	ret
+
+getMins:
+	push rbp
+	mov rbp,rsp
+	
+	mov rax,0
+	mov al,2
+	out 70h,al
+	mov rax,0
+	in al,71h
+
+	mov rsp,rbp
+	pop rbp
+	ret
+
+getSeconds:
+	push rbp
+	mov rbp,rsp
+	
+	mov rax,0
+	mov al,0
+	out 70h,al
+	mov rax,0
+	in al,71h
+
+	mov rsp,rbp
+	pop rbp
 	ret

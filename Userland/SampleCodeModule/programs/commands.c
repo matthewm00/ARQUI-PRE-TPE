@@ -1,9 +1,4 @@
 #include <commands.h>
-#include <stdint.h>
-#include <libc.h>
-#include <syscalls.h>
-#include <RTCID.h>
-#include <infoReg.h>
 
 #define YEAR 20			  // Debe escribir aca los digitos de su año (excepto los ultimos dos)
 #define BYTES 32		  // Cantidad de bytes para el mem dump
@@ -222,6 +217,8 @@ void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	printf("\nopcode : Excepcion opcode invalido\n");
 	// printf("\nftcolour : Cambia el color del texto. Pase el color como argumento usando la tabla de colores.\n\n");
 	// printf("\nbgcolour : Cambia el color del fondo del texto. Pase el color como argumento usando la tabla de colores.\n\n");
+	printf("\ngames : 4 ventanas que cuentan con los juegos sudoku y ahorcado, \
+	un cronometro y un timer\n");
 	printf("\nexit : Finaliza la ejecucion.\n\n");
 }
 
@@ -232,5 +229,5 @@ void games(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	_syscall(SYS_GAMES_ID, 0, 0, 0, 0, 0);
+	startGames();
 }

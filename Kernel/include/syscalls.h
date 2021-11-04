@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 #include <colors.h>
+#include <keyboardDriver.h>
+#include <videoDriver.h>
+#include <infoReg.h>
 
 #define SYS_RTC_ID 1
 #define SYS_READ_ID 2
@@ -12,6 +15,12 @@
 #define SYS_CLEAR_ID 6
 #define SYS_EXIT_ID 7
 #define SYS_GAMES_ID 8
+#define SYS_TIME_ID 9
+
+#define SYS_CURSOR_ID 10
+#define SYS_DISABLECURSOR_ID 11
+#define SYS_STOPWATCH_ID 12
+#define SYS_STOPWATCHSEC_ID 13
 
 uint8_t getCurrentTime(uint64_t rtcID);
 uint8_t _getRTCInfo(uint64_t rtcID);
@@ -23,4 +32,8 @@ void _exit(int n);
 uint64_t *getRegisters();
 void saveRegisters(uint64_t *rsp);
 void _saveRegisters(void);
+uint8_t getHour();
+uint8_t getMins();
+uint8_t getSeconds();
+uint8_t getDecimalTime(uint64_t type);
 #endif

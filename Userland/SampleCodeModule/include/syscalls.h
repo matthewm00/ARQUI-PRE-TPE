@@ -13,10 +13,12 @@
 #define SYS_EXIT_ID 7
 
 #define SYS_GAMES_ID 8
-#define SYS_STOPWATCH_ID 9
-#define SYS_AHORCADO_ID 10
-#define SYS_SUDOKU_ID 11
-#define SYS_HMS_ID 12 // hh::mm::ss
+#define SYS_TIME_ID 9
+
+#define SYS_CURSOR_ID 10
+#define SYS_DISABLECURSOR_ID 11
+#define SYS_STOPWATCH_ID 12
+#define SYS_STOPWATCHSEC_ID 13
 
 uint64_t _syscall(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9);
 

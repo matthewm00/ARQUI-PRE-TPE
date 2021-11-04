@@ -2,6 +2,12 @@
 #define COMMANDS_H
 
 #include <shell.h>
+#include <stdint.h>
+#include <libc.h>
+#include <syscalls.h>
+#include <RTCID.h>
+#include <infoReg.h>
+#include <games.h>
 
 void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
 void getCurrentDayTime(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);

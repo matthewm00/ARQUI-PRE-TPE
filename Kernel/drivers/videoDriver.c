@@ -3,11 +3,6 @@
 #include <fonts.h>
 #include <colors.h>
 #include <lib.h>
-unsigned int WIDTH = 1024;
-unsigned int HEIGHT = 768;
-unsigned int PIXEL_SIZE = 3; // bytes por pixel
-unsigned int DEFAULT_BG_COLOUR = 0X000000;
-unsigned int DEFAULT_FONT_COLOUR = 0XFFFFFF;
 
 unsigned int USER_LENGHT = 0; // 14
 unsigned int lineCounter = 0;
@@ -65,6 +60,10 @@ typedef struct
     uint32_t height;
 } t_screen;
 
+uint32_t isSettedCursor = 0;
+uint64_t settedX = 0;
+uint64_t settedY = 0;
+
 static int getPixData(uint32_t x, uint32_t y);
 
 static struct vbe_mode_info_structure *screenData = (void *)0x5C00; // direccion de memoria donde esta la informacion de modo video
@@ -73,16 +72,14 @@ static t_screen *currentScreen;
 
 void initializeVideo()
 {
-    WIDTH = screenData->width;
-    HEIGHT = screenData->height;
     t_screen screen;
-    screen.defaultBGColour = DEFAULT_BG_COLOUR;
-    screen.defaultFontColour = DEFAULT_FONT_COLOUR;
+    screen.defaultBGColour = BLACK;
+    screen.defaultFontColour = WHITE;
     screen.currentX = 0;
     screen.offset = 0;
     screen.currentY = 0;
-    screen.width = WIDTH;
-    screen.height = HEIGHT;
+    screen.width = screenData->width;
+    screen.height = screenData->height;
 
     currentScreen = &screen;
 
@@ -144,6 +141,12 @@ void printChar(char c, t_color fontColor, t_color bgColor, int next)
 
     uint32_t x = currentScreen->currentX + currentScreen->offset;
     uint32_t y = currentScreen->currentY;
+
+    if (isSettedCursor)
+    {
+        x = settedX;
+        y = settedY;
+    }
 
     if (x + (2 * CHAR_WIDTH) - currentScreen->offset >= currentScreen->width)
     {
@@ -292,9 +295,17 @@ void cursor()
         changeDetected = 0;
     }
 }
+void setCursor(uint64_t x, uint64_t y)
+{
+    settedX = x;
+    settedY = y;
+    isSettedCursor = 1;
+    return;
+}
 void stopCursor()
 {
     printChar(' ', BLACK, BLACK, 0);
+    isSettedCursor = 0;
 }
 
 // PRE TP MODO TEXTO

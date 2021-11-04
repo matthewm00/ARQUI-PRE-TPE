@@ -1,7 +1,4 @@
 #include <syscalls.h>
-#include <keyboardDriver.h>
-#include <videoDriver.h>
-#include <infoReg.h>
 
 static uint64_t registers[16] = {0};
 
@@ -49,5 +46,30 @@ void saveRegisters(uint64_t *rsp)
 	for (int i = 0; i < 16; i++)
 	{
 		registers[i] = rsp[i];
+	}
+}
+
+static int BCDtoInt(uint64_t number)
+{
+
+	return ((number & 0xF0) >> 4) * 10 + (number & 0xF);
+}
+
+uint8_t getDecimalTime(uint64_t type)
+{
+	switch (type)
+	{
+	case 0:
+	{
+		return BCDtoInt(getHour());
+	}
+	case 1:
+	{
+		return BCDtoInt(getMins());
+	}
+	default:
+	{
+		return BCDtoInt(getSeconds());
+	}
 	}
 }
