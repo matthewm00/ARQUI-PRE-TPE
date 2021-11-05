@@ -41,7 +41,7 @@ void setStopwatch()
 
 int getStopwatchTicks()
 {
-	return cron ? ticksCronometro : -1;
+	return ticksCronometro;
 }
 
 // void setTime(int activate)

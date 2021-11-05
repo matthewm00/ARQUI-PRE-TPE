@@ -17,6 +17,7 @@ int startGames();
 void printTime();
 void stopWatch();
 void updateSecondsStopwatch();
+void initStopWatch();
 
 void changeCursorState(int state);
 void setCursor(uint64_t x, uint64_t y);

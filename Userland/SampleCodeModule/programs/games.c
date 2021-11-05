@@ -49,10 +49,7 @@ int startGames()
 
     baseSudoku();
     startHangman();
-
-    setCursor(WIDTH / 10, 56);
-    printf("STOPWATCH:");
-    changeCursorState(0);
+    initStopWatch();
 
     int exit = 0;
 
@@ -89,6 +86,13 @@ int startGames()
     return 0;
 }
 
+void initStopWatch()
+{
+    setCursor(WIDTH / 10, 56);
+    printf("STOPWATCH:");
+    changeCursorState(0);
+    setStopWatch();
+}
 void stopWatch()
 {
     uint64_t swTicks = getStopWatchTicks();
@@ -98,10 +102,11 @@ void stopWatch()
     {
         setCursor(((WIDTH / 10) + (11 * CHAR_WIDTH)), 56);
 
-        printf("entre lmp");
+        // printf("entre lmp");
         // changeCursorState(0);
 
         printf(intToStr(swTicks, buffer, 10));
+        printf("%d", swTicks);
 
         changeCursorState(0);
 
