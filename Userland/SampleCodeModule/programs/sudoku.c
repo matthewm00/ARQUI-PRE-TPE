@@ -13,6 +13,16 @@ int matrix[DIM][DIM] = {{0, 6, 0, 1, 0, 4, 0, 5, 0},
                         {5, 0, 0, 0, 0, 0, 0, 0, 2},
                         {0, 0, 7, 2, 0, 6, 9, 0, 0},
                         {0, 4, 0, 5, 0, 8, 0, 7, 0}};
+int perfectMatrix[DIM][DIM] = {
+    {9, 6, 3, 1, 7, 4, 2, 5, 8},
+    {1, 7, 8, 3, 2, 5, 6, 4, 9},
+    {2, 5, 4, 6, 8, 9, 7, 3, 1},
+    {8, 2, 1, 4, 3, 7, 5, 9, 6},
+    {4, 9, 6, 8, 5, 2, 3, 1, 7},
+    {7, 3, 5, 9, 6, 1, 8, 2, 4},
+    {5, 8, 9, 7, 1, 3, 4, 6, 2},
+    {3, 1, 7, 2, 4, 6, 9, 8, 5},
+    {6, 4, 2, 5, 9, 8, 1, 7, 3}};
 
 void baseSudoku()
 {
@@ -94,9 +104,9 @@ static int subMatrix(int m[DIM][DIM], int row, int col)
     int i, j;
     int flag[DIM] = {0};
 
-    for (i = 0; i < (SUB_DIM + row); i++)
+    for (i = row; i < (SUB_DIM + row); i++)
     {
-        for (j = 0; j < (SUB_DIM + col); j++)
+        for (j = col; j < (SUB_DIM + col); j++)
         {
             if (m[i][j] > 0 && m[i][j] < 10)
             {
@@ -143,13 +153,26 @@ static int sudokuChecking(int m[DIM][DIM])
     return 1;
 }
 
+static int cmpMatrix()
+{
+    for (int i = 0; i < DIM; i++)
+    {
+        for (int j = 0; j < DIM; j++)
+        {
+            if (matrix[i][j] != perfectMatrix[i][j])
+                return 0;
+        }
+    }
+    return 1;
+}
+
 void message()
 {
     ended = 1;
     setCursor(5, 555);
     if (sudokuChecking(matrix) == 1)
     {
-        printf("Felicitaciones usted a completado correctamente el sudoku!!");
+        printf("Felicitaciones usted ha completado correctamente el sudoku!!");
     }
     else
         printf("No ha completado bien el sudoku, intentelo nuevamente");
