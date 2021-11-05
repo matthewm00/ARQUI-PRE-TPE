@@ -2,20 +2,18 @@
 
 static unsigned long ticks = 0;
 static unsigned long ticksCronometro = 0;
-// static int time = 0;
-
+int cron = 0;
 void timer_handler()
 {
 	ticks++;
 	ticksCronometro++;
+
 	// if (cron)
 	// {
 	// 	// posicion donde se imprime el cronometro:
 	// 	setCursor(WIDTH / 4 * CHAR_WIDTH, 2);
 
-	// 	sys_write("STOPWATCH: ", 11, BLACK, WHITE, 0);
-
-	// printIntDec(ticksCronometro / 18);
+	// printIntDec(ticksCronometro);
 
 	// 	stopCursor();
 	// }
@@ -37,13 +35,13 @@ int seconds_elapsed()
 
 void setStopwatch()
 {
-
+	cron = 1;
 	ticksCronometro = 0;
 }
 
 int getStopwatchTicks()
 {
-	return ticksCronometro;
+	return cron ? ticksCronometro : -1;
 }
 
 // void setTime(int activate)

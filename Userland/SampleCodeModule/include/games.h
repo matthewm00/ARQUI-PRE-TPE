@@ -6,14 +6,14 @@
 #include <syscalls.h>
 #include <RTCID.h>
 #include <sudoku.h>
+#include <hangman.h>
 
 #define CHAR_WIDTH 8
 #define CHAR_HEIGHT 16
 #define WIDTH 1024
 #define HEIGHT 768
 
-void startGames();
-void hangman(char c);
+int startGames();
 void printTime();
 void stopWatch();
 void updateSecondsStopwatch();

@@ -41,16 +41,17 @@ uint64_t secAux = 0;
 uint64_t ticksAux = 0;
 uint64_t swTicksAux = 0;
 
-void startGames()
+int startGames()
 {
     clearScreen();
     divideScreen();
     changeCursorState(0);
 
     baseSudoku();
+    startHangman();
 
     setCursor(WIDTH / 10, 56);
-    printf("STOPWATCH:  ");
+    printf("STOPWATCH:");
     changeCursorState(0);
 
     int exit = 0;
@@ -58,8 +59,6 @@ void startGames()
     while (!exit)
     {
         printTime();
-
-        stopWatch();
 
         char c = getChar();
 
@@ -76,33 +75,33 @@ void startGames()
         {
             setStopWatch();
         }
-
         else if (c == '0')
         {
             exit = 1;
         }
+        stopWatch();
     }
 
     clearScreen();
     changeCursorState(1);
     printf("Volviendo a la shell...\n");
-}
 
-void hangman(char c)
-{
+    return 0;
 }
 
 void stopWatch()
 {
     uint64_t swTicks = getStopWatchTicks();
+    char buffer[1];
 
     if (swTicks != swTicksAux)
     {
-        setCursor((WIDTH / 10) + (11 * CHAR_WIDTH), 56);
+        setCursor(((WIDTH / 10) + (11 * CHAR_WIDTH)), 56);
 
-        changeCursorState(0);
+        printf("entre lmp");
+        // changeCursorState(0);
 
-        printIntDec(swTicks / 18); // en segundos
+        printf(intToStr(swTicks, buffer, 10));
 
         changeCursorState(0);
 
