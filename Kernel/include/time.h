@@ -14,9 +14,12 @@
 #define MINUTE_RTC_ID 0x02
 #define SECOND_RTC_ID 0x00
 
+#define RESET 0
+#define PAUSE 1
+
 void timer_handler();
 int ticks_elapsed();
 int seconds_elapsed();
-void setStopwatch();
+void setStopwatch(int option);
 int getStopwatchTicks();
 #endif

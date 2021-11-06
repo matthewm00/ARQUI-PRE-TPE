@@ -20,26 +20,15 @@ static uint64_t getTicks()
     return _syscall(SYS_TIME_ID, 0, 0, 0, 0, 0);
 }
 
-static uint64_t getStopWatchTicks()
-{
-    return _syscall(SYS_STOPWATCHTICKS_ID, 0, 0, 0, 0, 0);
-}
-
 void setCursor(uint64_t x, uint64_t y)
 {
     _syscall(SYS_CURSOR_ID, x, y, 0, 0, 0);
-}
-
-static void setStopWatch()
-{
-    _syscall(SYS_STOPWATCH_ID, 0, 0, 0, 0, 0);
 }
 
 uint64_t hourAux = 0;
 uint64_t minAux = 0;
 uint64_t secAux = 0;
 uint64_t ticksAux = 0;
-uint64_t swTicksAux = 0;
 
 int startGames()
 {
@@ -68,9 +57,13 @@ int startGames()
             sudoku(c);
             changeCursorState(0);
         }
-        else if (c == 's') // prende o apaga el cronometro
+        else if (c == 'r')
         {
-            setStopWatch();
+            setStopWatch(RESET);
+        }
+        else if (c == 'p')
+        {
+            setStopWatch(PAUSE);
         }
         else if (c == '0')
         {
@@ -84,34 +77,6 @@ int startGames()
     printf("Volviendo a la shell...\n");
 
     return 0;
-}
-
-void initStopWatch()
-{
-    setCursor(WIDTH / 10, 56);
-    printf("STOPWATCH:");
-    changeCursorState(0);
-    setStopWatch();
-}
-void stopWatch()
-{
-    uint64_t swTicks = getStopWatchTicks();
-    char buffer[1];
-
-    if (swTicks != swTicksAux)
-    {
-        setCursor(((WIDTH / 10) + (11 * CHAR_WIDTH)), 56);
-
-        // printf("entre lmp");
-        // changeCursorState(0);
-
-        printf(intToStr(swTicks, buffer, 10));
-        printf("%d", swTicks);
-
-        changeCursorState(0);
-
-        swTicksAux = swTicks;
-    }
 }
 
 void printTime()

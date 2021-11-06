@@ -7,6 +7,7 @@
 #include <RTCID.h>
 #include <sudoku.h>
 #include <hangman.h>
+#include <stopWatch.h>
 
 #define CHAR_WIDTH 8
 #define CHAR_HEIGHT 16

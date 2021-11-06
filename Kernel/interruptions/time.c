@@ -6,8 +6,10 @@ int cron = 0;
 void timer_handler()
 {
 	ticks++;
-	ticksCronometro++;
-
+	if (cron)
+	{
+		ticksCronometro++;
+	}
 	// if (cron)
 	// {
 	// 	// posicion donde se imprime el cronometro:
@@ -33,10 +35,19 @@ int seconds_elapsed()
 	return ticks / 18;
 }
 
-void setStopwatch()
+void setStopwatch(int option)
 {
-	cron = 1;
-	ticksCronometro = 0;
+	if (option == RESET)
+	{
+		cron = 1;
+		ticksCronometro = 0;
+	}
+	else if (option == PAUSE && cron == 0)
+	{
+		cron = 1; // pause / play
+	}
+	else
+		cron = 0; // pauso los ticks
 }
 
 int getStopwatchTicks()
