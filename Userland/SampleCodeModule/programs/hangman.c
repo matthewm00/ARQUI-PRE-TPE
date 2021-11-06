@@ -45,8 +45,10 @@ int repeatedLetter(char c)
 
 void hangman(char c)
 {
-    if (lives == 0)
+    if (lives == 0 || strcmp(word, playerWord) == 0){
+        gameOver();
         return;
+    }
 
     int size = 1;
     int guessed = 0;
@@ -63,7 +65,6 @@ void hangman(char c)
     {
         lives--;
     }
-    printPlayerWord();
 }
 
 void printPlayerWord()
@@ -75,4 +76,12 @@ void printPlayerWord()
     setCursor(firstPosX, firstPosY + CHAR_HEIGHT * 2);
     printf("VIDAS: %d", lives);
     changeCursorState(0);
+}
+
+void gameOver(){
+    if(lives == 0){
+        printf("GAME OVER, ¡te quedaste sin vidas!");
+    } else {
+        printf("GANASTE, ¡Felicitaciones!");
+    }
 }
