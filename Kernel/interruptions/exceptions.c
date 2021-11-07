@@ -28,7 +28,7 @@ void exceptionDispatcher(int exception, uint64_t rsp)
 static void zero_division()
 {
 	printLine();
-	sys_write("Exception 0: division by zero is undefined\n", 43, BLACK, RED, 0);
+	sys_write("Exception 0: division by zero is undefined\n", 43, BLACK, RED);
 	printLine();
 	printLine();
 }
@@ -36,7 +36,7 @@ static void zero_division()
 static void inv_op_code()
 {
 	printLine();
-	sys_write("Exception 6: invalid opcode\n", 28, BLACK, RED, 0);
+	sys_write("Exception 6: invalid opcode\n", 28, BLACK, RED);
 	printLine();
 	printLine();
 }
@@ -55,7 +55,7 @@ static void printRegs(uint64_t *rsp)
 {
 	for (int i = 0; i < REGISTER_AMOUNT; i++)
 	{
-		sys_write(registerNames[i], strlen(registerNames[i]), BLACK, WHITE, 0);
+		sys_write(registerNames[i], strlen(registerNames[i]), BLACK, WHITE);
 		printIntHex(rsp[i]);
 		printLine();
 	}

@@ -2,15 +2,24 @@
 
 uint64_t getStopWatchTicks()
 {
-    return _syscall(SYS_STOPWATCHTICKS_ID, 0, 0, 0, 0, 0);
+    return _syscall(SYS_STOPWATCHTICKS_ID, 0, 0, 0, 0);
 }
 
 static uint64_t secAux = 0;
 static uint64_t minAux = 0;
+// static uint64_t swTicksAux = 0;
+// static uint64_t dsecAux1 = 0;
+// static uint64_t dsecAux2 = 0;
+// static int pause = 1;
 
 void setStopWatch(int option)
 {
-    _syscall(SYS_STOPWATCH_ID, option, 0, 0, 0, 0);
+    // if (option == RESET)
+    //     dsecAux1 = 0;
+    // else
+    //     pause = !pause;
+
+    _syscall(SYS_STOPWATCH_ID, option, 0, 0, 0);
 }
 
 void initStopWatch()
@@ -23,7 +32,7 @@ void initStopWatch()
     printf("CRONOMETRO:");
     setCursor(((WIDTH / 7) + (14 * CHAR_WIDTH)), 200);
     printf("00::00::00");
-    changeCursorState(0);
+    // changeCursorState(0);
     setStopWatch(PAUSE);
 }
 
@@ -37,14 +46,27 @@ void stopWatch()
     {
         setCursor(((WIDTH / 7) + (22 * CHAR_WIDTH)), 200);
         printf("0%d", dsec);
-        changeCursorState(0);
+        // changeCursorState(0);
     }
     else
     {
         setCursor(((WIDTH / 7) + (22 * CHAR_WIDTH)), 200);
-        printf("%d", swTicks % 100);
-        changeCursorState(0);
+        printf("%d", dsec);
+        // changeCursorState(0);
     }
+    // if (!pause)
+    // {
+    //     swTicksAux ++;
+
+    //     dsecAux1++;
+    //     if (dsecAux1 > dsecAux2 + 55 * 5)
+    //     {
+    //         dsecAux2 = dsecAux1;
+    //         uint64_t dsec = dsecAux1 % 100;
+    //         setCursor(((WIDTH / 7) + (22 * CHAR_WIDTH)), 200);
+    //         printf("%d", dsec);
+    //     }
+    // }
 
     uint64_t sec = swTicks / 18;
     uint64_t min = sec / 60;
@@ -58,13 +80,13 @@ void stopWatch()
         {
             setCursor(((WIDTH / 7) + (18 * CHAR_WIDTH)), 200);
             printf("0%d::", sec);
-            changeCursorState(0);
+            // changeCursorState(0);
         }
         else
         {
             setCursor(((WIDTH / 7) + (18 * CHAR_WIDTH)), 200);
             printf("%d::", sec);
-            changeCursorState(0);
+            // changeCursorState(0);
         }
     }
 
@@ -72,9 +94,9 @@ void stopWatch()
     {
         setCursor(((WIDTH / 7) + (14 * CHAR_WIDTH)), 200);
         printf("0%d::", min);
-        changeCursorState(0);
+        // changeCursorState(0);
         minAux = min;
     }
 
-    changeCursorState(0);
+    // changeCursorState(0);
 }

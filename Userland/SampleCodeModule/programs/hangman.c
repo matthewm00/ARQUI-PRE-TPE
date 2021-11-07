@@ -19,14 +19,14 @@ static void printLetter(int index, char letter)
     getLetterPosition(index, &x);
     setCursor(x, firstPosY);
     printf("%c ", letter);
-    changeCursorState(0);
+    // changeCursorState(0);
 }
 
 void startHangman()
 {
     setCursor(530, 435);
     printf("Juegue al ahorcado y complete la palabra para ganar!");
-    changeCursorState(0);
+    // changeCursorState(0);
     for (int i = 0; i < WORD_LENGTH; i++)
     {
         printLetter(i, '_');
@@ -85,7 +85,7 @@ void printPlayerWord()
     }
     setCursor(firstPosX + CHAR_WIDTH * 6, firstPosY + CHAR_HEIGHT * 5);
     printf("VIDAS: %d", lives);
-    changeCursorState(0);
+    // changeCursorState(0);
 }
 
 void gameOver()
@@ -96,5 +96,5 @@ void gameOver()
         printf("GAME OVER, te quedaste sin vidas!");
     else
         printf("GANASTE, felicitaciones!");
-    changeCursorState(0);
+    // changeCursorState(0);
 }

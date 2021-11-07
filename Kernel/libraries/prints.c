@@ -55,19 +55,19 @@ void printIntDec(uint64_t num)
 {
 	char buffer[10];
 	uintToBase(num, buffer, 10);
-	sys_write(buffer, strlen(buffer), BLACK, WHITE, 0);
+	sys_write(buffer, strlen(buffer), BLACK, WHITE);
 }
 
 void printIntHex(uint64_t num)
 {
 	char buffer[10];
 	uintToBase(num, buffer, 16);
-	sys_write(buffer, strlen(buffer), BLACK, WHITE, 0);
+	sys_write(buffer, strlen(buffer), BLACK, WHITE);
 }
 
 void printIntBin(uint64_t num)
 {
 	char buffer[10];
 	uintToBase(num, buffer, 2);
-	sys_write(buffer, strlen(buffer), BLACK, WHITE, 0);
+	sys_write(buffer, strlen(buffer), BLACK, WHITE);
 }

@@ -4,7 +4,7 @@
 #include <colors.h>
 #include <lib.h>
 
-unsigned int USER_LENGHT = 0; // 14
+unsigned int USER_LENGHT = 3; // $>_
 unsigned int lineCounter = 0;
 
 // cursor basado en codigo de ayudante en practica
@@ -255,10 +255,7 @@ void scrollDown()
 
     clearLine();
 }
-void setUsernameLen(int len)
-{
-    USER_LENGHT = len;
-}
+
 void clearLine()
 {
     for (int x = 0; x <= currentScreen->width - 2 * CHAR_WIDTH; x++)

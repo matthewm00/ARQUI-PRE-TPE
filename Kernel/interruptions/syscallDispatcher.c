@@ -1,11 +1,11 @@
 #include <syscallDispatcher.h>
 
-uint64_t syscallSelector(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+uint64_t syscallSelector(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8)
 {
     switch (rdi)
     {
     case SYS_WRITE_ID:
-        sys_write((char *)(rsi), (uint8_t)(rdx), (t_color)(rcx), (t_color)(r8), (uint64_t)r9);
+        sys_write((char *)(rsi), (uint8_t)(rdx), (t_color)(rcx), (t_color)(r8));
         break;
     case SYS_RTC_ID:
         return getCurrentTime((uint8_t)rsi);

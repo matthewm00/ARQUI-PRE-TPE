@@ -28,7 +28,7 @@ void baseSudoku()
 {
     setCursor(5, 435);
     printf("Complete correctamente el sudoku para ganar!\n\n");
-    changeCursorState(0);
+    // changeCursorState(0);
 
     for (int i = 0; i < DIM; i++)
     {
