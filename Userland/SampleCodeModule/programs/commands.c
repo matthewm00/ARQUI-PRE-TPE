@@ -138,64 +138,6 @@ void exit(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	_syscall(SYS_EXIT_ID, 0, 0, 0, 0, 0);
 }
 
-// void changeColour(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE], int ft)
-// {
-// 	if (argc != 1)
-// 	{
-// 		printf("\nCantidad invalida de argumentos.\n\n");
-// 		return;
-// 	}
-// 	int aux = strToInt(argv[0], 0);
-// 	if (ft == 1)
-// 	{
-// 		switch (aux)
-// 		{
-// 		case 1:
-// 			setFTC(WHITE);
-// 			break;
-// 		case 2:
-// 			setFTC(BLACK);
-// 			break;
-// 		case 3:
-// 			setFTC(RED);
-// 			break;
-// 		case 4:
-// 			setFTC(GREEN);
-// 			break;
-// 		case 5:
-// 			setFTC(BLUE);
-// 			break;
-// 		default:
-// 			printf("\nEl codigo de color que ingreso es invalido. Use /help.\n\n");
-// 			break;
-// 		}
-// 	}
-// 	else
-// 	{
-// 		switch (aux)
-// 		{
-// 		case 1:
-// 			setBGC(WHITE);
-// 			break;
-// 		case 2:
-// 			setBGC(BLACK);
-// 			break;
-// 		case 3:
-// 			setBGC(RED);
-// 			break;
-// 		case 4:
-// 			setBGC(GREEN);
-// 			break;
-// 		case 5:
-// 			setBGC(BLUE);
-// 			break;
-// 		default:
-// 			printf("\nEl codigo de color que ingreso es invalido. Use /help.\n\n");
-// 			break;
-// 		}
-// 	}
-// }
-
 void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 {
 	if (argc != 0)
@@ -203,20 +145,14 @@ void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	printf("\nTabla de colores: \n");
-	printf("\nBLANCO | NEGRO | ROJO | VERDE | AZUL\n");
-	printf("  1    |   2   |  3   |   4   |  5\n");
 	printf("\nLista de comandos: \n");
 	printf("\nhelp : Listado de comandos\n");
 	printf("\nclear : Limpia la pantalla actual\n");
 	printf("\ninforeg : Estado de todos los resgitros.\n");
 	printf("\ndate : Fecha y hora actual\n");
 	printf("\nprintmem : Volcado de memoria de 32 bytes a partir de direccion de memoria en hexa ingresada como argumento.\n");
-	// printf("La direccion debe estar comprendida en el rango: 0 - %x\n", LAST_MEM_POSITION - 32); CHEQUEO MAXMEM
 	printf("\ndivzero : Excepcion division por cero\n");
 	printf("\nopcode : Excepcion opcode invalido\n");
-	// printf("\nftcolour : Cambia el color del texto. Pase el color como argumento usando la tabla de colores.\n\n");
-	// printf("\nbgcolour : Cambia el color del fondo del texto. Pase el color como argumento usando la tabla de colores.\n\n");
 	printf("\ngames : 4 ventanas que cuentan con los juegos sudoku y ahorcado, un cronometro y un timer\n");
 	printf("\nexit : Finaliza la ejecucion.\n\n");
 }
@@ -228,6 +164,5 @@ void games(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	while (startGames())
-		;
+	startGames();
 }

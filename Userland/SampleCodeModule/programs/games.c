@@ -15,14 +15,14 @@ void changeCursorState(int state)
     _syscall(SYS_CURSORSTATE_ID, state, 0, 0, 0, 0);
 }
 
-static uint64_t getTicks()
-{
-    return _syscall(SYS_TIME_ID, 0, 0, 0, 0, 0);
-}
-
 void setCursor(uint64_t x, uint64_t y)
 {
     _syscall(SYS_CURSOR_ID, x, y, 0, 0, 0);
+}
+
+uint64_t getTicks()
+{
+    return _syscall(SYS_TIME_ID, 0, 0, 0, 0, 0);
 }
 
 static void printTimeMsg()
@@ -33,8 +33,8 @@ static void printTimeMsg()
 }
 
 uint64_t hourAux = 0;
-uint64_t minAux = 0;
-uint64_t secAux = 0;
+uint64_t minutesAux = 0;
+uint64_t secondsAux = 0;
 uint64_t ticksAux = 0;
 
 int startGames()
@@ -115,7 +115,7 @@ void printTime()
         }
         hourAux = hour;
     }
-    if (minutes != minAux)
+    if (minutes != minutesAux)
     {
         if (minutes < 10)
         {
@@ -129,9 +129,9 @@ void printTime()
             printf("%d::", minutes);
             changeCursorState(0);
         }
-        minAux = minutes;
+        minutesAux = minutes;
     }
-    if (seconds != secAux)
+    if (seconds != secondsAux)
     {
         if (seconds < 10)
         {
@@ -145,6 +145,6 @@ void printTime()
             printf("%d", seconds);
             changeCursorState(0);
         }
-        secAux = seconds;
+        secondsAux = seconds;
     }
 }

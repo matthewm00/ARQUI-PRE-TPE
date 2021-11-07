@@ -1,9 +1,10 @@
 #include <hangman.h>
 
-int lives = 4;
+int lives = 3;
 char word[WORD_LENGTH] = "COMPUTADORA";
 char playerWord[WORD_LENGTH] = "___________";
-
+static int playerWordDim = 0;
+static int finished = 0;
 static int firstPosX = 700;
 static int firstPosY = 550;
 
@@ -48,10 +49,8 @@ int repeatedLetter(char c)
 
 void hangman(char c)
 {
-    if (lives == 0 || strcmp(word, playerWord) == 0){
-        gameOver();
+    if (finished)
         return;
-    }
 
     int size = 1;
     int guessed = 0;
@@ -62,11 +61,19 @@ void hangman(char c)
         {
             guessed = 1;
             playerWord[i] = c;
+            playerWordDim++;
         }
     }
     if (!guessed)
     {
         lives--;
+    }
+
+    printPlayerWord();
+
+    if (playerWordDim == WORD_LENGTH || lives == 0)
+    {
+        gameOver();
     }
 }
 
@@ -81,10 +88,13 @@ void printPlayerWord()
     changeCursorState(0);
 }
 
-void gameOver(){
-    if(lives == 0){
-        printf("GAME OVER, ¡te quedaste sin vidas!");
-    } else {
-        printf("GANASTE, ¡Felicitaciones!");
-    }
+void gameOver()
+{
+    finished = 1;
+    setCursor(530, 720);
+    if (lives == 0)
+        printf("GAME OVER, te quedaste sin vidas!");
+    else
+        printf("GANASTE, felicitaciones!");
+    changeCursorState(0);
 }

@@ -70,10 +70,6 @@ void shellExecute()
         {
             getInfoReg(argc, argv);
         }
-        // else if (strcmp("cpufeatures", command) == 0)
-        // {
-        //     getCPUFeatures(argc, argv);
-        // }
         else if (strcmp("clear", command) == 0)
         {
             clear(argc, argv);
@@ -98,14 +94,6 @@ void shellExecute()
         {
             divZero(argc, argv);
         }
-        // else if (strcmp("bgcolour", command) == 0)
-        // {
-        //     changeColour(argc, argv, 0);
-        // }
-        // else if (strcmp("ftcolour", command) == 0)
-        // {
-        //     changeColour(argc, argv, 1);
-        // }
         else if (strcmp("games", command) == 0)
         {
             games(argc, argv);

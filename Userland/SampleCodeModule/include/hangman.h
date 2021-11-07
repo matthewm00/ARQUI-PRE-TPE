@@ -9,5 +9,6 @@ void startHangman();
 int repeatedLetter(char c);
 void hangman(char c);
 void printPlayerWord();
+void gameOver();
 
 #endif

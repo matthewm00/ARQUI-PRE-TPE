@@ -19,6 +19,7 @@ void printTime();
 void stopWatch();
 void updateSecondsStopwatch();
 void initStopWatch();
+uint64_t getTicks();
 
 void changeCursorState(int state);
 void setCursor(uint64_t x, uint64_t y);
