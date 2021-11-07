@@ -25,6 +25,13 @@ void setCursor(uint64_t x, uint64_t y)
     _syscall(SYS_CURSOR_ID, x, y, 0, 0, 0);
 }
 
+static void printTimeMsg()
+{
+    setCursor(530, 30);
+    printf("La hora actual en Buenos Aires, Argentina (ART) es:\n");
+    changeCursorState(0);
+}
+
 uint64_t hourAux = 0;
 uint64_t minAux = 0;
 uint64_t secAux = 0;
@@ -36,6 +43,7 @@ int startGames()
     divideScreen();
     changeCursorState(0);
 
+    printTimeMsg();
     baseSudoku();
     startHangman();
     initStopWatch();
@@ -95,13 +103,13 @@ void printTime()
     {
         if (hour < 10)
         {
-            setCursor(800, 70);
+            setCursor(720, 200);
             printf(" 0%d::", hour);
             changeCursorState(0);
         }
         else
         {
-            setCursor(800, 70);
+            setCursor(720, 200);
             printf(" %d::", hour);
             changeCursorState(0);
         }
@@ -111,13 +119,13 @@ void printTime()
     {
         if (minutes < 10)
         {
-            setCursor(800 + 5 * CHAR_WIDTH, 70);
+            setCursor(720 + 5 * CHAR_WIDTH, 200);
             printf("0%d::", minutes);
             changeCursorState(0);
         }
         else
         {
-            setCursor(800 + 5 * CHAR_WIDTH, 70);
+            setCursor(720 + 5 * CHAR_WIDTH, 200);
             printf("%d::", minutes);
             changeCursorState(0);
         }
@@ -127,13 +135,13 @@ void printTime()
     {
         if (seconds < 10)
         {
-            setCursor(800 + 9 * CHAR_WIDTH, 70);
+            setCursor(720 + 9 * CHAR_WIDTH, 200);
             printf("0%d", seconds);
             changeCursorState(0);
         }
         else
         {
-            setCursor(800 + 9 * CHAR_WIDTH, 70);
+            setCursor(720 + 9 * CHAR_WIDTH, 200);
             printf("%d", seconds);
             changeCursorState(0);
         }

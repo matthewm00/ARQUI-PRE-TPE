@@ -1,11 +1,11 @@
 #include <hangman.h>
 
-int lives = WORD_LENGTH;
-char word[WORD_LENGTH] = "PEJELAGARTO";
+int lives = 4;
+char word[WORD_LENGTH] = "COMPUTADORA";
 char playerWord[WORD_LENGTH] = "___________";
 
-static int firstPosX = 600;
-static int firstPosY = 600;
+static int firstPosX = 700;
+static int firstPosY = 550;
 
 static void getLetterPosition(int index, int *x)
 {
@@ -23,6 +23,9 @@ static void printLetter(int index, char letter)
 
 void startHangman()
 {
+    setCursor(530, 435);
+    printf("Juegue al ahorcado y complete la palabra para ganar!");
+    changeCursorState(0);
     for (int i = 0; i < WORD_LENGTH; i++)
     {
         printLetter(i, '_');
@@ -72,7 +75,7 @@ void printPlayerWord()
     {
         printLetter(i, playerWord[i]);
     }
-    setCursor(firstPosX, firstPosY + CHAR_HEIGHT * 2);
+    setCursor(firstPosX + CHAR_WIDTH * 6, firstPosY + CHAR_HEIGHT * 5);
     printf("VIDAS: %d", lives);
     changeCursorState(0);
 }

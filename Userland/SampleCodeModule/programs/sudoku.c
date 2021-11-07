@@ -1,8 +1,8 @@
 #include <sudoku.h>
 
 int matrix[DIM][DIM];
-int matrixFirstPosX = 24;
-int matrixFirstPosY = 600;
+int matrixFirstPosX = 120;
+int matrixFirstPosY = 550;
 int ended = 0;
 int matrix[DIM][DIM] = {{0, 6, 0, 1, 0, 4, 0, 5, 0},
                         {0, 0, 8, 3, 0, 5, 6, 0, 0},
@@ -26,6 +26,9 @@ int perfectMatrix[DIM][DIM] = {
 
 void baseSudoku()
 {
+    setCursor(5, 435);
+    printf("Complete correctamente el sudoku para ganar!\n\n");
+    changeCursorState(0);
 
     for (int i = 0; i < DIM; i++)
     {
@@ -169,7 +172,7 @@ static int cmpMatrix()
 void message()
 {
     ended = 1;
-    setCursor(5, 555);
+    setCursor(5, 720);
     if (sudokuChecking(matrix) == 1)
     {
         printf("Felicitaciones usted ha completado correctamente el sudoku!!");
