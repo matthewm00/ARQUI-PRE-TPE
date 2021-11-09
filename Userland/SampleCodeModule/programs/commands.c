@@ -108,7 +108,7 @@ void divZero(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	int x = 3;
+	int x = 1;
 	int y = 0;
 	x = x / y;
 }

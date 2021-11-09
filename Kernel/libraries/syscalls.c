@@ -46,7 +46,7 @@ uint64_t *getRegisters()
 
 void updateRegisters()
 {
-	_saveRegisters();
+	saveRegisters((uint64_t *)_getStackPointer());
 }
 
 void saveRegisters(uint64_t *rsp)
@@ -55,7 +55,7 @@ void saveRegisters(uint64_t *rsp)
 	{
 		registers[i] = rsp[i];
 	}
-	registers[16] = rsp[15 + 3]; // load rsp manually
+	registers[16] = rsp[15 + 3]; // cargo rsp
 }
 
 uint8_t getDecimalTime(uint64_t type)

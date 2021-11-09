@@ -3,13 +3,10 @@ GLOBAL _getKey
 GLOBAL _hasKey
 GLOBAL _getMem
 GLOBAL _exit
-GLOBAL _saveRegisters
 GLOBAL getHour
 GLOBAL getMins
 GLOBAL getSeconds
 GLOBAL _getStackPointer
-
-EXTERN saveRegisters
 
 section .text
 
@@ -96,21 +93,8 @@ _getMem:
 _exit:
     jmp $
 
-_saveRegisters:
-	push rbp
-	mov rbp, rsp
-
-	push rdi
-	mov rdi,rsp
-	call saveRegisters
-	pop rdi
-	
-	mov rsp, rbp
-	pop rbp
-	ret
 
 _getStackPointer:
-
 	mov rax, rsp
 	ret
 

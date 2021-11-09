@@ -11,7 +11,7 @@ static void int_21();
 
 void irqDispatcher(uint64_t irq, uint64_t rsp)
 {
-	saveRegisters((uint64_t *)rsp);
+	// updateRegisters();
 	switch (irq)
 	{
 	case TIMER:

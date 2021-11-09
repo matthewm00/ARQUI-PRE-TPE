@@ -4,7 +4,6 @@ GLOBAL _opcodeExp
 
 section .text
 
-
 _syscall:
     push rbp
     mov rbp, rsp

@@ -30,10 +30,10 @@ uint8_t _getMem(uint64_t direc);
 void _exit(int n);
 uint64_t *getRegisters();
 void saveRegisters(uint64_t *rsp);
-void _saveRegisters(void);
 uint8_t getHour();
 uint8_t getMins();
 uint8_t getSeconds();
 uint8_t getDecimalTime(uint64_t type);
 void updateRegisters();
+uint64_t _getStackPointer();
 #endif
