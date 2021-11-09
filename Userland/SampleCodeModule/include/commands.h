@@ -6,7 +6,6 @@
 #include <libc.h>
 #include <syscalls.h>
 #include <RTCID.h>
-#include <infoReg.h>
 #include <games.h>
 
 void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);

@@ -1,6 +1,6 @@
 #include <syscalls.h>
 
-static uint64_t registers[16] = {0};
+static uint64_t registers[17] = {0};
 
 static int BCDtoInt(uint64_t number)
 {
@@ -40,8 +40,13 @@ uint64_t sys_read()
 
 uint64_t *getRegisters()
 {
-	_saveRegisters();
+	// updateRegisters();
 	return registers;
+}
+
+void updateRegisters()
+{
+	_saveRegisters();
 }
 
 void saveRegisters(uint64_t *rsp)
@@ -50,6 +55,7 @@ void saveRegisters(uint64_t *rsp)
 	{
 		registers[i] = rsp[i];
 	}
+	registers[16] = rsp[15 + 3]; // load rsp manually
 }
 
 uint8_t getDecimalTime(uint64_t type)

@@ -1,10 +1,5 @@
 #include <games.h>
 
-static void clearScreen()
-{
-    _syscall(SYS_CLEAR_ID, 0, 0, 0, 0);
-}
-
 static void divideScreen()
 {
     _syscall(SYS_GAMES_ID, WHITE, 0, 0, 0);
@@ -25,6 +20,18 @@ uint64_t getTicks()
     return _syscall(SYS_TIME_ID, 0, 0, 0, 0);
 }
 
+static uint64_t hourAux = 0;
+static uint64_t minutesAux = 0;
+static uint64_t secondsAux = 0;
+static uint64_t ticksAux = 0;
+
+static void resetTime()
+{
+    hourAux = 0;
+    minutesAux = 0;
+    secondsAux = 0;
+    ticksAux = 0;
+}
 static void printTimeMsg()
 {
     setCursor(530, 30);
@@ -32,19 +39,14 @@ static void printTimeMsg()
     // changeCursorState(0);
 }
 
-uint64_t hourAux = 0;
-uint64_t minutesAux = 0;
-uint64_t secondsAux = 0;
-uint64_t ticksAux = 0;
-
 int startGames()
 {
-    clearScreen();
     divideScreen();
     changeCursorState(0); // desactivamos el cursor
     setCursor(77, 1);
     printf("~~~ Pulse la tecla 0 para salir de games ~~~");
 
+    resetTime();
     printTimeMsg();
     baseSudoku();
     startHangman();
@@ -81,11 +83,8 @@ int startGames()
         }
         stopWatch();
     }
-
-    clearScreen();
+    // resetTime();
     changeCursorState(1); // activamos el cursor
-    printf("Volviendo a la shell...\n");
-
     return 0;
 }
 
@@ -149,4 +148,5 @@ void printTime()
         }
         secondsAux = seconds;
     }
+    return;
 }

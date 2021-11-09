@@ -7,6 +7,7 @@ GLOBAL _saveRegisters
 GLOBAL getHour
 GLOBAL getMins
 GLOBAL getSeconds
+GLOBAL _getStackPointer
 
 EXTERN saveRegisters
 
@@ -96,12 +97,19 @@ _exit:
     jmp $
 
 _saveRegisters:
-	pushState
+	push rdi
+
 	mov rdi,rsp
 	call saveRegisters
 
-	popState
+	pop rdi
 	ret
+
+_getStackPointer:
+
+	mov rax, rsp
+	ret
+
 
 ;; http://helppc.netcore2k.net/hardware/cmos-clock
 

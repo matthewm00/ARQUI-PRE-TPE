@@ -20,10 +20,13 @@ void setStopWatch(int option)
     //     pause = !pause;
 
     _syscall(SYS_STOPWATCH_ID, option, 0, 0, 0);
+    return;
 }
 
 void initStopWatch()
 {
+    secAux = 0;
+    minAux = 0;
     setCursor(0, 30);
     printf("Las teclas para accionar el cronomentro son las siguientes:\n\n");
     printf("Tecla 'p' : PLAY / PAUSE\n");
@@ -33,7 +36,8 @@ void initStopWatch()
     setCursor(((WIDTH / 7) + (14 * CHAR_WIDTH)), 200);
     printf("00::00::00");
     // changeCursorState(0);
-    setStopWatch(PAUSE);
+    setStopWatch(RESET);
+    return;
 }
 
 void stopWatch()
@@ -99,4 +103,5 @@ void stopWatch()
     }
 
     // changeCursorState(0);
+    return;
 }

@@ -4,6 +4,12 @@
 #define BYTES 32		  // Cantidad de bytes para el mem dump
 #define FLOAT_PRECISION 8 // Precision para los puntos flotantes
 //#define LAST_MEM_POSITION 536870911 //512MB mem que se le pasa en run.sh
+#define REGISTER_AMOUNT 17
+
+static char *registerNames[] = {
+	"R15: ", "R14: ", "R13: ", "R12: ", "R11: ", "R10: ", "R9: ",
+	"R8: ", "RSI: ", "RDI: ", "RBP: ", "RDX: ", "RCX: ", "RBX: ",
+	"RAX: ", "RIP: ", "RSP: "};
 
 // returns current date and time
 void getCurrentDayTime(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
@@ -164,5 +170,9 @@ void games(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
+	clear(argc, argv);
 	startGames();
+	clear(argc, argv);
+	printf("Volviendo a la shell...\n");
+	return;
 }

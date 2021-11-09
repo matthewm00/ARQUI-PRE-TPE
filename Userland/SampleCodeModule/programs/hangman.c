@@ -2,7 +2,7 @@
 
 int lives = 3;
 char word[WORD_LENGTH] = "COMPUTADORA";
-char playerWord[WORD_LENGTH] = "___________";
+char playerWord[WORD_LENGTH];
 static int playerWordDim = 0;
 static int finished = 0;
 static int firstPosX = 700;
@@ -20,10 +20,16 @@ static void printLetter(int index, char letter)
     setCursor(x, firstPosY);
     printf("%c ", letter);
     // changeCursorState(0);
+    return;
 }
 
 void startHangman()
 {
+    for (int i = 0; i < WORD_LENGTH; i++)
+        playerWord[i] = '_';
+    lives = 3;
+    finished = 0;
+
     setCursor(530, 435);
     printf("Juegue al ahorcado y complete la palabra para ganar!");
     // changeCursorState(0);
@@ -31,6 +37,7 @@ void startHangman()
     {
         printLetter(i, '_');
     }
+    return;
 }
 
 int repeatedLetter(char c)
@@ -75,6 +82,7 @@ void hangman(char c)
     {
         gameOver();
     }
+    return;
 }
 
 void printPlayerWord()
@@ -86,6 +94,7 @@ void printPlayerWord()
     setCursor(firstPosX + CHAR_WIDTH * 6, firstPosY + CHAR_HEIGHT * 5);
     printf("VIDAS: %d", lives);
     // changeCursorState(0);
+    return;
 }
 
 void gameOver()
@@ -97,4 +106,5 @@ void gameOver()
     else
         printf("GANASTE, felicitaciones!");
     // changeCursorState(0);
+    return;
 }

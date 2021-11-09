@@ -5,7 +5,6 @@
 #include <colors.h>
 #include <keyboardDriver.h>
 #include <videoDriver.h>
-#include <infoReg.h>
 
 #define SYS_RTC_ID 1
 #define SYS_READ_ID 2
@@ -36,4 +35,5 @@ uint8_t getHour();
 uint8_t getMins();
 uint8_t getSeconds();
 uint8_t getDecimalTime(uint64_t type);
+void updateRegisters();
 #endif
