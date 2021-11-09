@@ -1,6 +1,7 @@
 #include <prints.h>
 #include <colors.h>
 #include <syscalls.h>
+#include <lib.h>
 
 #define ZERO_EXCEPTION_ID 0
 #define INVOP_EXCEPTION_ID 6
@@ -15,6 +16,12 @@ static char *registerNames[] = {
 static void zero_division();
 static void inv_op_code();
 static void printRegs(uint64_t *rsp);
+
+// uint64_t cpy[REGISTER_AMOUNT];
+// static void copyRegisters(uint64_t *rsp)
+// {
+// 	memcpy(cpy, rsp, REGISTER_AMOUNT);
+// }
 
 void exceptionDispatcher(int exception, uint64_t rsp)
 {

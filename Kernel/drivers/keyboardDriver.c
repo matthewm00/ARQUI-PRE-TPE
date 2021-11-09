@@ -138,7 +138,7 @@ void putCharInBuffer(char c)
 }
 char getCharFromBuffer()
 {
-    if (isCursorOn())
+    if (isCursorOn()) // si no esta en games
     {
         char c = 0;
         c = removeCharFromBuffer();

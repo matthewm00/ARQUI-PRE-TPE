@@ -62,7 +62,7 @@ typedef struct
 
 static int cursorOn = 1;
 
-static int getPixData(uint32_t x, uint32_t y);
+static int getPixelData(uint32_t x, uint32_t y);
 
 static struct vbe_mode_info_structure *screenData = (void *)0x5C00; // direccion de memoria donde esta la informacion de modo video
 
@@ -103,14 +103,14 @@ void initializeVideo()
 void putPixel(int x, int y, int colour)
 {
     char *currentFrame = (char *)((uint64_t)screenData->framebuffer);
-    int offset = getPixData(x, y);
+    int offset = getPixelData(x, y);
 
     currentFrame[offset] = colour & 0x0000FF;             // azul
     currentFrame[offset + 1] = (colour >> 8) & 0x0000FF;  // verde
     currentFrame[offset + 2] = (colour >> 16) & 0x0000FF; // rojo
 }
 
-static int getPixData(uint32_t x, uint32_t y)
+static int getPixelData(uint32_t x, uint32_t y)
 {
     return (x + y * WIDTH) * PIXEL_SIZE;
 }

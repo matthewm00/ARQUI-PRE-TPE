@@ -100,7 +100,7 @@ void printTime()
     uint64_t seconds = _syscall(SYS_RTC_ID, SECOND_RTC_ID, 0, 0, 0);
     ticksAux = ticks;
 
-    if (hour != hourAux)
+    if (hour != hourAux || (hour == 0 && hourAux == 0))
     {
         if (hour < 10)
         {
@@ -116,7 +116,7 @@ void printTime()
         }
         hourAux = hour;
     }
-    if (minutes != minutesAux)
+    if (minutes != minutesAux || (minutes == 0 && minutesAux == 0))
     {
         if (minutes < 10)
         {
@@ -132,7 +132,7 @@ void printTime()
         }
         minutesAux = minutes;
     }
-    if (seconds != secondsAux)
+    if (seconds != secondsAux || (seconds == 0 && secondsAux == 0))
     {
         if (seconds < 10)
         {
