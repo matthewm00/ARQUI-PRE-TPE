@@ -151,12 +151,12 @@ void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	printf("\nLista de comandos: \n");
+	printf("\nListado de comandos: \n");
 	printf("\nhelp : Listado de comandos\n");
 	printf("\nclear : Limpia la pantalla actual\n");
 	printf("\ninforeg : Estado de todos los resgitros.\n");
 	printf("\ndate : Fecha y hora actual\n");
-	printf("\nprintmem : Volcado de memoria de 32 bytes a partir de direccion de memoria en hexa ingresada como argumento.\n");
+	printf("\nprintmem : Volcado de memoria de 32 bytes a partir de la direccion de memoria en hexa ingresada como argumento.\n");
 	printf("\ndivzero : Excepcion division por cero\n");
 	printf("\nopcode : Excepcion opcode invalido\n");
 	printf("\ngames : 4 ventanas que cuentan con los juegos sudoku y ahorcado, un cronometro y un timer\n");

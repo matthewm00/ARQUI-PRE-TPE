@@ -19,7 +19,7 @@ GLOBAL _syscallHandler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
-EXTERN syscallSelector
+EXTERN syscallDispatcher
 EXTERN getStackBase
 
 SECTION .text
@@ -167,7 +167,7 @@ haltcpu:
 _syscallHandler:
 
 
-	call syscallSelector
+	call syscallDispatcher
 	
 	iretq
 

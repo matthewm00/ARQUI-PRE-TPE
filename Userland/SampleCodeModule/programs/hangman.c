@@ -59,7 +59,6 @@ void hangman(char c)
     if (finished)
         return;
 
-    int size = 1;
     int guessed = 0;
     int repeated = repeatedLetter(c);
     for (int i = 0; i < WORD_LENGTH && !repeated; i++)

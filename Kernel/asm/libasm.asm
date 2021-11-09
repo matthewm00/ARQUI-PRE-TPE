@@ -97,12 +97,16 @@ _exit:
     jmp $
 
 _saveRegisters:
-	push rdi
+	push rbp
+	mov rbp, rsp
 
+	push rdi
 	mov rdi,rsp
 	call saveRegisters
-
 	pop rdi
+	
+	mov rsp, rbp
+	pop rbp
 	ret
 
 _getStackPointer:

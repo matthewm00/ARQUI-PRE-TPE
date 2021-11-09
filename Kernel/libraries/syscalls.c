@@ -40,7 +40,7 @@ uint64_t sys_read()
 
 uint64_t *getRegisters()
 {
-	// updateRegisters();
+	updateRegisters();
 	return registers;
 }
 
