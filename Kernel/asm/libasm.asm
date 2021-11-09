@@ -93,7 +93,7 @@ _getMem:
 	ret
 
 _exit:
-    jmp $
+    jmp $ ;means calling this address continously (salta a la direcc 0x0h)
 
 
 _getStackPointer:

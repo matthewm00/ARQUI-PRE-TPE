@@ -19,7 +19,6 @@ char *reverse(char *buffer, int i, int j);
 int abs(int num);
 void swap(char *x, char *y);
 char *strcpy(char *destination, const char *source);
-void newLine();
 int readText();
 int strToHex(const char *str);
 void printIntDec(uint64_t num);
