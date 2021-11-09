@@ -46,7 +46,7 @@ uint64_t *getRegisters()
 
 void updateRegisters()
 {
-	saveRegisters((uint64_t *)_getStackPointer());
+	_getStackPointer();
 }
 
 void saveRegisters(uint64_t *rsp)

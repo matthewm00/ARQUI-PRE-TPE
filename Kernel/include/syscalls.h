@@ -35,5 +35,5 @@ uint8_t getMins();
 uint8_t getSeconds();
 uint8_t getDecimalTime(uint64_t type);
 void updateRegisters();
-uint64_t _getStackPointer();
+void _getStackPointer();
 #endif

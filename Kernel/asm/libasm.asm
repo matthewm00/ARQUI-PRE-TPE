@@ -8,6 +8,8 @@ GLOBAL getMins
 GLOBAL getSeconds
 GLOBAL _getStackPointer
 
+EXTERN saveRegisters
+
 section .text
 
 %macro pushState 0
@@ -95,7 +97,10 @@ _exit:
 
 
 _getStackPointer:
-	mov rax, rsp
+	pushState
+	mov rdi, rsp
+	call saveRegisters
+	popState
 	ret
 
 

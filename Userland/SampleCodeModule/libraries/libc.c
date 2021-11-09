@@ -216,8 +216,6 @@ char *strcpy(char *destino, const char *fuente)
     return aux;
 }
 
-// http://vivi.dyndns.org/tech/cpp/atohex.html
-
 static int isdigit(char ch)
 {
     return ch >= '0' && ch <= '9';
@@ -228,7 +226,6 @@ static int ishexdigit(char ch)
     return isdigit(ch) || (ch >= 'A' && ch <= 'F') || (ch >= 'a' && ch <= 'f');
 }
 
-// https://www.geeksforgeeks.org/write-your-own-atoi/
 int strToInt(char *str, int *size)
 {
     *size = 0;
