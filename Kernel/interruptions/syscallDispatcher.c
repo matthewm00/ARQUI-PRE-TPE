@@ -30,7 +30,6 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         divideScreen(rsi);
     case SYS_TIME_ID:
         return ticks_elapsed();
-        // antes estaba setTime(rsi);
         break;
     case SYS_CURSOR_ID:
         setCursor(rsi, rdx); // pasa la posicion donde imprimir

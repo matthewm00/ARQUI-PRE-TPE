@@ -160,6 +160,7 @@ _exception0Handler:
 ;Invalid OpCode Exception
 _exception6Handler:
 	exceptionHandler 6
+	
 haltcpu:
 	cli
 	hlt
