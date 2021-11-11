@@ -65,7 +65,7 @@ SECTION .text
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
-	mov rsi, rsp
+	mov rsi, rsp ; pasaje del "vector" de registros
 	call irqDispatcher
 
 	; signal pic EOI (End of Interrupt)

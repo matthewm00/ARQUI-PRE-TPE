@@ -42,13 +42,7 @@ uint64_t sys_read()
 
 uint64_t *getRegisters()
 {
-	// updateRegisters();
 	return registers;
-}
-
-void updateRegisters()
-{
-	_getStackPointer();
 }
 
 void saveRegisters(uint64_t *rsp)

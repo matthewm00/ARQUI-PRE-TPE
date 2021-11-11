@@ -36,6 +36,4 @@ uint8_t getHour();
 uint8_t getMins();
 uint8_t getSeconds();
 uint8_t getDecimalTime(uint64_t type);
-void updateRegisters();
-void _getStackPointer();
 #endif

@@ -6,9 +6,6 @@ GLOBAL _exit
 GLOBAL getHour
 GLOBAL getMins
 GLOBAL getSeconds
-GLOBAL _getStackPointer
-
-EXTERN saveRegisters
 
 section .text
 
@@ -94,14 +91,6 @@ _getMem:
 
 _exit:
     jmp $ ;means calling this address continously (salta a la direcc 0x0h)
-
-
-_getStackPointer:
-	pushState
-	mov rdi, rsp
-	call saveRegisters
-	popState
-	ret
 
 
 ;; http://helppc.netcore2k.net/hardware/cmos-clock
