@@ -1,6 +1,6 @@
 #include <hangman.h>
 
-int lives = 3;
+static int lives = 3;
 char word[WORD_LENGTH] = "COMPUTADORA";
 char playerWord[WORD_LENGTH];
 static int playerWordDim = 0;
@@ -27,8 +27,10 @@ void startHangman()
 {
     for (int i = 0; i < WORD_LENGTH; i++)
         playerWord[i] = '_';
+
     lives = 3;
     finished = 0;
+    playerWordDim = 0;
 
     setCursor(530, 435);
     printf("Juegue al ahorcado y complete la palabra para ganar!");

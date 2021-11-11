@@ -6,6 +6,8 @@
 #include <keyboardDriver.h>
 #include <videoDriver.h>
 
+#define REGISTER_AMOUNT 19
+
 #define SYS_RTC_ID 1
 #define SYS_READ_ID 2
 #define SYS_WRITE_ID 3

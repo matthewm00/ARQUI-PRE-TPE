@@ -87,7 +87,11 @@ void keyboardHandler()
             {
                 if (charTable[scanCode][0] != 0)
                 {
-                    if ((shift && !capsLock) || (shift && capsLock && !(charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z')) || (!shift && capsLock && charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z'))
+                    if (ctrl && charTable[scanCode][0] == 's')
+                    {
+                        updateRegisters();
+                    }
+                    else if ((shift && !capsLock) || (shift && capsLock && !(charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z')) || (!shift && capsLock && charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z'))
                     {
                         putCharInBuffer(charTable[scanCode][1]);
                     }

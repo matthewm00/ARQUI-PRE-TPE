@@ -6,12 +6,12 @@
 #define ZERO_EXCEPTION_ID 0
 #define INVOP_EXCEPTION_ID 6
 
-#define REGISTER_AMOUNT 17
+#define REGISTER_AMOUNT 19
 
 static char *registerNames[] = {
 	"R15: ", "R14: ", "R13: ", "R12: ", "R11: ", "R10: ", "R9: ",
 	"R8: ", "RSI: ", "RDI: ", "RBP: ", "RDX: ", "RCX: ", "RBX: ",
-	"RAX: ", "RIP: ", "RSP: "};
+	"RAX: ", "RIP: ", "CS: ", "FLAGS: ", "RSP: "};
 
 static void zero_division();
 static void inv_op_code();
@@ -66,14 +66,11 @@ static int strlen(char *str)
 
 static void printRegs(uint64_t *rsp)
 {
-	for (int i = 0; i < REGISTER_AMOUNT - 1; i++)
+	for (int i = 0; i < REGISTER_AMOUNT; i++)
 	{
 		sys_write(registerNames[i], strlen(registerNames[i]), BLACK, WHITE);
 		printIntHex(rsp[i]);
 		printLine();
+		printLine();
 	}
-	sys_write(registerNames[16], strlen(registerNames[16]), BLACK, WHITE);
-	printIntHex(rsp[15 + 3]); // load rsp manually
-	printLine();
-	printLine();
 }

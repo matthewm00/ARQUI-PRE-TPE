@@ -4,12 +4,11 @@
 #define BYTES 32		  // Cantidad de bytes para el mem dump
 #define FLOAT_PRECISION 8 // Precision para los puntos flotantes
 //#define LAST_MEM_POSITION 536870911 //512MB mem que se le pasa en run.sh
-#define REGISTER_AMOUNT 17
 
 static char *registerNames[] = {
 	"R15: ", "R14: ", "R13: ", "R12: ", "R11: ", "R10: ", "R9: ",
 	"R8: ", "RSI: ", "RDI: ", "RBP: ", "RDX: ", "RCX: ", "RBX: ",
-	"RAX: ", "RIP: ", "RSP: "};
+	"RAX: ", "RIP: ", "CS: ", "FLAGS: ", "RSP: "};
 
 // returns current date and time
 void getCurrentDayTime(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
@@ -154,13 +153,13 @@ void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	printf("\nListado de comandos: \n");
 	printf("\nhelp : Listado de comandos\n");
 	printf("\nclear : Limpia la pantalla actual\n");
-	printf("\ninforeg : Estado de todos los resgitros.\n");
+	printf("\ninforeg : Estado de todos los resgitros. Pulse ctrl + s para guardar los valores actuales de los registros\n");
 	printf("\ndate : Fecha y hora actual\n");
-	printf("\nprintmem : Volcado de memoria de 32 bytes a partir de la direccion de memoria en hexa ingresada como argumento.\n");
+	printf("\nprintmem : Volcado de memoria de 32 bytes a partir de la direccion de memoria en hexa ingresada como argumento\n");
 	printf("\ndivzero : Excepcion division por cero\n");
 	printf("\nopcode : Excepcion opcode invalido\n");
 	printf("\ngames : 4 ventanas que cuentan con los juegos sudoku y ahorcado, un cronometro y un timer\n");
-	printf("\nexit : Finaliza la ejecucion.\n\n");
+	printf("\nexit : Finaliza la ejecucion\n\n");
 }
 
 void games(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])

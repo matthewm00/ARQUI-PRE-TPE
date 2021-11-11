@@ -8,6 +8,8 @@
 #include <RTCID.h>
 #include <games.h>
 
+#define REGISTER_AMOUNT 19
+
 void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
 void getCurrentDayTime(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
 void getInfoReg(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);

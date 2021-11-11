@@ -79,6 +79,13 @@ SECTION .text
 
 
 %macro exceptionHandler 1
+	
+	call getStackBase 
+	mov [rsp + 3*8], rax ;seteamos rsp a base del stack
+
+	mov rax, 0x400000
+	mov [rsp], rax
+
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
@@ -87,11 +94,11 @@ SECTION .text
 	
 	popState
  
-	call getStackBase 
-	mov [rsp + 3*8], rax ;seteamos rsp a base del stack
+	;call getStackBase 
+	;mov [rsp + 3*8], rax ;seteamos rsp a base del stack
 
-	mov rax, 0x400000
-	mov [rsp], rax
+	;mov rax, 0x400000
+	;mov [rsp], rax
 	
 	iretq
 %endmacro
