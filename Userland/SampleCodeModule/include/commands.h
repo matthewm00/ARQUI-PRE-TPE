@@ -19,6 +19,7 @@ void clear(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
 void exit(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
 void getMem(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
 void _opcodeExp(void);
+void _divZeroExp(void);
 // void changeColour(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE], int bg);
 void games(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
 #endif

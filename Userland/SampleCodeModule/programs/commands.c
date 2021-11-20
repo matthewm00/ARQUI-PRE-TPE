@@ -107,9 +107,10 @@ void divZero(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	int x = 1;
-	int y = 0;
-	x = x / y;
+	// int x = 1;
+	// int y = 0;
+	// x = x / y;
+	_divZeroExp();
 }
 
 // https://mudongliang.github.io/x86/html/file_module_x86_id_318.html

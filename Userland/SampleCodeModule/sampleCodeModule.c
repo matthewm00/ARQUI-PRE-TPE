@@ -4,6 +4,7 @@
 
 int main()
 {
+	_setStack();
 	initialize();
 	return 0;
 }

@@ -6,4 +6,6 @@
 
 void initialize();
 void shellExecute();
+
+void _setStack();
 #endif

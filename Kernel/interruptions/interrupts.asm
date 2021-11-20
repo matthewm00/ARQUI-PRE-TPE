@@ -79,26 +79,19 @@ SECTION .text
 
 
 %macro exceptionHandler 1
-	
-	call getStackBase 
-	mov [rsp + 3*8], rax ;seteamos rsp a base del stack
-
-	mov rax, 0x400000
-	mov [rsp], rax
 
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
-	mov rsi, rsp
+	mov rsi, rsp ; puntero al stack generado por la excepcion
 	call exceptionDispatcher
 	
 	popState
  
-	;call getStackBase 
-	;mov [rsp + 3*8], rax ;seteamos rsp a base del stack
-
-	;mov rax, 0x400000
-	;mov [rsp], rax
+	call getStackBase 
+	mov [rsp + 3*8], rax ; reset stack
+	mov rax, 0x400000 ; sampleCodeModuleAddress
+	mov [rsp], rax
 	
 	iretq
 %endmacro
