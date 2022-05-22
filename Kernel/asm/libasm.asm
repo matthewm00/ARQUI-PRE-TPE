@@ -6,6 +6,7 @@ GLOBAL _exit
 GLOBAL getHour
 GLOBAL getMins
 GLOBAL getSeconds
+GLOBAL _callTimerTick
 
 section .text
 
@@ -91,6 +92,10 @@ _getMem:
 
 _exit:
     jmp $ ;means calling this address continously (salta a la direcc 0x0h)
+
+_callTimerTick:
+    int 20h
+    ret
 
 
 ;; http://helppc.netcore2k.net/hardware/cmos-clock
