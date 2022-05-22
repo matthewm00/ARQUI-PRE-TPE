@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "pipes.h": "c",
+        "processmanager.h": "c",
+        "prints.h": "c",
+        "semaphores.h": "c",
+        "memorymanager.h": "c",
+        "interrupts.h": "c",
+        "videodriver.h": "c"
+    }
+}
