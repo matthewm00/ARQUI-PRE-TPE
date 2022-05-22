@@ -22,6 +22,8 @@ EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
 EXTERN getStackBase
 
+GLOBAL _xchg
+
 SECTION .text
 
 %macro pushState 0
@@ -172,6 +174,13 @@ _syscallHandler:
 	call syscallDispatcher
 	
 	iretq
+
+
+_xchg:
+	mov rax, rsi
+	xchg [rdi], eax		; put eax in [rdi] and [rdi] in eax
+	ret
+
 
 SECTION .bss
 	aux resq 1
