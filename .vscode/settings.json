@@ -6,6 +6,8 @@
         "semaphores.h": "c",
         "memorymanager.h": "c",
         "interrupts.h": "c",
-        "videodriver.h": "c"
+        "videodriver.h": "c",
+        "colors.h": "c",
+        "syscalls.h": "c"
     }
 }
