@@ -53,6 +53,8 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         return 0;
         break;
     case SYS_MEMORY_STATUS_ID:
+        memoryDump();
+        return 0;
         break;
     case SYS_NEW_PROCESS_ID:
         return newProcess((void (*)(int, char **))rsi, (int)rdx, (char **)rcx, (int)r8);
