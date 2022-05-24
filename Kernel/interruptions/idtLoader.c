@@ -35,8 +35,6 @@ void load_idt()
   picMasterMask(0xFC);
   picSlaveMask(0xFF);
 
-  setupIdtEntry(0x20, (uint64_t)&_irq00Handler);
-
   _sti();
 }
 

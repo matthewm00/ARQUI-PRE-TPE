@@ -48,16 +48,6 @@ static void inv_op_code()
 	printLine();
 }
 
-static int strlen(char *str)
-{
-	int size = 0;
-	for (int i = 0; str[i] != 0; i++)
-	{
-		size++;
-	}
-	return size;
-}
-
 static void printRegs(uint64_t *rsp)
 {
 	for (int i = 0; i < REGISTER_AMOUNT; i++)
