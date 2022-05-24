@@ -22,4 +22,13 @@ void _opcodeExp(void);
 void _divZeroExp(void);
 // void changeColour(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE], int bg);
 void games(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
+
+int checkArgCount(int argc, int argsAllowed);
+void callMemStatus(int argc, char **argv);
+void callSemStatus(int argc, char **argv);
+void callProcessStatus(int argc, char **argv);
+void callKillProcess(int argc, char **argv);
+void callSetPriority(int argc, char **argv);
+void callBlockProcess(int argc, char **argv);
+void callUnblockProcess(int argc, char **argv);
 #endif

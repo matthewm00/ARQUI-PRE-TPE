@@ -176,3 +176,81 @@ void games(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	printf("Volviendo a la shell...\n");
 	return;
 }
+
+int checkArgCount(int argc, int argsAllowed)
+{
+	if (argc != argsAllowed)
+	{
+		printf("\nCantidad invalida de argumentos.\n\n");
+		return -1;
+	}
+	return 0;
+}
+
+void callMemStatus(int argc, char **argv)
+{
+	if (checkArgCount(argc, 1) == -1)
+	{
+		return;
+	}
+	memStatus();
+}
+
+void callSemStatus(int argc, char **argv)
+{
+	if (checkArgCount(argc, 1) == -1)
+	{
+		return;
+	}
+	semStatus();
+}
+
+void callProcessStatus(int argc, char **argv)
+{
+	if (checkArgCount(argc, 1) == -1)
+	{
+		return;
+	}
+	processStatus();
+}
+
+void callKillProcess(int argc, char **argv)
+{
+	if (checkArgCount(argc, 2) == -1)
+	{
+		return;
+	}
+	int pid = strToInt(argv[1], 0);
+	killProcess(pid);
+}
+
+void callSetPriority(int argc, char **argv)
+{
+	if (checkArgCount(argc, 3) == -1)
+	{
+		return;
+	}
+	int pid = strToInt(argv[1], 0);
+	int priority = strToInt(argv[2], 0);
+	setPriority(pid, priority);
+}
+
+void callBlockProcess(int argc, char **argv)
+{
+	if (checkArgCount(argc, 2) == -1)
+	{
+		return;
+	}
+	int pid = strToInt(argv[1], 0);
+	blockProcess(pid);
+}
+
+void callUnblockProcess(int argc, char **argv)
+{
+	if (checkArgCount(argc, 2) == -1)
+	{
+		return;
+	}
+	int pid = strToInt(argv[1], 0);
+	unblockProcess(pid);
+}
