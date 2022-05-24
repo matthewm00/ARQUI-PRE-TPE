@@ -1,7 +1,7 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-// #ifdef MEMORY_MANAGER_BUDDY
+#ifdef MEMORY_MANAGER_BUDDY
 
 #include <buddyList.h>
 #include <memoryManager.h>
@@ -210,4 +210,4 @@ static list_t *getNodeAddress(list_t *node)
   return (list_t *)(nodeNewOffset + (uintptr_t)base_ptr);
 }
 
-// #endif
+#endif
