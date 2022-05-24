@@ -105,3 +105,19 @@ void shellExecute()
     }
     return;
 }
+
+// callmemStatus "mem", "Imprime el estado de la memoria"
+//     callStatus, "sem", "Imprime el estado de los semaforos"
+//     callProcessStatus, "ps", "Imprime el estado de los procesos"
+//     callSetPriority, "nice", "Cambia la prioridad de un proceso"
+//     callKillProcess, "kill", "Mata un proceso"
+//     callBlockProcess, "block", "Bloquea un proceso"
+//     callUnblockProcess, "unblock", "Desbloquea un proceso"
+//     cat, "cat", "Imprime el texto ingresado luego de   ejecutar el comando"
+//     loop, "loop", "Imprime un saludo cada 3 segundos"
+//     callPipeStatus, "pipe", "Imprime el estado de los pipes"
+//     filter "filter"
+//      "Filtra las vocales del texto ingresadoluego de ejecutar el comando"
+//     wc, "wc"
+//      "Cantidad de lineas del texto ingresadoluego de ejecutar el comando"
+//     phylo, "phylo", "Problema de filosofos comensales"
