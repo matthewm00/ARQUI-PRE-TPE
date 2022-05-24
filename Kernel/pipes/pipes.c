@@ -95,6 +95,21 @@ int pipeClose(int pipeId)
     return 1;
 }
 
+static int pipeWriter(char c, int idx)
+{
+    t_pipe *pipe = &(pipes[idx]);
+
+    semWait(pipe->writeLock);
+
+    pipe->buffer[pipe->writeIndex] = c;
+    // circular buffer
+    pipe->writeIndex = (pipe->writeIndex + 1) % PIPE_BUFFER_SIZE;
+
+    semPost(pipe->readLock);
+
+    return 0;
+}
+
 static int getIndex(int pipeId)
 {
     for (int i = 0; i < MAX_PIPES; i++)
