@@ -11,7 +11,7 @@ static char *registerNames[] = {
 	"RAX: ", "RIP: ", "CS: ", "FLAGS: ", "RSP: "};
 
 // returns current date and time
-void getCurrentDayTime(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
+void getCurrentDayTime(int argc, char **argv)
 {
 	if (argc != 0)
 	{
@@ -52,7 +52,7 @@ void getCurrentDayTime(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	printf("%d\n\n", result);
 }
 
-void getInfoReg(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
+void getInfoReg(int argc, char **argv)
 {
 	if (argc != 0)
 	{
@@ -69,7 +69,7 @@ void getInfoReg(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	newLine();
 }
 
-void getMem(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
+void getMem(int argc, char **argv)
 {
 	if (argc != 1)
 	{
@@ -100,7 +100,7 @@ void getMem(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	newLine();
 }
 
-void divZero(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
+void divZero(int argc, char **argv)
 {
 	if (argc != 0)
 	{
@@ -114,7 +114,7 @@ void divZero(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 }
 
 // https://mudongliang.github.io/x86/html/file_module_x86_id_318.html
-void opCode(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
+void opCode(int argc, char **argv)
 {
 	if (argc != 0)
 	{
@@ -124,7 +124,7 @@ void opCode(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	_opcodeExp();
 }
 
-void clear(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
+void clear(int argc, char **argv)
 {
 	if (argc != 0)
 	{
@@ -133,7 +133,7 @@ void clear(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	}
 	_syscall(SYS_CLEAR_ID, 0, 0, 0, 0);
 }
-void exit(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
+void exit(int argc, char **argv)
 {
 	if (argc != 0)
 	{
@@ -144,7 +144,7 @@ void exit(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	_syscall(SYS_EXIT_ID, 0, 0, 0, 0);
 }
 
-void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
+void help(int argc, char **argv)
 {
 	if (argc != 0)
 	{
@@ -178,7 +178,7 @@ void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	printf("\nexit : Finaliza la ejecucion\n\n");
 }
 
-void games(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
+void games(int argc, char **argv)
 {
 	if (argc != 0)
 	{
@@ -286,7 +286,7 @@ void filter(int argc, char **argv)
 		return;
 	}
 	char c;
-	while ((c = getChar()) != EOF)
+	while ((c = getChar()) != '\n')
 	{
 		if (!isVowel(c))
 		{
@@ -301,7 +301,7 @@ void cat(int argc, char **argv)
 		return;
 	}
 	int c;
-	while ((c = getChar()) != EOF)
+	while ((c = getChar()) != '\n') // cambiar por EOF definido
 	{
 		putChar(c);
 	}
@@ -315,7 +315,7 @@ void wc(int argc, char **argv)
 	}
 	char c;
 	int lineCount = 1;
-	while ((c = getChar()) != EOF)
+	while ((c = getChar()) != '\n')
 	{
 		putChar(c);
 		if (c == '\n')

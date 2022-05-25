@@ -65,92 +65,92 @@ void shellExecute()
         }
         else if (strcmp("help", command) == 0)
         {
-            newProcess((void (*)(int, char **))help, argc, argv, foreground);
-            // help(argc, argv);
+            // newProcess((void (*)(int, char **))help, argc, (char **)argv, foreground);
+            help(argc, (char **)argv);
         }
         else if (strcmp("inforeg", command) == 0)
         {
-            getInfoReg(argc, argv);
+            getInfoReg(argc, (char **)argv);
         }
         else if (strcmp("clear", command) == 0)
         {
-            clear(argc, argv);
+            clear(argc, (char **)argv);
         }
         else if (strcmp("exit", command) == 0)
         {
-            exit(argc, argv);
+            exit(argc, (char **)argv);
         }
         else if (strcmp("opcode", command) == 0)
         {
-            opCode(argc, argv);
+            opCode(argc, (char **)argv);
         }
         else if (strcmp("date", command) == 0)
         {
-            getCurrentDayTime(argc, argv);
+            getCurrentDayTime(argc, (char **)argv);
         }
         else if (strcmp("printmem", command) == 0)
         {
-            getMem(argc, argv);
+            getMem(argc, (char **)argv);
         }
         else if (strcmp("divzero", command) == 0)
         {
-            divZero(argc, argv);
+            divZero(argc, (char **)argv);
         }
         else if (strcmp("games", command) == 0)
         {
-            games(argc, argv);
+            games(argc, (char **)argv);
         }
         else if (strcmp("mem", command) == 0)
         {
-            callMemStatus(argc, argv);
+            callMemStatus(argc, (char **)argv);
         }
         else if (strcmp("sem", command) == 0)
         {
-            callSemStatus(argc, argv);
+            callSemStatus(argc, (char **)argv);
         }
         else if (strcmp("ps", command) == 0)
         {
-            callProcessStatus(argc, argv);
+            callProcessStatus(argc, (char **)argv);
         }
         else if (strcmp("nice", command) == 0)
         {
-            callSetPriority(argc, argv);
+            callSetPriority(argc, (char **)argv);
         }
         else if (strcmp("kill", command) == 0)
         {
-            callKillProcess(argc, argv);
+            callKillProcess(argc, (char **)argv);
         }
         else if (strcmp("block", command) == 0)
         {
-            callBlockProcess(argc, argv);
+            callBlockProcess(argc, (char **)argv);
         }
         else if (strcmp("unblock", command) == 0)
         {
-            callUnblockProcess(argc, argv);
+            callUnblockProcess(argc, (char **)argv);
         }
         else if (strcmp("cat", command) == 0)
         {
-            cat(argc, argv);
+            cat(argc, (char **)argv);
         }
         else if (strcmp("loop", command) == 0)
         {
-            loop(argc, argv);
+            loop(argc, (char **)argv);
         }
         else if (strcmp("pipe", command) == 0) // falta
         {
-            callPipeStatus(argc, argv);
+            // callPipeStatus(argc, (char **)argv);
         }
         else if (strcmp("filter", command) == 0)
         {
-            filter(argc, argv);
+            filter(argc, (char **)argv);
         }
         else if (strcmp("wc", command) == 0)
         {
-            wc(argc, argv);
+            wc(argc, (char **)argv);
         }
         else if (strcmp("phylo", command) == 0) // falta
         {
-            phylo(argc, argv);
+            // phylo(argc, (char **)argv);
         }
         else
         {

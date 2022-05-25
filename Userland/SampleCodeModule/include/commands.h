@@ -10,18 +10,18 @@
 
 #define REGISTER_AMOUNT 19
 
-void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
-void getCurrentDayTime(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
-void getInfoReg(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
-void divZero(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
-void opCode(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
-void clear(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
-void exit(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
-void getMem(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
+void help(int argc, char **argv);
+void getCurrentDayTime(int argc, char **argv);
+void getInfoReg(int argc, char **argv);
+void divZero(int argc, char **argv);
+void opCode(int argc, char **argv);
+void clear(int argc, char **argv);
+void exit(int argc, char **argv);
+void getMem(int argc, char **argv);
 void _opcodeExp(void);
 void _divZeroExp(void);
-// void changeColour(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE], int bg);
-void games(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE]);
+// void changeColour(int argc, char **argv, int bg);
+void games(int argc, char **argv);
 
 int checkArgCount(int argc, int argsAllowed);
 void callMemStatus(int argc, char **argv);
