@@ -31,4 +31,11 @@ void callKillProcess(int argc, char **argv);
 void callSetPriority(int argc, char **argv);
 void callBlockProcess(int argc, char **argv);
 void callUnblockProcess(int argc, char **argv);
+
+void cat(int argc, char **argv);
+void loop(int argc, char **argv);
+void callPipeStatus(int argc, char **argv);
+void filter(int argc, char **argv);
+void wc(int argc, char **argv);
+
 #endif

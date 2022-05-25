@@ -134,7 +134,7 @@ void shellExecute()
         {
             loop(argc, argv);
         }
-        else if (strcmp("pipe", command) == 0)
+        else if (strcmp("pipe", command) == 0) // falta
         {
             callPipeStatus(argc, argv);
         }
@@ -146,7 +146,7 @@ void shellExecute()
         {
             wc(argc, argv);
         }
-        else if (strcmp("phylo", command) == 0)
+        else if (strcmp("phylo", command) == 0) // falta
         {
             phylo(argc, argv);
         }
