@@ -1,3 +1,5 @@
+MM_SELECTOR=MEMORY_MANAGER_FREE
+# MM_SELECTOR=MEMORY_MANAGER_BUDDY
 
 all:  bootloader kernel userland image
 
@@ -5,7 +7,7 @@ bootloader:
 	cd Bootloader; make all
 
 kernel:
-	cd Kernel; make all
+	cd Kernel; make all MM_SELECTOR=-D$(MM_SELECTOR)
 
 userland:
 	cd Userland; make all
