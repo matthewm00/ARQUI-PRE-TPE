@@ -2,25 +2,32 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include <processManagerQueue.h>
 
-void queueProcess(t_process_list *processes, t_process_node *process) {
-  if (queueIsEmpty(processes)) {
+void queueProcess(t_process_list *processes, t_process_node *process)
+{
+  if (queueIsEmpty(processes))
+  {
     processes->first = process;
     processes->last = processes->first;
-  } else {
+  }
+  else
+  {
     processes->last->next = process;
     process->next = NULL;
     processes->last = process;
   }
 
-  if (process->pcb.state == READY) {
+  if (process->pcb.state == READY)
+  {
     processes->readySize++;
   }
 
   processes->size++;
 }
 
-t_process_node *dequeueProcess(t_process_list *processes) {
-  if (queueIsEmpty(processes)) {
+t_process_node *dequeueProcess(t_process_list *processes)
+{
+  if (queueIsEmpty(processes))
+  {
     return NULL;
   }
 
@@ -28,7 +35,8 @@ t_process_node *dequeueProcess(t_process_list *processes) {
   processes->first = processes->first->next;
   processes->size--;
 
-  if (first->pcb.state == READY) {
+  if (first->pcb.state == READY)
+  {
     processes->readySize--;
   }
 

@@ -376,12 +376,9 @@ static int initializeProcessControlBlock(t_PCB *PCB, char *name, uint8_t foregro
     return -1;
   }
 
-  PCB->foreground = (currentProcess == NULL
-                         ? foreground
-                         : (currentProcess->pcb.foreground ? foreground : 0));
+  PCB->foreground = (currentProcess == NULL ? foreground : (currentProcess->pcb.foreground ? foreground : 0));
   PCB->rbp = malloc(SIZE_OF_STACK);
-  PCB->priority = PCB->foreground ? FOREGROUND_PRIORITY_DEFAULT
-                                  : BACKGROUND_PRIORITY_DEFAULT;
+  PCB->priority = PCB->foreground ? FOREGROUND_PRIORITY_DEFAULT : BACKGROUND_PRIORITY_DEFAULT;
   PCB->fileDescriptors[0] = 0;
   PCB->fileDescriptors[1] = 1;
 
@@ -502,7 +499,10 @@ static char *stateToStr(t_state state)
   };
 }
 
-static char *fgToBoolStr(int fg) { return fg > 0 ? "TRUE" : "FALSE"; }
+static char *fgToBoolStr(int fg)
+{
+  return fg > 0 ? "TRUE" : "FALSE";
+}
 
 static void printProcess(t_process_node *process)
 {
