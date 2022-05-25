@@ -98,6 +98,58 @@ void shellExecute()
         {
             games(argc, argv);
         }
+        else if (strcmp("mem", command) == 0)
+        {
+            callMemStatus(argc, argv);
+        }
+        else if (strcmp("sem", command) == 0)
+        {
+            callSemStatus(argc, argv);
+        }
+        else if (strcmp("ps", command) == 0)
+        {
+            callProcessStatus(argc, argv);
+        }
+        else if (strcmp("nice", command) == 0)
+        {
+            callSetPriority(argc, argv);
+        }
+        else if (strcmp("kill", command) == 0)
+        {
+            callKillProcess(argc, argv);
+        }
+        else if (strcmp("block", command) == 0)
+        {
+            callBlockProcess(argc, argv);
+        }
+        else if (strcmp("unblock", command) == 0)
+        {
+            callUnblockProcess(argc, argv);
+        }
+        else if (strcmp("cat", command) == 0)
+        {
+            cat(argc, argv);
+        }
+        else if (strcmp("loop", command) == 0)
+        {
+            loop(argc, argv);
+        }
+        else if (strcmp("pipe", command) == 0)
+        {
+            callPipeStatus(argc, argv);
+        }
+        else if (strcmp("filter", command) == 0)
+        {
+            filter(argc, argv);
+        }
+        else if (strcmp("wc", command) == 0)
+        {
+            wc(argc, argv);
+        }
+        else if (strcmp("phylo", command) == 0)
+        {
+            phylo(argc, argv);
+        }
         else
         {
             printf("\nComando invalido: use help\n\n");
@@ -106,8 +158,8 @@ void shellExecute()
     return;
 }
 
-// callmemStatus "mem", "Imprime el estado de la memoria"
-//     callStatus, "sem", "Imprime el estado de los semaforos"
+// callMemStatus "mem", "Imprime el estado de la memoria"
+//     callSemStatus, "sem", "Imprime el estado de los semaforos"
 //     callProcessStatus, "ps", "Imprime el estado de los procesos"
 //     callSetPriority, "nice", "Cambia la prioridad de un proceso"
 //     callKillProcess, "kill", "Mata un proceso"
