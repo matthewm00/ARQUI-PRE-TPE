@@ -291,3 +291,22 @@ void cat(int argc, char **argv)
 		putChar(c);
 	}
 }
+
+void wc(int argc, char **argv)
+{
+	if (checkArgCount(argc, 1) == -1)
+	{
+		return;
+	}
+	char c;
+	int lineCount = 1;
+	while ((c = getChar()) != EOF)
+	{
+		putChar(c);
+		if (c == '\n')
+		{
+			lineCount++;
+		}
+	}
+	printf("\n\nCantidad de lineas: %d\n", lineCount);
+}
