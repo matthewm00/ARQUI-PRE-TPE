@@ -310,3 +310,26 @@ void wc(int argc, char **argv)
 	}
 	printf("\n\nCantidad de lineas: %d\n", lineCount);
 }
+
+static void sleep(int sec)
+{
+	int wait = getSecondsElapsed() + sec;
+	while (getSecondsElapsed() < wait)
+	{
+		;
+	}
+}
+
+void loop(int argc, char **argv)
+{
+	if (checkArgCount(argc, 1) == -1)
+	{
+		return;
+	}
+	int pid = getProcessPID();
+	while (1)
+	{
+		printf("Soy el proceso %d\n", pid, 4);
+		sleep(4);
+	}
+}
