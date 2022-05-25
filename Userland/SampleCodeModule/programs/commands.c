@@ -160,6 +160,21 @@ void help(int argc, char argv[MAX_ARGUMENTS][BUFFER_SIZE])
 	printf("\ndivzero : Excepcion division por cero\n");
 	printf("\nopcode : Excepcion opcode invalido\n");
 	printf("\ngames : 4 ventanas que cuentan con los juegos sudoku y ahorcado, un cronometro y un timer\n");
+
+	printf("\nmem : Imprime el estado de la memoria\n");
+	printf("\nsem : Imprime el estado de los semaforos\n");
+	printf("\nps : Imprime el estado de los procesos\n");
+	printf("\nnice : Cambia la prioridad de un proceso\n");
+	printf("\nkill : Mata un proceso\n");
+	printf("\nblock : Bloquea un proceso\n");
+	printf("\nunblock : Desbloquea un proceso\n");
+	printf("\ncat : Imprime el texto ingresado luego de ejecutar el comando\n");
+	printf("\nloop : Imprime un saludo cada 3 segundos\n");
+	printf("\npipe : Imprime el estado de los pipes\n");
+	printf("\nfilter : Filtra las vocales del texto ingresadoluego de ejecutar el comando\n");
+	printf("\nwc : Cantidad de lineas del texto ingresadoluego de ejecutar el comando\n");
+	printf("\nphylo : Problema de filosofos comensales\n");
+
 	printf("\nexit : Finaliza la ejecucion\n\n");
 }
 

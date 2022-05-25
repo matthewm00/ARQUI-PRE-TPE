@@ -47,6 +47,7 @@ void shellExecute()
     char argv[MAX_ARGUMENTS][BUFFER_SIZE];
     char userInput[BUFFER_SIZE] = {0};
     int argc = 0;
+    int foreground = FOREGROUND;
 
     while (1)
     {
@@ -64,7 +65,8 @@ void shellExecute()
         }
         else if (strcmp("help", command) == 0)
         {
-            help(argc, argv);
+            newProcess((void (*)(int, char **))help, argc, argv, foreground);
+            // help(argc, argv);
         }
         else if (strcmp("inforeg", command) == 0)
         {
