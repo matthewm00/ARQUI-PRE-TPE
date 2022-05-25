@@ -8,6 +8,7 @@
         "interrupts.h": "c",
         "videodriver.h": "c",
         "colors.h": "c",
-        "syscalls.h": "c"
+        "syscalls.h": "c",
+        "keyboarddriver.h": "c"
     }
 }

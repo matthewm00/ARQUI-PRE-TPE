@@ -153,6 +153,7 @@ int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
   {
     return -1;
   }
+  printf("%s", "hola");
 
   if (initializeProcessControlBlock(&newProcess->pcb, argv[0], foreground) == -1)
   {

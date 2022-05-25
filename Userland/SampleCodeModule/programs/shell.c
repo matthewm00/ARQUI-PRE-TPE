@@ -41,6 +41,15 @@ static int getCommandArgs(char *userInput, char *command, char argv[MAX_ARGUMENT
     return argc;
 }
 
+typedef struct t_command
+{
+    void (*commandFn)(int, char **);
+    char *name;
+    char *description;
+} t_command;
+
+t_command inforegg = {&getInfoReg, "a", "aa"};
+
 void shellExecute()
 {
     char command[BUFFER_SIZE] = {0};
@@ -70,7 +79,9 @@ void shellExecute()
         }
         else if (strcmp("inforeg", command) == 0)
         {
-            getInfoReg(argc, (char **)argv);
+            newProcess(&getInfoReg, argc, (char **)argv, foreground);
+            // getInfoReg(argc, (char **)argv);
+            //(void (*)(int, char **))
         }
         else if (strcmp("clear", command) == 0)
         {
