@@ -279,3 +279,15 @@ void filter(int argc, char **argv)
 		}
 	}
 }
+void cat(int argc, char **argv)
+{
+	if (checkArgCount(argc, 1) == -1)
+	{
+		return;
+	}
+	int c;
+	while ((c = getChar()) != EOF)
+	{
+		putChar(c);
+	}
+}
