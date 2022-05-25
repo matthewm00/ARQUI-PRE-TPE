@@ -254,3 +254,28 @@ void callUnblockProcess(int argc, char **argv)
 	int pid = strToInt(argv[1], 0);
 	unblockProcess(pid);
 }
+
+static int isVowel(char c)
+{
+	if (c >= 'A' && c <= 'Z')
+	{
+		return (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
+	}
+	return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
+}
+
+void filter(int argc, char **argv)
+{
+	if (checkArgCount(argc, 1) == -1)
+	{
+		return;
+	}
+	char c;
+	while ((c = getChar()) != EOF)
+	{
+		if (!isVowel(c))
+		{
+			putChar(c);
+		}
+	}
+}
