@@ -1,11 +1,9 @@
-#include <stdio.h>
 #include <test_util.h>
-#include <syscalls.h>
 
 enum State
 {
   RUNNING,
-  BLOCKED,
+  WAITING,
   KILLED
 };
 
@@ -62,7 +60,7 @@ int64_t test_processes(uint64_t argc, char *argv[])
         switch (action)
         {
         case 0:
-          if (p_rqs[rq].state == RUNNING || p_rqs[rq].state == BLOCKED)
+          if (p_rqs[rq].state == RUNNING || p_rqs[rq].state == WAITING)
           {
             if (killProcess(p_rqs[rq].pid) == -1)
             {
@@ -82,7 +80,7 @@ int64_t test_processes(uint64_t argc, char *argv[])
               printf("test_processes: ERROR blocking process\n");
               return -1;
             }
-            p_rqs[rq].state = BLOCKED;
+            p_rqs[rq].state = WAITING;
           }
           break;
         }
@@ -90,7 +88,7 @@ int64_t test_processes(uint64_t argc, char *argv[])
 
       // Randomly unblocks processes
       for (rq = 0; rq < max_processes; rq++)
-        if (p_rqs[rq].state == BLOCKED && GetUniform(100) % 2)
+        if (p_rqs[rq].state == WAITING && GetUniform(100) % 2)
         {
           if (unblockProcess(p_rqs[rq].pid) == -1)
           {
