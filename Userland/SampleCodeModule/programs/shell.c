@@ -6,6 +6,7 @@
 #define USERLAND_INIT_PID 1
 
 static void runCommand(int argc, char **argv, int foreground);
+static int runPipeCommand(int argc, char **argv, int fdin, int fdout, int foreground);
 
 static int pipeId = 70;
 
@@ -124,15 +125,6 @@ static int runPipeCommand(int argc, char **argv, int fdin, int fdout, int foregr
     fd[1] = fdout;
     return runCommand(argc, argv, foreground, fd);
 }
-
-typedef struct t_command
-{
-    void (*commandFn)(int, char **);
-    char *name;
-    char *description;
-} t_command;
-
-t_command inforegg = {&getInfoReg, "a", "aa"};
 
 void shellExecute()
 {
