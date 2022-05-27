@@ -14,14 +14,12 @@
 void phyloProblem(int argc, char **argv);
 
 
-#define LEFT(i) (((i) + phylosophersCount - 1) % phylosophersCount)
-#define RIGHT(i) (((i) + 1) % phylosophersCount)
-
 void thinkOrEat();
 void phyloMain(int argc, char **argv);
 void takeForks(int i);
 void putForks(int i);
 void test(int i);
 int addPhylo();
+int removePhilo();
 
 #endif

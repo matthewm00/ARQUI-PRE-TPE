@@ -5,6 +5,9 @@
 #include <phylo.h>
 #include <syscalls.h>
 
+#define LEFT(i) (((i) + phylosCounter - 1) % phylosCounter)
+#define RIGHT(i) (((i) + 1) % phylosCounter)
+
 typedef enum { THINKING , HUNGRY , EATING } t_phylo_state;
 
 typedef struct t_phylo_state {
@@ -16,12 +19,12 @@ typedef struct t_phylo_state {
 
 }t_phylosofer;
 
-t_phylosofer *phylosophers[MAX_PHYLOS];
-static int phylosophersCount = 0;
+t_phylosofer *phylos[MAX_PHYLOS];
+static int phylosCounter = 0;
 static int mutex;
 
-// #define LEFT(i) (((i) + phylosophersCount - 1) % phylosophersCount)
-// #define RIGHT(i) (((i) + 1) % phylosophersCount)
+// #define LEFT(i) (((i) + phylosCounter - 1) % phylosCounter)
+// #define RIGHT(i) (((i) + 1) % phylosCounter)
 
 // static void thinkOrEat();
 // static void phyloMain(int argc, char **argv);
@@ -29,6 +32,7 @@ static int mutex;
 // static void putForks(int i);
 // static void test(int i);
 // static int addPhylo();
+// static int removePhilo();
 
 // CHEQUEAR EL TEMA DE LOS NOMBRES DE LAS VARS (SINGULARES Y PLURALES)
 
@@ -49,32 +53,32 @@ void phyloMain(int argc, char **argv){
 
 void takeForks(int i){
         semWait(mutex);
-        phylosophers[i]->state = HUNGRY;
+        phylos[i]->state = HUNGRY;
         test(i);
         semPost(mutex);
-        semWait(phylosophers[i]->sem);
+        semWait(phylos[i]->sem);
 }
 
 void putForks(int i){
         semWait(mutex);
-        phylosophers[i]->state = THINKING;
+        phylos[i]->state = THINKING;
         test(LEFT(i));
         test(RIGHT(i));
         semPost(mutex);
 }
 
 void test(int i){
-        if (phylosophers[i]->state == HUNGRY &&
-        phylosophers[LEFT(i)]->state != EATING &&
-        phylosophers[RIGHT(i)]->state != EATING){
-                phylosophers[i]->state = EATING;
-                semPost(phylosophers[i]->sem);
+        if (phylos[i]->state == HUNGRY &&
+        phylos[LEFT(i)]->state != EATING &&
+        phylos[RIGHT(i)]->state != EATING){
+                phylos[i]->state = EATING;
+                semPost(phylos[i]->sem);
         }
         
 }
 
 int addPhylo(){
-        if (phylosophersCount == MAX_PHYLOS){
+        if (phylosCounter == MAX_PHYLOS){
                 return -1;
         }
         
@@ -83,18 +87,36 @@ int addPhylo(){
         if (phylosopher == NULL){
                 return -1;
         }
-        phylosopher->sem = semOpen(PHYLO_SEM_ID + phylosophersCount, 1);
+        phylosopher->sem = semOpen(PHYLO_SEM_ID + phylosCounter, 1);
         phylosopher->state = THINKING;
-        phylosopher->ID = phylosophersCount;
+        phylosopher->ID = phylosCounter;
 
         char index[3];
-        intToStr(phylosophersCount, index, 10);
+        intToStr(phylosCounter, index, 10);
 
         char *argv[] = {"phylosopher", index};
         phylosopher->pid = newProcess(&phyloMain, 2, argv, BACKGROUND, NULL);
 
-        phylosophers[phylosophersCount++] = phylosopher;
+        phylos[phylosCounter++] = phylosopher;
 
         semPost(mutex);
         return 0;
 }
+
+int removePhilo(){
+        if (phylosCounter == INITIAL_PHYLOS){
+                return -1;
+        }
+        
+        semWait(mutex);
+
+        t_phylosofer * phylosopher = phylos[--phylosCounter];
+        semClose(phylosopher->sem);
+        killProcess(phylosopher->pid);
+        free(phylosopher);
+
+        semPost(mutex);
+        return 0;
+}
+
+
