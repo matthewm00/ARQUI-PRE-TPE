@@ -68,6 +68,13 @@ void shellExecute()
             continue;
         }
 
+        int pipeIdx = getPipeIdx(argc, argv);
+        if (pipeIdx >= 0)
+        {
+            initPipe(pipeIdx, argc, argv);
+            continue;
+        }
+
         if (argv[argc - 1][0] == '&')
         {
             foreground = BACKGROUND;
