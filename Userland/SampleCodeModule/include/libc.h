@@ -23,4 +23,5 @@ int readText();
 int strToHex(const char *str);
 void printIntDec(uint64_t num);
 uint64_t uintToBase(uint64_t value, char *buffer, uint32_t base);
+void *memset(void *destination, int32_t c, uint64_t length);
 #endif
