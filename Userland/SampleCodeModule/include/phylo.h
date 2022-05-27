@@ -21,5 +21,6 @@ void putForks(int i);
 void test(int i);
 int addPhylo();
 int removePhilo();
+void printTable(int argc, char **argv);
 
 #endif

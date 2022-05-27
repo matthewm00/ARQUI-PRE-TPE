@@ -22,9 +22,7 @@ typedef struct t_phylo_state {
 t_phylosofer *phylos[MAX_PHYLOS];
 static int phylosCounter = 0;
 static int mutex;
-
-// #define LEFT(i) (((i) + phylosCounter - 1) % phylosCounter)
-// #define RIGHT(i) (((i) + 1) % phylosCounter)
+static int tableOpen;
 
 // static void thinkOrEat();
 // static void phyloMain(int argc, char **argv);
@@ -33,8 +31,8 @@ static int mutex;
 // static void test(int i);
 // static int addPhylo();
 // static int removePhilo();
+// static void printTable(int argc, char **argv);
 
-// CHEQUEAR EL TEMA DE LOS NOMBRES DE LAS VARS (SINGULARES Y PLURALES)
 
 void thinkOrEat(){
         sleep(THINK_EAT_WAIT_SECONDS);
@@ -119,4 +117,26 @@ int removePhilo(){
         return 0;
 }
 
+void printTable(int argc, char **argv){
+        while (tableOpen){
+                semWait(mutex);
+                int i;
+                for(i = 0; i < phylosCounter; i++){
+                        if (phylos[i]->state == EATING){
+                                putChar('E');
+                        }else {
+                                putChar('-');
+                        }
+                        putChar(' ');
+                
+                }
+                putChar('\n');
+                semPost(mutex);
+                yield();
+        }
+}
 
+
+void phyloProblem(int argc, char **argv){
+        
+}
