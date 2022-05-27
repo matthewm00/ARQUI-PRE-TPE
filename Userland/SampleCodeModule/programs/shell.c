@@ -61,6 +61,55 @@ static void initPipe(int index, int argc, char **argv)
         return;
     }
 }
+
+static int handlePipe(int pipeIndex, int argc, char **argv)
+{
+    char *currentArgv[MAX_ARGUMENTS];
+    int currentArgc = 0;
+    int pids[2];
+
+    int pipe = pipeOpen(pipeId++);
+    if (pipe == -1)
+    {
+        printf("\nError creating pipe.\n");
+        return -2;
+    }
+
+    for (int i = pipeIndex + 1, j = 0; i < argc; i++, j++)
+    {
+        currentArgv[j] = argv[i];
+        currentArgc++;
+    }
+
+    pids[0] = runPipeCmd(currentArgc, currentArgv, pipe, 1, BACKGROUND);
+    if (pids[0] == -1)
+    {
+        pipeClose(pipe);
+        return -1;
+    }
+
+    currentArgc = 0;
+    for (int i = 0; i < pipeIndex; i++)
+    {
+        currentArgv[i] = argv[i];
+        currentArgc++;
+    }
+
+    pids[1] = runPipeCmd(currentArgc, currentArgv, 0, pipe, FOREGROUND);
+    if (pids[1] == -1)
+    {
+        pipeClose(pipe);
+        return -1;
+    }
+
+    int endOfFile = EOF;
+    pipeWrite(pipe, (char *)&endOfFile);
+
+    pipeClose(pipe);
+    putChar('\n');
+    return 1;
+}
+
 typedef struct t_command
 {
     void (*commandFn)(int, char **);
@@ -106,103 +155,108 @@ void shellExecute()
             argc--;
         }
 
-        if (strcmp("help", argv[0]) == 0)
-        {
-            // newProcess((void (*)(int, char **))help, argc, (char **)argv, foreground);
-            help(argc, (char **)argv);
-        }
-        else if (strcmp("inforeg", argv[0]) == 0)
-        {
-            newProcess(&getInfoReg, argc, (char **)argv, foreground, NULL);
-            // getInfoReg(argc, (char **)argv);
-            //(void (*)(int, char **))
-        }
-        else if (strcmp("clear", argv[0]) == 0)
-        {
-            clear(argc, (char **)argv);
-        }
-        else if (strcmp("exit", argv[0]) == 0)
-        {
-            exit(argc, (char **)argv);
-        }
-        else if (strcmp("opcode", argv[0]) == 0)
-        {
-            opCode(argc, (char **)argv);
-        }
-        else if (strcmp("date", argv[0]) == 0)
-        {
-            getCurrentDayTime(argc, (char **)argv);
-        }
-        else if (strcmp("printmem", argv[0]) == 0)
-        {
-            getMem(argc, (char **)argv);
-        }
-        else if (strcmp("divzero", argv[0]) == 0)
-        {
-            divZero(argc, (char **)argv);
-        }
-        else if (strcmp("games", argv[0]) == 0)
-        {
-            games(argc, (char **)argv);
-        }
-        else if (strcmp("mem", argv[0]) == 0)
-        {
-            callMemStatus(argc, (char **)argv);
-        }
-        else if (strcmp("sem", argv[0]) == 0)
-        {
-            callSemStatus(argc, (char **)argv);
-        }
-        else if (strcmp("ps", argv[0]) == 0)
-        {
-            callProcessStatus(argc, (char **)argv);
-        }
-        else if (strcmp("nice", argv[0]) == 0)
-        {
-            callSetPriority(argc, (char **)argv);
-        }
-        else if (strcmp("kill", argv[0]) == 0)
-        {
-            callKillProcess(argc, (char **)argv);
-        }
-        else if (strcmp("block", argv[0]) == 0)
-        {
-            callBlockProcess(argc, (char **)argv);
-        }
-        else if (strcmp("unblock", argv[0]) == 0)
-        {
-            callUnblockProcess(argc, (char **)argv);
-        }
-        else if (strcmp("cat", argv[0]) == 0)
-        {
-            cat(argc, (char **)argv);
-        }
-        else if (strcmp("loop", argv[0]) == 0)
-        {
-            loop(argc, (char **)argv);
-        }
-        else if (strcmp("pipe", argv[0]) == 0) // falta
-        {
-            // callPipeStatus(argc, (char **)argv);
-        }
-        else if (strcmp("filter", argv[0]) == 0)
-        {
-            filter(argc, (char **)argv);
-        }
-        else if (strcmp("wc", argv[0]) == 0)
-        {
-            wc(argc, (char **)argv);
-        }
-        else if (strcmp("phylo", argv[0]) == 0) // falta
-        {
-            // phylo(argc, (char **)argv);
-        }
-        else
-        {
-            printf("\nComando invalido: use help\n\n");
-        }
+        runCommand(argc, (char **)argv, foreground);
     }
     return;
+}
+
+static void runCommand(int argc, char **argv, int foreground)
+{
+    if (strcmp("help", argv[0]) == 0)
+    {
+        // newProcess((void (*)(int, char **))help, argc, argv, foreground);
+        help(argc, argv);
+    }
+    else if (strcmp("inforeg", argv[0]) == 0)
+    {
+        newProcess(&getInfoReg, argc, argv, foreground, NULL);
+        // getInfoReg(argc, argv);
+        //(void (*)(int, char **))
+    }
+    else if (strcmp("clear", argv[0]) == 0)
+    {
+        clear(argc, argv);
+    }
+    else if (strcmp("exit", argv[0]) == 0)
+    {
+        exit(argc, argv);
+    }
+    else if (strcmp("opcode", argv[0]) == 0)
+    {
+        opCode(argc, argv);
+    }
+    else if (strcmp("date", argv[0]) == 0)
+    {
+        getCurrentDayTime(argc, argv);
+    }
+    else if (strcmp("printmem", argv[0]) == 0)
+    {
+        getMem(argc, argv);
+    }
+    else if (strcmp("divzero", argv[0]) == 0)
+    {
+        divZero(argc, argv);
+    }
+    else if (strcmp("games", argv[0]) == 0)
+    {
+        games(argc, argv);
+    }
+    else if (strcmp("mem", argv[0]) == 0)
+    {
+        callMemStatus(argc, argv);
+    }
+    else if (strcmp("sem", argv[0]) == 0)
+    {
+        callSemStatus(argc, argv);
+    }
+    else if (strcmp("ps", argv[0]) == 0)
+    {
+        callProcessStatus(argc, argv);
+    }
+    else if (strcmp("nice", argv[0]) == 0)
+    {
+        callSetPriority(argc, argv);
+    }
+    else if (strcmp("kill", argv[0]) == 0)
+    {
+        callKillProcess(argc, argv);
+    }
+    else if (strcmp("block", argv[0]) == 0)
+    {
+        callBlockProcess(argc, argv);
+    }
+    else if (strcmp("unblock", argv[0]) == 0)
+    {
+        callUnblockProcess(argc, argv);
+    }
+    else if (strcmp("cat", argv[0]) == 0)
+    {
+        cat(argc, argv);
+    }
+    else if (strcmp("loop", argv[0]) == 0)
+    {
+        loop(argc, argv);
+    }
+    else if (strcmp("pipe", argv[0]) == 0) // falta
+    {
+        // callPipeStatus(argc, argv);
+    }
+    else if (strcmp("filter", argv[0]) == 0)
+    {
+        filter(argc, argv);
+    }
+    else if (strcmp("wc", argv[0]) == 0)
+    {
+        wc(argc, argv);
+    }
+    else if (strcmp("phylo", argv[0]) == 0) // falta
+    {
+        // phylo(argc, argv);
+    }
+    else
+    {
+        printf("\nComando invalido: use help\n\n");
+    }
 }
 
 // callMemStatus "mem", "Imprime el estado de la memoria"
