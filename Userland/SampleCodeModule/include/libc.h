@@ -4,6 +4,8 @@
 #include <colors.h>
 #include <stdint.h>
 
+#define EOF 96
+
 void setBGC(t_color colour);
 void setFTC(t_color colour);
 int scanf(char *str, ...);

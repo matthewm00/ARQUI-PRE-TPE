@@ -3,9 +3,16 @@
 #include <commands.h>
 #include <stdint.h>
 
+#define USERLAND_INIT_PID 1
+
+static void runCommand(int argc, char **argv, int foreground);
+
+static int pipeId = 70;
+
 void initialize()
 {
     printf("\n  Utilice el comando help para obtener el manual de usuario.\n\n\n\n");
+    // killProcess(USERLAND_INIT_PID);
     shellExecute();
 }
 
@@ -53,7 +60,7 @@ static void initPipe(int index, int argc, char **argv)
     {
         return;
     }
-    // int pipe = handlePipe(index, argc, argv);
+    int pipe = handlePipe(index, argc, argv);
     int pipe = 0;
     if (pipe == -1)
     {
@@ -62,7 +69,7 @@ static void initPipe(int index, int argc, char **argv)
     }
 }
 
-static int handlePipe(int pipeIndex, int argc, char **argv)
+static int handlePipe(int pipeIdx, int argc, char **argv)
 {
     char *currentArgv[MAX_ARGUMENTS];
     int currentArgc = 0;
@@ -75,13 +82,13 @@ static int handlePipe(int pipeIndex, int argc, char **argv)
         return -2;
     }
 
-    for (int i = pipeIndex + 1, j = 0; i < argc; i++, j++)
+    for (int i = pipeIdx + 1, j = 0; i < argc; i++, j++)
     {
         currentArgv[j] = argv[i];
         currentArgc++;
     }
 
-    pids[0] = runPipeCmd(currentArgc, currentArgv, pipe, 1, BACKGROUND);
+    pids[0] = runPipeCommand(currentArgc, currentArgv, pipe, 1, BACKGROUND);
     if (pids[0] == -1)
     {
         pipeClose(pipe);
@@ -89,13 +96,13 @@ static int handlePipe(int pipeIndex, int argc, char **argv)
     }
 
     currentArgc = 0;
-    for (int i = 0; i < pipeIndex; i++)
+    for (int i = 0; i < pipeIdx; i++)
     {
         currentArgv[i] = argv[i];
         currentArgc++;
     }
 
-    pids[1] = runPipeCmd(currentArgc, currentArgv, 0, pipe, FOREGROUND);
+    pids[1] = runPipeCommand(currentArgc, currentArgv, 0, pipe, FOREGROUND);
     if (pids[1] == -1)
     {
         pipeClose(pipe);
@@ -108,6 +115,14 @@ static int handlePipe(int pipeIndex, int argc, char **argv)
     pipeClose(pipe);
     putChar('\n');
     return 1;
+}
+
+static int runPipeCommand(int argc, char **argv, int fdin, int fdout, int foreground)
+{
+    int fd[2];
+    fd[0] = fdin;
+    fd[1] = fdout;
+    return runCommand(argc, argv, foreground, fd);
 }
 
 typedef struct t_command
@@ -155,12 +170,12 @@ void shellExecute()
             argc--;
         }
 
-        runCommand(argc, (char **)argv, foreground);
+        runCommand(argc, (char **)argv, foreground, NULL);
     }
     return;
 }
 
-static void runCommand(int argc, char **argv, int foreground)
+static int runCommand(int argc, char **argv, int foreground, int *fd)
 {
     if (strcmp("help", argv[0]) == 0)
     {
@@ -169,7 +184,7 @@ static void runCommand(int argc, char **argv, int foreground)
     }
     else if (strcmp("inforeg", argv[0]) == 0)
     {
-        newProcess(&getInfoReg, argc, argv, foreground, NULL);
+        return newProcess(&getInfoReg, argc, argv, foreground, fd);
         // getInfoReg(argc, argv);
         //(void (*)(int, char **))
     }
@@ -257,6 +272,7 @@ static void runCommand(int argc, char **argv, int foreground)
     {
         printf("\nComando invalido: use help\n\n");
     }
+    return 0;
 }
 
 // callMemStatus "mem", "Imprime el estado de la memoria"
