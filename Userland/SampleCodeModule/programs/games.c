@@ -2,22 +2,22 @@
 
 static void divideScreen()
 {
-    _syscall(SYS_GAMES_ID, WHITE, 0, 0, 0);
+    syscall(SYS_GAMES_ID, WHITE, 0, 0, 0);
 }
 
 void changeCursorState(int state)
 {
-    _syscall(SYS_CURSORSTATE_ID, state, 0, 0, 0);
+    syscall(SYS_CURSORSTATE_ID, state, 0, 0, 0);
 }
 
 void setCursor(uint64_t x, uint64_t y)
 {
-    _syscall(SYS_CURSOR_ID, x, y, 0, 0);
+    syscall(SYS_CURSOR_ID, x, y, 0, 0);
 }
 
 uint64_t getTicks()
 {
-    return _syscall(SYS_TIME_ID, 0, 0, 0, 0);
+    return syscall(SYS_TIME_ID, 0, 0, 0, 0);
 }
 
 static uint64_t hourAux = 0;
@@ -95,9 +95,9 @@ void printTime()
     if (ticks / 18 <= ticksAux / 18)
         return;
 
-    uint64_t hour = _syscall(SYS_RTC_ID, HOUR_RTC_ID, 0, 0, 0);
-    uint64_t minutes = _syscall(SYS_RTC_ID, MINUTE_RTC_ID, 0, 0, 0);
-    uint64_t seconds = _syscall(SYS_RTC_ID, SECOND_RTC_ID, 0, 0, 0);
+    uint64_t hour = syscall(SYS_RTC_ID, HOUR_RTC_ID, 0, 0, 0);
+    uint64_t minutes = syscall(SYS_RTC_ID, MINUTE_RTC_ID, 0, 0, 0);
+    uint64_t seconds = syscall(SYS_RTC_ID, SECOND_RTC_ID, 0, 0, 0);
     ticksAux = ticks;
 
     if (hour != hourAux || (hour == 0 && hourAux == 0))

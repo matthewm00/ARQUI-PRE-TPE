@@ -79,7 +79,7 @@ void shellExecute()
         }
         else if (strcmp("inforeg", command) == 0)
         {
-            newProcess(&getInfoReg, argc, (char **)argv, foreground);
+            newProcess(&getInfoReg, argc, (char **)argv, foreground, NULL);
             // getInfoReg(argc, (char **)argv);
             //(void (*)(int, char **))
         }

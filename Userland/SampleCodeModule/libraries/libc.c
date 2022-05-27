@@ -23,15 +23,15 @@ void setBGC(t_color colour)
 
 void putChar(char c)
 {
-    _syscall(SYS_WRITE_ID, (uint64_t)&c, 1, currentBGC, currentFTC);
+    syscall(SYS_WRITE_ID, (uint64_t)&c, 1, currentBGC, currentFTC);
 }
 
 static int commandLine(char *str)
 {
     if (strlen(str) == 3 && str[0] == '$' && str[1] == '>' && str[2] == ' ')
     {
-        _syscall(SYS_WRITE_ID, (uint64_t) "$", 1, BLACK, GREEN);
-        _syscall(SYS_WRITE_ID, (uint64_t) ">", 1, BLACK, GREEN);
+        syscall(SYS_WRITE_ID, (uint64_t) "$", 1, BLACK, GREEN);
+        syscall(SYS_WRITE_ID, (uint64_t) ">", 1, BLACK, GREEN);
         putChar(' ');
         return 1;
     }
@@ -102,7 +102,7 @@ void printf(char *str, ...)
         strIdx++;
     }
 
-    _syscall(SYS_WRITE_ID, (uint64_t)buff, buffIdx, currentBGC, currentFTC);
+    syscall(SYS_WRITE_ID, (uint64_t)buff, buffIdx, currentBGC, currentFTC);
     va_end(args);
     return;
 }
@@ -167,7 +167,7 @@ int strlen(const char *s)
 
 char getChar()
 {
-    return _syscall(SYS_READ_ID, 0, 0, 0, 0);
+    return syscall(SYS_READ_ID, 0, 0, 0, 0);
 }
 
 // funcion encargada a actualizar el buffer de la shell y de imprimir en pantalla el char en cuestion

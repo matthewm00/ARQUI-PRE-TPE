@@ -19,24 +19,24 @@ void getCurrentDayTime(int argc, char **argv)
 		return;
 	}
 	printf("\nFecha de hoy: ");
-	uint64_t result = _syscall(SYS_RTC_ID, DAY_RTC_ID, 0, 0, 0);
+	uint64_t result = syscall(SYS_RTC_ID, DAY_RTC_ID, 0, 0, 0);
 	printf("%d", result);
 	putChar('/');
 
-	result = _syscall(SYS_RTC_ID, MONTH_RTC_ID, 0, 0, 0);
+	result = syscall(SYS_RTC_ID, MONTH_RTC_ID, 0, 0, 0);
 	printf("%d", result);
 	putChar('/');
 
-	result = _syscall(SYS_RTC_ID, YEAR_RTC_ID, 0, 0, 0);
+	result = syscall(SYS_RTC_ID, YEAR_RTC_ID, 0, 0, 0);
 	printf("%d", YEAR);
 	printf("%d\n", result);
 
 	printf("\nHora: ");
-	result = _syscall(SYS_RTC_ID, HOUR_RTC_ID, 0, 0, 0);
+	result = syscall(SYS_RTC_ID, HOUR_RTC_ID, 0, 0, 0);
 	printf("%d", result);
 	putChar(':');
 
-	result = _syscall(SYS_RTC_ID, MINUTE_RTC_ID, 0, 0, 0);
+	result = syscall(SYS_RTC_ID, MINUTE_RTC_ID, 0, 0, 0);
 	if (result < 10)
 	{
 		putChar('0');
@@ -44,7 +44,7 @@ void getCurrentDayTime(int argc, char **argv)
 	printf("%d", result);
 	putChar(':');
 
-	result = _syscall(SYS_RTC_ID, SECOND_RTC_ID, 0, 0, 0);
+	result = syscall(SYS_RTC_ID, SECOND_RTC_ID, 0, 0, 0);
 	if (result < 10)
 	{
 		putChar('0');
@@ -59,7 +59,7 @@ void getInfoReg(int argc, char **argv)
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	uint64_t *registers = (uint64_t *)_syscall(SYS_INFOREG_ID, 0, 0, 0, 0);
+	uint64_t *registers = (uint64_t *)syscall(SYS_INFOREG_ID, 0, 0, 0, 0);
 	newLine();
 	for (int i = 0; i < REGISTER_AMOUNT; i++)
 	{
@@ -86,7 +86,7 @@ void getMem(int argc, char **argv)
 	printf("\nDump de 32 bytes a partir de la direccion: %s\n\n", argv[0]);
 	uint8_t buffer[BYTES];
 	char print[10];
-	_syscall(SYS_PRINTMEM_ID, memDir, (uint64_t)buffer, BYTES, 0);
+	syscall(SYS_PRINTMEM_ID, memDir, (uint64_t)buffer, BYTES, 0);
 	for (int i = 0; i < BYTES; i++)
 	{
 		if (i == 16)
@@ -131,7 +131,7 @@ void clear(int argc, char **argv)
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	_syscall(SYS_CLEAR_ID, 0, 0, 0, 0);
+	syscall(SYS_CLEAR_ID, 0, 0, 0, 0);
 }
 void exit(int argc, char **argv)
 {
@@ -141,7 +141,7 @@ void exit(int argc, char **argv)
 		return;
 	}
 	printf("\nSaliendo del TPE\n\n");
-	_syscall(SYS_EXIT_ID, 0, 0, 0, 0);
+	syscall(SYS_EXIT_ID, 0, 0, 0, 0);
 }
 
 void help(int argc, char **argv)
