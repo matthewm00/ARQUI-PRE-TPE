@@ -35,7 +35,31 @@ static int getCommandArgs(char *userInput, char **argv)
     }
     return argc;
 }
+static int getPipeIdx(int argc, char **argv)
+{
+    for (int i = 0; i < argc; i++)
+    {
+        if (strcmp(argv[i], "|") == 0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
 
+static void initPipe(int index, int argc, char **argv)
+{
+    if (index == 0 || index == argc - 1)
+    {
+        return;
+    }
+    int pipe = handlePipe(index, argc, argv);
+    if (pipe == -1)
+    {
+        printf("\nComando invalido\n\n");
+        return;
+    }
+}
 typedef struct t_command
 {
     void (*commandFn)(int, char **);
