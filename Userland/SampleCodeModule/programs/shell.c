@@ -53,7 +53,8 @@ static void initPipe(int index, int argc, char **argv)
     {
         return;
     }
-    int pipe = handlePipe(index, argc, argv);
+    // int pipe = handlePipe(index, argc, argv);
+    int pipe = 0;
     if (pipe == -1)
     {
         printf("\nComando invalido\n\n");
@@ -71,7 +72,7 @@ t_command inforegg = {&getInfoReg, "a", "aa"};
 
 void shellExecute()
 {
-    char argv[MAX_ARGUMENTS][BUFFER_SIZE];
+    char *argv[MAX_ARGUMENTS] = {0};
     char userInput[BUFFER_SIZE] = {0};
     int argc = 0;
     int foreground = FOREGROUND;

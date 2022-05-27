@@ -13,7 +13,7 @@ static char *registerNames[] = {
 // returns current date and time
 void getCurrentDayTime(int argc, char **argv)
 {
-	if (argc != 0)
+	if (argc != 1)
 	{
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
@@ -54,7 +54,7 @@ void getCurrentDayTime(int argc, char **argv)
 
 void getInfoReg(int argc, char **argv)
 {
-	if (argc != 0)
+	if (argc != 1)
 	{
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
@@ -71,7 +71,7 @@ void getInfoReg(int argc, char **argv)
 
 void getMem(int argc, char **argv)
 {
-	if (argc != 1)
+	if (argc != 2)
 	{
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
@@ -102,7 +102,7 @@ void getMem(int argc, char **argv)
 
 void divZero(int argc, char **argv)
 {
-	if (argc != 0)
+	if (argc != 1)
 	{
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
@@ -116,7 +116,7 @@ void divZero(int argc, char **argv)
 // https://mudongliang.github.io/x86/html/file_module_x86_id_318.html
 void opCode(int argc, char **argv)
 {
-	if (argc != 0)
+	if (argc != 1)
 	{
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
@@ -126,7 +126,7 @@ void opCode(int argc, char **argv)
 
 void clear(int argc, char **argv)
 {
-	if (argc != 0)
+	if (argc != 1)
 	{
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
@@ -135,7 +135,7 @@ void clear(int argc, char **argv)
 }
 void exit(int argc, char **argv)
 {
-	if (argc != 0)
+	if (argc != 1)
 	{
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
@@ -146,7 +146,7 @@ void exit(int argc, char **argv)
 
 void help(int argc, char **argv)
 {
-	if (argc != 0)
+	if (argc != 1)
 	{
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
@@ -180,7 +180,7 @@ void help(int argc, char **argv)
 
 void games(int argc, char **argv)
 {
-	if (argc != 0)
+	if (argc != 1)
 	{
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
