@@ -4,6 +4,8 @@
 static uint32_t m_z = 362436069;
 static uint32_t m_w = 521288629;
 
+#define WAIT 10000000
+
 uint32_t GetUint()
 {
   m_z = 36969 * (m_z & 65535) + (m_z >> 16);
@@ -72,7 +74,7 @@ void endless_loop()
 
 void endless_loop_print(uint64_t wait)
 {
-  int64_t pid = my_getpid();
+  int64_t pid = getProcessPID();
 
   while (1)
   {
@@ -87,6 +89,6 @@ void idleProcess()
   while (1)
   {
     printf("%d ", pid);
-    busyWait(MAJOR_WAIT);
+    bussy_wait(WAIT);
   }
 }
