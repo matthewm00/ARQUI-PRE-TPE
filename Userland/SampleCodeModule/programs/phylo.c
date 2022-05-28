@@ -8,16 +8,22 @@
 #define LEFT(i) (((i) + phylosCounter - 1) % phylosCounter)
 #define RIGHT(i) (((i) + 1) % phylosCounter)
 
-typedef enum { THINKING , HUNGRY , EATING } t_phylo_state;
+typedef enum
+{
+        THINKING,
+        HUNGRY,
+        EATING
+} t_phylo_state;
 
-typedef struct t_phylo_state {
+typedef struct t_phylo_state
+{
 
         int pid;
         int sem;
         int ID;
         t_phylo_state state;
 
-}t_phylosofer;
+} t_phylosofer;
 
 t_phylosofer *phylos[MAX_PHYLOS];
 static int phylosCounter = 0;
@@ -33,12 +39,13 @@ static int tableOpen;
 // static int removePhilo();
 // static void printTable(int argc, char **argv);
 
-
-void thinkOrEat(){
-        sleep(THINK_EAT_WAIT_SECONDS);
+void thinkOrEat()
+{
+        // sleep(THINK_EAT_WAIT_SECONDS);
 }
 
-void phyloMain(int argc, char **argv){
+void phyloMain(int argc, char **argv)
+{
         int i = strToInt(argv[1], 0);
         while (1)
         {
@@ -49,7 +56,8 @@ void phyloMain(int argc, char **argv){
         }
 }
 
-void takeForks(int i){
+void takeForks(int i)
+{
         semWait(mutex);
         phylos[i]->state = HUNGRY;
         test(i);
@@ -57,7 +65,8 @@ void takeForks(int i){
         semWait(phylos[i]->sem);
 }
 
-void putForks(int i){
+void putForks(int i)
+{
         semWait(mutex);
         phylos[i]->state = THINKING;
         test(LEFT(i));
@@ -65,24 +74,28 @@ void putForks(int i){
         semPost(mutex);
 }
 
-void test(int i){
+void test(int i)
+{
         if (phylos[i]->state == HUNGRY &&
-        phylos[LEFT(i)]->state != EATING &&
-        phylos[RIGHT(i)]->state != EATING){
+            phylos[LEFT(i)]->state != EATING &&
+            phylos[RIGHT(i)]->state != EATING)
+        {
                 phylos[i]->state = EATING;
                 semPost(phylos[i]->sem);
         }
-        
 }
 
-int addPhylo(){
-        if (phylosCounter == MAX_PHYLOS){
+int addPhylo()
+{
+        if (phylosCounter == MAX_PHYLOS)
+        {
                 return -1;
         }
-        
+
         semWait(mutex);
-        t_phylosofer * phylosopher = malloc(sizeof(t_phylosofer));
-        if (phylosopher == NULL){
+        t_phylosofer *phylosopher = malloc(sizeof(t_phylosofer));
+        if (phylosopher == NULL)
+        {
                 return -1;
         }
         phylosopher->sem = semOpen(PHYLO_SEM_ID + phylosCounter, 1);
@@ -101,14 +114,16 @@ int addPhylo(){
         return 0;
 }
 
-int removePhilo(){
-        if (phylosCounter == INITIAL_PHYLOS){
+int removePhilo()
+{
+        if (phylosCounter == INITIAL_PHYLOS)
+        {
                 return -1;
         }
-        
+
         semWait(mutex);
 
-        t_phylosofer * phylosopher = phylos[--phylosCounter];
+        t_phylosofer *phylosopher = phylos[--phylosCounter];
         semClose(phylosopher->sem);
         killProcess(phylosopher->pid);
         free(phylosopher);
@@ -117,18 +132,23 @@ int removePhilo(){
         return 0;
 }
 
-void printTable(int argc, char **argv){
-        while (tableOpen){
+void printTable(int argc, char **argv)
+{
+        while (tableOpen)
+        {
                 semWait(mutex);
                 int i;
-                for(i = 0; i < phylosCounter; i++){
-                        if (phylos[i]->state == EATING){
+                for (i = 0; i < phylosCounter; i++)
+                {
+                        if (phylos[i]->state == EATING)
+                        {
                                 putChar('E');
-                        }else {
+                        }
+                        else
+                        {
                                 putChar('-');
                         }
                         putChar(' ');
-                
                 }
                 putChar('\n');
                 semPost(mutex);
@@ -136,7 +156,6 @@ void printTable(int argc, char **argv){
         }
 }
 
-
-void phyloProblem(int argc, char **argv){
-        
+void phyloProblem(int argc, char **argv)
+{
 }

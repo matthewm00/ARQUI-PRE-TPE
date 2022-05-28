@@ -5,8 +5,9 @@
 
 #define USERLAND_INIT_PID 1
 
-static void runCommand(int argc, char **argv, int foreground);
+static int runCommand(int argc, char **argv, int foreground, int *fd);
 static int runPipeCommand(int argc, char **argv, int fdin, int fdout, int foreground);
+static int handlePipe(int pipeIdx, int argc, char **argv);
 
 static int pipeId = 70;
 
@@ -62,7 +63,6 @@ static void initPipe(int index, int argc, char **argv)
         return;
     }
     int pipe = handlePipe(index, argc, argv);
-    int pipe = 0;
     if (pipe == -1)
     {
         printf("\nComando invalido\n\n");
