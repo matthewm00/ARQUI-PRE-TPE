@@ -301,10 +301,18 @@ void cat(int argc, char **argv)
 		return;
 	}
 	int c;
+	char catString[BUFFER_SIZE] = {0};
+	int i = 0;
 	while ((c = getChar()) != EOF)
 	{
 		putChar(c);
+		catString[i++] = (char)c;
 	}
+	printf("%s", catString);
+	// while ((c = getChar()) != EOF)
+	// {
+	// 	putChar(c);
+	// }
 }
 
 void wc(int argc, char **argv)
