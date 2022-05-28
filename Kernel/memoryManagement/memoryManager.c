@@ -1,6 +1,6 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-#ifdef MEMORY_MANAGER_FREE
+// #ifdef MEMORY_MANAGER_FREE
 
 #include <memoryManager.h>
 #include <prints.h>
@@ -184,4 +184,4 @@ void memoryDump()
   printf("\n");
 }
 
-#endif
+// #endif

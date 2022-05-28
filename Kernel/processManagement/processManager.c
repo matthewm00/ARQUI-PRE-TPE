@@ -187,6 +187,7 @@ int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
   {
     blockProcess(newProcess->pcb.ppid);
   }
+  printf("\n%s", "holaw");
 
   return newProcess->pcb.pid;
 }

@@ -1,11 +1,14 @@
 /* sampleCodeModule.c */
 #include <shell.h>
 #include <libc.h>
+#include <userSyscalls.h>
 
 int main()
 {
 	_setStack();
-	initialize();
+	initialize(0, NULL);
+	// char *argv[] = {"Shell"};
+	// newProcess(initialize, 1, argv, FOREGROUND, NULL);
 	return 0;
 }
 
