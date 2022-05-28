@@ -286,13 +286,17 @@ void filter(int argc, char **argv)
 		return;
 	}
 	char c;
+	char filterString[BUFFER_SIZE] = {0};
+	int i = 0;
 	while ((c = getChar()) != EOF)
 	{
+		putChar(c);
 		if (!isVowel(c))
 		{
-			putChar(c);
+			filterString[i++] = (char)c;
 		}
 	}
+	printf("\n%s\n", filterString);
 }
 void cat(int argc, char **argv)
 {
