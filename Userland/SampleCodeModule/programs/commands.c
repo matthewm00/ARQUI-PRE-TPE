@@ -76,14 +76,14 @@ void getMem(int argc, char **argv)
 		printf("\nCantidad invalida de argumentos.\n\n");
 		return;
 	}
-	uint64_t memDir = strToHex(argv[0]);
+	uint64_t memDir = strToHex(argv[1]);
 	if (memDir == -1 /* || memDir + 32 > LAST_MEM_POSITION */)
 	{
-		printf("\nEl argumento ingresado es invalido. Use /help.\n\n");
+		printf("\nEl argumento ingresado es invalido. Use help.\n\n");
 		return;
 	}
 
-	printf("\nDump de 32 bytes a partir de la direccion: %s\n\n", argv[0]);
+	printf("\nDump de 32 bytes a partir de la direccion: %s\n\n", argv[1]);
 	uint8_t buffer[BYTES];
 	char print[10];
 	syscall(SYS_PRINTMEM_ID, memDir, (uint64_t)buffer, BYTES, 0);
@@ -286,7 +286,7 @@ void filter(int argc, char **argv)
 		return;
 	}
 	char c;
-	while ((c = getChar()) != '\n')
+	while ((c = getChar()) != EOF)
 	{
 		if (!isVowel(c))
 		{
@@ -301,7 +301,7 @@ void cat(int argc, char **argv)
 		return;
 	}
 	int c;
-	while ((c = getChar()) != '\n') // cambiar por EOF definido
+	while ((c = getChar()) != EOF)
 	{
 		putChar(c);
 	}
@@ -315,7 +315,7 @@ void wc(int argc, char **argv)
 	}
 	char c;
 	int lineCount = 1;
-	while ((c = getChar()) != '\n')
+	while ((c = getChar()) != EOF)
 	{
 		putChar(c);
 		if (c == '\n')
