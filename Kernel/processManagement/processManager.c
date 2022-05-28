@@ -45,7 +45,7 @@ typedef struct
 } t_stackFrame;
 
 static void idleProcess(int argc, char **argv);
-static int initializeProcessControlBlock(t_PCB *PCB, char *name, uint8_t foreground);
+static int initializeProcessControlBlock(t_PCB *PCB, char *name, uint8_t foreground, int *fd);
 static int getArguments(char **to, char **from, int count);
 static void wrapper(void (*entryPoint)(int, char **), int argc, char **argv);
 static void initializeProcessStackFrame(void (*entryPoint)(int, char **), int argc, char **argv, void *rbp);
@@ -79,7 +79,7 @@ void initializeProcessManager()
 
   char *argv[] = {"Initial Idle Process"};
 
-  newProcess(&idleProcess, 1, argv, BACKGROUND);
+  newProcess(&idleProcess, 1, argv, BACKGROUND, 0);
 
   baseProcess = dequeueProcess(processes);
 }
@@ -141,7 +141,7 @@ void *processManager(void *sp)
   return currentProcess->pcb.rsp;
 }
 
-int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int foreground)
+int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int foreground, int *fd)
 {
   if (entryPoint == NULL)
   {
@@ -155,7 +155,7 @@ int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
   }
   printf("%s", "hola");
 
-  if (initializeProcessControlBlock(&newProcess->pcb, argv[0], foreground) == -1)
+  if (initializeProcessControlBlock(&newProcess->pcb, argv[0], foreground, fd) == -1)
   {
     free(newProcess);
     return -1;
@@ -367,7 +367,7 @@ static void idleProcess(int argc, char **argv)
 
 static uint64_t getPID() { return currentPID++; }
 
-static int initializeProcessControlBlock(t_PCB *PCB, char *name, uint8_t foreground)
+static int initializeProcessControlBlock(t_PCB *PCB, char *name, uint8_t foreground, int *fd)
 {
   strcpy(PCB->name, name);
   PCB->pid = getPID();
@@ -380,8 +380,8 @@ static int initializeProcessControlBlock(t_PCB *PCB, char *name, uint8_t foregro
   PCB->foreground = (currentProcess == NULL ? foreground : (currentProcess->pcb.foreground ? foreground : 0));
   PCB->rbp = malloc(SIZE_OF_STACK);
   PCB->priority = PCB->foreground ? FOREGROUND_PRIORITY_DEFAULT : BACKGROUND_PRIORITY_DEFAULT;
-  PCB->fileDescriptors[0] = 0;
-  PCB->fileDescriptors[1] = 1;
+  PCB->fileDescriptors[0] = (fd ? fd[0] : 0);
+  PCB->fileDescriptors[1] = (fd ? fd[1] : 1);
 
   if (PCB->rbp == NULL)
   {
