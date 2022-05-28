@@ -6,7 +6,7 @@
 #define FOREGROUNG 1
 #define BACKGROUND 0
 
-void initialize();
+void initialize(int argc, char **argv);
 void shellExecute();
 
 void _setStack();

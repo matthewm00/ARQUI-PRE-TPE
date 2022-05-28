@@ -2,6 +2,7 @@
 #include <libc.h>
 #include <commands.h>
 #include <stdint.h>
+#include <userSyscalls.h>
 
 #define USERLAND_INIT_PID 1
 
@@ -11,7 +12,7 @@ static int handlePipe(int pipeIdx, int argc, char **argv);
 
 static int pipeId = 70;
 
-void initialize()
+void initialize(int argc, char **argv)
 {
     printf("\n  Utilice el comando help para obtener el manual de usuario.\n\n\n\n");
     // killProcess(USERLAND_INIT_PID);
@@ -176,8 +177,8 @@ static int runCommand(int argc, char **argv, int foreground, int *fd)
     }
     else if (strcmp("inforeg", argv[0]) == 0)
     {
-        getInfoReg(argc, argv);
-        // return newProcess(&getInfoReg, argc, argv, foreground, fd);
+        // getInfoReg(argc, argv);
+        return newProcess(&getInfoReg, argc, argv, foreground, fd);
     }
     else if (strcmp("clear", argv[0]) == 0)
     {

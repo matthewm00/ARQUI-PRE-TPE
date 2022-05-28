@@ -1,6 +1,6 @@
 
 #include <stdint.h>
-#include <syscalls.h>
+#include <userSyscalls.h>
 #include <libc.h>
 
 uint32_t GetUint();

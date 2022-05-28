@@ -10,5 +10,6 @@ void *memcpy(void *destination, const void *source, uint64_t length);
 void acquire(int *lock);
 void release(int *lock);
 int _xchg();
+void _hlt();
 
 #endif

@@ -4,7 +4,7 @@
 #include <shell.h>
 #include <stdint.h>
 #include <libc.h>
-#include <syscalls.h>
+#include <userSyscalls.h>
 #include <RTCID.h>
 #include <games.h>
 

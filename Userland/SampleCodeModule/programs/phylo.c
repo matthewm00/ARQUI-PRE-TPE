@@ -3,7 +3,7 @@
 #include <commands.h>
 #include <libc.h>
 #include <phylo.h>
-#include <syscalls.h>
+#include <userSyscalls.h>
 
 #define LEFT(i) (((i) + phylosCounter - 1) % phylosCounter)
 #define RIGHT(i) (((i) + 1) % phylosCounter)

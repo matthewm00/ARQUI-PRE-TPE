@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <libc.h>
-#include <syscalls.h>
+#include <userSyscalls.h>
 #include <RTCID.h>
 #include <sudoku.h>
 #include <hangman.h>
