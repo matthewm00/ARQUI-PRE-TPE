@@ -171,94 +171,113 @@ static int runCommand(int argc, char **argv, int foreground, int *fd)
 {
     if (strcmp("help", argv[0]) == 0)
     {
-        // newProcess((void (*)(int, char **))help, argc, argv, foreground);
         help(argc, argv);
+        // return newProcess(&help, argc, argv, foreground, fd);
     }
     else if (strcmp("inforeg", argv[0]) == 0)
     {
-        return newProcess(&getInfoReg, argc, argv, foreground, fd);
-        // getInfoReg(argc, argv);
-        //(void (*)(int, char **))
+        getInfoReg(argc, argv);
+        // return newProcess(&getInfoReg, argc, argv, foreground, fd);
     }
     else if (strcmp("clear", argv[0]) == 0)
     {
         clear(argc, argv);
+        // return newProcess(&clear, argc, argv, foreground, fd);
     }
     else if (strcmp("exit", argv[0]) == 0)
     {
         exit(argc, argv);
+        // return newProcess(&exit, argc, argv, foreground, fd);
     }
     else if (strcmp("opcode", argv[0]) == 0)
     {
         opCode(argc, argv);
+        // return newProcess(&opCode, argc, argv, foreground, fd);
     }
     else if (strcmp("date", argv[0]) == 0)
     {
         getCurrentDayTime(argc, argv);
+        // return newProcess(&getCurrentDayTime, argc, argv, foreground, fd);
     }
     else if (strcmp("printmem", argv[0]) == 0)
     {
         getMem(argc, argv);
+        // return newProcess(&getMem, argc, argv, foreground, fd);
     }
     else if (strcmp("divzero", argv[0]) == 0)
     {
         divZero(argc, argv);
+        // return newProcess(&divZero, argc, argv, foreground, fd);
     }
     else if (strcmp("games", argv[0]) == 0)
     {
         games(argc, argv);
+        // return newProcess(&games, argc, argv, foreground, fd);
     }
     else if (strcmp("mem", argv[0]) == 0)
     {
         callMemStatus(argc, argv);
+        // return newProcess(&callMemStatus, argc, argv, foreground, fd);
     }
     else if (strcmp("sem", argv[0]) == 0)
     {
         callSemStatus(argc, argv);
+        // return newProcess(&callSemStatus, argc, argv, foreground, fd);
     }
     else if (strcmp("ps", argv[0]) == 0)
     {
         callProcessStatus(argc, argv);
+        // return newProcess(&callProcessStatus, argc, argv, foreground, fd);
     }
     else if (strcmp("nice", argv[0]) == 0)
     {
         callSetPriority(argc, argv);
+        // return newProcess(&callSetPriority, argc, argv, foreground, fd);
     }
     else if (strcmp("kill", argv[0]) == 0)
     {
         callKillProcess(argc, argv);
+        // return newProcess(&callKillProcess, argc, argv, foreground, fd);
     }
     else if (strcmp("block", argv[0]) == 0)
     {
         callBlockProcess(argc, argv);
+        // return newProcess(&callBlockProcess, argc, argv, foreground, fd);
     }
     else if (strcmp("unblock", argv[0]) == 0)
     {
         callUnblockProcess(argc, argv);
+        // return newProcess(&callUnblockProcess, argc, argv, foreground, fd);
     }
     else if (strcmp("cat", argv[0]) == 0)
     {
         cat(argc, argv);
+        // return newProcess(&cat, argc, argv, foreground, fd);
     }
     else if (strcmp("loop", argv[0]) == 0)
     {
         loop(argc, argv);
+        // return newProcess(&loop, argc, argv, foreground, fd);
     }
     else if (strcmp("pipe", argv[0]) == 0) // falta
     {
         // callPipeStatus(argc, argv);
+        // return newProcess(&callPipeStatus, argc, argv, foreground, fd);
     }
     else if (strcmp("filter", argv[0]) == 0)
     {
         filter(argc, argv);
+        // return newProcess(&filter, argc, argv, foreground, fd);
     }
     else if (strcmp("wc", argv[0]) == 0)
     {
         wc(argc, argv);
+        // return newProcess(&wc, argc, argv, foreground, fd);
     }
     else if (strcmp("phylo", argv[0]) == 0) // falta
     {
         // phylo(argc, argv);
+        // return newProcess(&phylo, argc, argv, foreground, fd);
     }
     else
     {
