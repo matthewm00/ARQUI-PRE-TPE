@@ -181,4 +181,30 @@ void phyloProblem(int argc, char **argv)
         sleep(FRONTEND_WAIT_SECONDS);
 
         printf("\nYa pueden entrar o salir comensales\n\n");
+
+        while(tableOpen){
+                char key = getChar();
+                switch (key)
+                {
+                case 'a':
+                        if(addPhylo() == -1)
+                                printf("\nNo hay mas lugar en la mesa.\n\n");
+                        else 
+                                printf("\nSe agrego un comensal.\n\n");
+                        
+                        break;
+                case 'r':
+                        if(removePhilo() == -1)
+                                printf("\nNo se puede retirar\n\n");
+                        else
+                                printf("\nSe retiro un comensal.\n\n");
+                        break;
+                case 'q':
+                        printf("\nSe finalizo con exito\n\n");
+                        tableOpen = 0;
+                        break;
+                default:
+                        break;
+                }
+        }
 }
