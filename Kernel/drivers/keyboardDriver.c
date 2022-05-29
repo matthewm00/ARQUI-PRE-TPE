@@ -3,6 +3,9 @@
 #include <interrupts.h>
 #include <videoDriver.h>
 #include <syscalls.h>
+#include <processManager.h>
+#include <semaphores.h>
+
 #define PRESS 1
 #define RELEASE 2
 #define ERROR -1
@@ -16,6 +19,8 @@ static int widx = 0;     // posicion de lectura
 #define RIGHT_SHIFT 0x36
 #define CAPS_LOCK 0x3A
 #define CTRL 0x1D
+
+#define KEYBOARD_SEM_ID 10
 
 static char buffer[BUFF_LEN] = {0};
 
@@ -186,4 +191,13 @@ uint64_t dumpBuffer(char *dest, int size)
     }
     dest[i] = 0;
     return i;
+}
+
+int initializeKeyboard()
+{
+    if (semOpen(KEYBOARD_SEM_ID, 0) == -1)
+    {
+        return -1;
+    }
+    return 0;
 }

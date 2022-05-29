@@ -15,7 +15,7 @@ static int pipeId = 70;
 void initialize(int argc, char **argv)
 {
     printf("\n  Utilice el comando help para obtener el manual de usuario.\n\n\n\n");
-    // killProcess(USERLAND_INIT_PID);
+    killProcess(USERLAND_INIT_PID);
     shellExecute();
 }
 

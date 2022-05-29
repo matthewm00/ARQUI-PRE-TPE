@@ -13,5 +13,5 @@ char getCharFromBuffer(); // MODO HLT
 void clearBuffer();
 void cleanKeyboardBuffer();
 int bufferSize();
-
+int initializeKeyboard();
 #endif

@@ -6,9 +6,10 @@
 int main()
 {
 	_setStack();
-	initialize(0, NULL);
-	// char *argv[] = {"Shell"};
-	// newProcess(initialize, 1, argv, FOREGROUND, NULL);
+	// initialize(0, NULL);
+	printf("\nllegue");
+	char *argv[] = {"Shell"};
+	newProcess(initialize, 1, argv, FOREGROUND, NULL);
 	return 0;
 }
 
