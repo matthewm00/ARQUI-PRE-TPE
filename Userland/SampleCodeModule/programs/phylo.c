@@ -158,4 +158,27 @@ void printTable(int argc, char **argv)
 
 void phyloProblem(int argc, char **argv)
 {
+        if(checkArgCount(argc, 1) == -1){
+                return;
+        }
+
+        phylosCounter = 0;
+        tableOpen = 1;
+        semOpen(MUTEX_SEM_ID, 1);
+
+        int i = 0;
+        while (i < INITIAL_PHYLOS){
+                addPhylo();
+                i++;
+        }
+
+        printf("\nDejamos comer a los filosofos iniciales por %d segundos.\n\n\n",
+                FRONTEND_WAIT_SECONDS);
+
+        char *args[] = {"Phylo Table"};
+        int tablePID = newProcess(&printTable, 1, args, BACKGROUND, NULL);
+
+        sleep(FRONTEND_WAIT_SECONDS);
+
+        printf("\nYa pueden entrar o salir comensales\n\n");
 }
