@@ -207,4 +207,13 @@ void phyloProblem(int argc, char **argv)
                         break;
                 }
         }
+        
+        int i;
+        for(i = 0; i < phylosCounter; i++){
+                semClose(phylos[i]->sem);
+                killProcess(phylos[i]->pid);
+                free(phylos[i]);
+        }
+        killProcess(tablePID);
+        semClose(MUTEX_SEM_ID);
 }
