@@ -1,16 +1,4 @@
 #include <shell.h>
-#include <libc.h>
-#include <commands.h>
-#include <stdint.h>
-#include <userSyscalls.h>
-
-#define USERLAND_INIT_PID 1
-
-static int runCommand(int argc, char **argv, int foreground, int *fd);
-static int runPipeCommand(int argc, char **argv, int fdin, int fdout, int foreground);
-static int handlePipe(int pipeIdx, int argc, char **argv);
-
-static int pipeId = 70;
 
 void initialize(int argc, char **argv)
 {
@@ -279,6 +267,26 @@ static int runCommand(int argc, char **argv, int foreground, int *fd)
     {
         // phylo(argc, argv);
         // return newProcess(&phylo, argc, argv, foreground, fd);
+    }
+    else if (strcmp("test_mm", argv[0]) == 0) // falta
+    {
+        test_mm(argc, argv);
+        // return newProcess(&test_mm, argc, argv, foreground, fd);
+    }
+    else if (strcmp("test_priority", argv[0]) == 0) // falta
+    {
+        test_priority(argc, argv);
+        // return newProcess(&test_priority, argc, argv, foreground, fd);
+    }
+    else if (strcmp("test_processes", argv[0]) == 0) // falta
+    {
+        test_processes(argc, argv);
+        // return newProcess(&test_processes, argc, argv, foreground, fd);
+    }
+    else if (strcmp("test_sync", argv[0]) == 0) // falta
+    {
+        test_sync(argc, argv);
+        // return newProcess(&test_sync, argc, argv, foreground, fd);
     }
     else
     {

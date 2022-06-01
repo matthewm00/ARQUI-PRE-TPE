@@ -1,9 +1,5 @@
 
-#include <test_util.h>
-
-#define SEM_ID 55
-#define TOTAL_PAIR_PROCESSES 2
-
+#include <test_sync.h>
 int64_t global; // shared memory
 
 void slowInc(int64_t *p, int64_t inc)
@@ -81,3 +77,33 @@ uint64_t test_sync(uint64_t argc, char *argv[])
 
   return 0;
 }
+
+uint64_t test_no_sync(uint64_t argc, char *argv[])
+{
+  uint64_t pids[2 * TOTAL_PAIR_PROCESSES];
+
+  if (argc != 2)
+    return -1;
+
+  global = 0;
+
+  uint64_t i;
+  for (i = 0; i < TOTAL_PAIR_PROCESSES; i++)
+  {
+    char *argv1[] = {"inc process without sem", "0", "1", "10000"};
+    pids[i] = newProcess(&my_process_inc, 4, argv1, BACKGROUND, NULL);
+    char *argv2[] = {"inc process without sem", "0", "-1", "10000"};
+    pids[i + TOTAL_PAIR_PROCESSES] = newProcess(&my_process_inc, 4, argv2, BACKGROUND, NULL);
+  }
+
+  for (i = 0; i < TOTAL_PAIR_PROCESSES; i++)
+  {
+    wait(pids[i]);
+    wait(pids[i + TOTAL_PAIR_PROCESSES]);
+  }
+
+  printf("Final value: %d\n", global);
+
+  return 0;
+}
+

@@ -1,17 +1,4 @@
-#include <test_util.h>
-
-enum State
-{
-  RUNNING,
-  WAITING,
-  KILLED
-};
-
-typedef struct P_rq
-{
-  int32_t pid;
-  enum State state;
-} p_rq;
+#include <test_processes.h>
 
 int64_t test_processes(uint64_t argc, char *argv[])
 {

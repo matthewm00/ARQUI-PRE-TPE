@@ -1,14 +1,15 @@
 {
     "files.associations": {
-        "pipes.h": "c",
-        "processmanager.h": "c",
-        "prints.h": "c",
-        "semaphores.h": "c",
-        "memorymanager.h": "c",
-        "interrupts.h": "c",
-        "videodriver.h": "c",
-        "colors.h": "c",
-        "syscalls.h": "c",
-        "keyboarddriver.h": "c"
+      "pipes.h": "c",
+      "processmanager.h": "c",
+      "prints.h": "c",
+      "semaphores.h": "c",
+      "memorymanager.h": "c",
+      "interrupts.h": "c",
+      "videodriver.h": "c",
+      "colors.h": "c",
+      "syscalls.h": "c",
+      "keyboarddriver.h": "c",
+      "test_util.h": "c"
     }
 }
