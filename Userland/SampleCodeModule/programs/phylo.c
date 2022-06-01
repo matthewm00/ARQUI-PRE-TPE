@@ -158,4 +158,62 @@ void printTable(int argc, char **argv)
 
 void phyloProblem(int argc, char **argv)
 {
+        if(checkArgCount(argc, 1) == -1){
+                return;
+        }
+
+        phylosCounter = 0;
+        tableOpen = 1;
+        semOpen(MUTEX_SEM_ID, 1);
+
+        int i = 0;
+        while (i < INITIAL_PHYLOS){
+                addPhylo();
+                i++;
+        }
+
+        printf("\nDejamos comer a los filosofos iniciales por %d segundos.\n\n\n",
+                FRONTEND_WAIT_SECONDS);
+
+        char *args[] = {"Phylo Table"};
+        int tablePID = newProcess(&printTable, 1, args, BACKGROUND, NULL);
+
+        sleep(FRONTEND_WAIT_SECONDS);
+
+        printf("\nYa pueden entrar o salir comensales\n\n");
+
+        while(tableOpen){
+                char key = getChar();
+                switch (key)
+                {
+                case 'a':
+                        if(addPhylo() == -1)
+                                printf("\nNo hay mas lugar en la mesa.\n\n");
+                        else 
+                                printf("\nSe agrego un comensal.\n\n");
+                        
+                        break;
+                case 'r':
+                        if(removePhilo() == -1)
+                                printf("\nNo se puede retirar\n\n");
+                        else
+                                printf("\nSe retiro un comensal.\n\n");
+                        break;
+                case 'q':
+                        printf("\nSe finalizo con exito\n\n");
+                        tableOpen = 0;
+                        break;
+                default:
+                        break;
+                }
+        }
+        
+        int i;
+        for(i = 0; i < phylosCounter; i++){
+                semClose(phylos[i]->sem);
+                killProcess(phylos[i]->pid);
+                free(phylos[i]);
+        }
+        killProcess(tablePID);
+        semClose(MUTEX_SEM_ID);
 }
