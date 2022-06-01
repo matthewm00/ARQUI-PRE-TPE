@@ -153,7 +153,6 @@ int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
   {
     return -1;
   }
-  printf("%s", "hola");
 
   if (initializeProcessControlBlock(&newProcess->pcb, argv[0], foreground, fd) == -1)
   {
@@ -187,7 +186,7 @@ int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
   {
     blockProcess(newProcess->pcb.ppid);
   }
-  printf("\n%s", "holaw");
+  printf("\n%s", "En el final de newProcess");
 
   return newProcess->pcb.pid;
 }

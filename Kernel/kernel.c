@@ -7,6 +7,7 @@
 #include <videoDriver.h>
 
 #include <memoryManager.h>
+#include <buddyList.h>
 #include <processManager.h>
 
 extern uint8_t text;
@@ -74,40 +75,42 @@ void *initializeKernelBinary()
 	ncNewline();
 	ncNewline();
 
-	load_idt();
-	initializeVideo();
 	return getStackBase();
 }
 
 int main()
 {
 
-	ncPrint("[Kernel Main]");
-	ncNewline();
-	ncPrint("  Sample code module at 0x");
-	ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	ncNewline();
-	ncPrint("  Calling the sample code module returned: ");
-	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	ncNewline();
-	ncNewline();
+	load_idt();
+	initializeVideo();
 
-	ncPrint("  Sample data module at 0x");
-	ncPrintHex((uint64_t)sampleDataModuleAddress);
-	ncNewline();
-	ncPrint("  Sample data module contents: ");
-	ncPrint((char *)sampleDataModuleAddress);
-	ncNewline();
+	// ncPrint("[Kernel Main]");
+	// ncNewline();
+	// ncPrint("  Sample code module at 0x");
+	// ncPrintHex((uint64_t)sampleCodeModuleAddress);
+	// ncNewline();
+	// ncPrint("  Calling the sample code module returned: ");
+	// ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
+	// ncNewline();
+	// ncNewline();
 
-	ncPrint("[Finished]");
+	// ncPrint("  Sample data module at 0x");
+	// ncPrintHex((uint64_t)sampleDataModuleAddress);
+	// ncNewline();
+	// ncPrint("  Sample data module contents: ");
+	// ncPrint((char *)sampleDataModuleAddress);
+	// ncNewline();
+
+	// ncPrint("[Finished]");
 
 	initializeMemoryManager((char *)sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
-	// initializeVideo();
-	// initializeKeyboard();
 	initializeProcessManager();
-	char *argv2[] = {"Userland Init"};
+	printf("%s", "Termino init Process\n");
+	initializeKeyboard();
+	printf("%s", "Termino init Keyboard\n");
+	// char *argv2[] = {"Userland Init"};
 	// newProcess(sampleCodeModuleAddress, 1, argv2, FOREGROUND, 0);
-	// load_idt();
+	((EntryPoint)sampleCodeModuleAddress)();
 	_hlt();
 	printf("\nFATAL FAILURE\n");
 	return 0;
