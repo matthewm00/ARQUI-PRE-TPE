@@ -87,30 +87,41 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         return readyProcess(rsi);
         break;
     case SYS_SEM_OPEN_ID:
+        return semOpen(rsi, rdx);
         break;
     case SYS_SEM_POST_ID:
+        return semWait(rsi);
         break;
     case SYS_SEM_WAIT_ID:
+        return semPost(rsi);
         break;
     case SYS_SEM_CLOSE_ID:
+        return semClose(rsi);
         break;
     case SYS_SEM_STATUS_ID:
+        semStatus();
         break;
-    case SYS_SEC_ELAPSED_ID:
-        break;
+    // case SYS_SEC_ELAPSED_ID:
+    //     return getSecondsElapsed();
+    //     break;
     case SYS_PIPE_STATUS_ID:
+        pipeStatus();
         break;
     case SYS_PIPE_OPEN_ID:
+        return pipeOpen(rsi);
         break;
     case SYS_PIPE_CLOSE_ID:
+        return pipeClose(rsi);
         break;
     case SYS_PIPE_WRITE_ID:
+        return pipeWrite(rsi, rdx);
         break;
     case SYS_PIPE_READ_ID:
+        return pipeRead(rsi);
         break;
     case SYS_WAIT_ID:
+        wait(rsi);
         break;
-
     default:
         break;
     }

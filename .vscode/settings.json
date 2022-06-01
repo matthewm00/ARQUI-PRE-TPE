@@ -10,6 +10,7 @@
       "colors.h": "c",
       "syscalls.h": "c",
       "keyboarddriver.h": "c",
-      "test_util.h": "c"
+      "test_util.h": "c",
+      "syscalldispatcher.h": "c"
     }
 }
