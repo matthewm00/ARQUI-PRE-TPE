@@ -178,7 +178,7 @@ void phyloProblem(int argc, char **argv)
         char *args[] = {"Phylo Table"};
         int tablePID = newProcess(&printTable, 1, args, BACKGROUND, NULL);
 
-        sleep(FRONTEND_WAIT_SECONDS);
+        // sleep(FRONTEND_WAIT_SECONDS);
 
         printf("\nYa pueden entrar o salir comensales\n\n");
 
@@ -208,7 +208,6 @@ void phyloProblem(int argc, char **argv)
                 }
         }
         
-        int i;
         for(i = 0; i < phylosCounter; i++){
                 semClose(phylos[i]->sem);
                 killProcess(phylos[i]->pid);
