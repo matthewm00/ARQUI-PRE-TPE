@@ -11,13 +11,6 @@
 #include <test_sync.h>
 
 #define USERLAND_INIT_PID 1
-
-static int runCommand(int argc, char **argv, int foreground, int *fd);
-static int runPipeCommand(int argc, char **argv, int fdin, int fdout, int foreground);
-static int handlePipe(int pipeIdx, int argc, char **argv);
-
-static int pipeId = 70;
-
 #define BUFFER_SIZE 100
 #define MAX_ARGUMENTS 5
 #define FOREGROUNG 1

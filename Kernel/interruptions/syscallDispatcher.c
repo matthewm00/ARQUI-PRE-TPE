@@ -108,19 +108,19 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         pipeStatus();
         break;
     case SYS_PIPE_OPEN_ID:
-        return pipeOpen(rsi);
+        return pipeOpen((int)rsi);
         break;
     case SYS_PIPE_CLOSE_ID:
-        return pipeClose(rsi);
+        return pipeClose((int)rsi);
         break;
     case SYS_PIPE_WRITE_ID:
-        return pipeWrite(rsi, rdx);
+        return pipeWrite((int)rsi, (char *)rdx);
         break;
     case SYS_PIPE_READ_ID:
-        return pipeRead(rsi);
+        return pipeRead((int)rsi);
         break;
     case SYS_WAIT_ID:
-        wait(rsi);
+        wait((int)rsi);
         break;
     default:
         break;

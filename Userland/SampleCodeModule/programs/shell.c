@@ -1,5 +1,11 @@
 #include <shell.h>
 
+static int runCommand(int argc, char **argv, int foreground, int *fd);
+static int runPipeCommand(int argc, char **argv, int fdin, int fdout, int foreground);
+static int handlePipe(int pipeIdx, int argc, char **argv);
+
+static int pipeId = 70;
+
 void initialize(int argc, char **argv)
 {
     printf("\n  Utilice el comando help para obtener el manual de usuario.\n\n\n\n");
