@@ -5,6 +5,7 @@
 #include <idtLoader.h>
 #include <keyboardDriver.h>
 #include <videoDriver.h>
+#include <prints.h>
 
 #include <memoryManager.h>
 #include <buddyList.h>
@@ -81,9 +82,6 @@ void *initializeKernelBinary()
 int main()
 {
 
-	load_idt();
-	initializeVideo();
-
 	// ncPrint("[Kernel Main]");
 	// ncNewline();
 	// ncPrint("  Sample code module at 0x");
@@ -102,15 +100,19 @@ int main()
 	// ncNewline();
 
 	// ncPrint("[Finished]");
-
+	load_idt();
+	initializeVideo();
 	initializeMemoryManager((char *)sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
+	// putChar('a');
+	// initializeKeyboard();
+	// putChar('c');
 	initializeProcessManager();
-	printf("%s", "Termino init Process\n");
-	initializeKeyboard();
-	printf("%s", "Termino init Keyboard\n");
+	// putChar('a');
+	// putChar('b');
+	// putChar('c');
 	// char *argv2[] = {"Userland Init"};
 	// newProcess(sampleCodeModuleAddress, 1, argv2, FOREGROUND, 0);
-	((EntryPoint)sampleCodeModuleAddress)();
+	// ((EntryPoint)sampleCodeModuleAddress)();
 	_hlt();
 	printf("\nFATAL FAILURE\n");
 	return 0;

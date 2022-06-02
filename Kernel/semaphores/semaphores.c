@@ -5,6 +5,7 @@
 #include <memoryManager.h>
 #include <processManager.h>
 #include <semaphores.h>
+#include <prints.h>
 
 t_semaphore *semaphores;
 
@@ -17,6 +18,7 @@ static void blockedProcessesDump(int *blockedProcesses, uint16_t blockedProcesse
 
 int semOpen(uint32_t id, uint64_t initialValue)
 {
+    printf("en semaforos\n");
     t_semaphore *semaphore = getSemaphore(id);
 
     if (semaphore == NULL)

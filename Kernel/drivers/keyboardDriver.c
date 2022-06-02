@@ -100,6 +100,10 @@ void keyboardHandler(uint64_t *rsp)
                     {
                         putCharInBuffer(charTable[scanCode][1]);
                     }
+                    else if (ctrl && charTable[scanCode][0] == 'c')
+                    {
+                        // killCurrentFGProcess();
+                    }
                     else
                     {
                         putCharInBuffer(charTable[scanCode][0]);

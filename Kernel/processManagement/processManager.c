@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <videoDriver.h>
+#include <keyboardDriver.h>
 
 static void *const sampleCodeModuleAddress = (void *)0x400000;
 
@@ -44,7 +45,6 @@ typedef struct
   uint64_t base;
 } t_stackFrame;
 
-static void idleProcess(int argc, char **argv);
 static int initializeProcessControlBlock(t_PCB *PCB, char *name, uint8_t foreground, int *fd);
 static int getArguments(char **to, char **from, int count);
 static void wrapper(void (*entryPoint)(int, char **), int argc, char **argv);
@@ -64,8 +64,18 @@ static t_process_list *processes;
 static t_process_node *currentProcess = NULL;
 static t_process_node *baseProcess;
 
+static void idleProcess(int argc, char **argv)
+{
+  printf("\en idle process\n");
+  while (1)
+  {
+    _hlt();
+  }
+}
+
 void initializeProcessManager()
 {
+  printf("\ncallin malloc\n");
   processes = malloc(sizeof(t_process_list));
   if (processes == NULL)
   {
@@ -79,9 +89,13 @@ void initializeProcessManager()
 
   char *argv[] = {"Initial Idle Process"};
 
+  printf("\ncalling new process\n");
+
   newProcess(&idleProcess, 1, argv, BACKGROUND, 0);
 
   baseProcess = dequeueProcess(processes);
+
+  printf("\ninit process manager succesful\n");
 }
 
 void *processManager(void *sp)
@@ -186,7 +200,7 @@ int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
   {
     blockProcess(newProcess->pcb.ppid);
   }
-  printf("\n%s", "En el final de newProcess");
+  printf("\n\n\nEn el final de newProcess");
 
   return newProcess->pcb.pid;
 }
@@ -353,15 +367,6 @@ void wait(int pid)
   {
     process->pcb.foreground = 1;
     blockProcess(currentProcess->pcb.pid);
-  }
-}
-
-static void idleProcess(int argc, char **argv)
-{
-  while (1)
-  {
-    cursor();
-    _hlt();
   }
 }
 
