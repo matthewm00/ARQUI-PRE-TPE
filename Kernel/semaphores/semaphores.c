@@ -7,7 +7,7 @@
 #include <semaphores.h>
 #include <prints.h>
 
-t_semaphore *semaphores;
+t_semaphore *semaphores = NULL;
 
 static t_semaphore *getSemaphore(uint32_t id);
 static t_semaphore *createSemaphore(uint32_t id, uint64_t initialValue);

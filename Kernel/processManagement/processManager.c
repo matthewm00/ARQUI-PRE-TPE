@@ -48,7 +48,6 @@ static void wrapper(void (*entryPoint)(int, char **), int argc, char **argv);
 static void initializeProcessStackFrame(void (*entryPoint)(int, char **), int argc, char **argv, void *rbp);
 static void freeProcess(t_process_node *p);
 static uint64_t getPID();
-static void end();
 static t_process_node *getProcess(uint64_t pid);
 static void printProcess(t_process_node *p);
 static char *fgToBoolStr(int fg);
@@ -64,10 +63,11 @@ static t_process_node *baseProcess;
 void idleProcess(int argc, char **argv)
 {
   printf("\en idle process\n");
-  while (1)
-  {
-    _hlt();
-  }
+  putChar('i');
+  // while (1)
+  // {
+  //   _hlt();
+  // }
 }
 
 void initializeProcessManager()
@@ -189,13 +189,15 @@ int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
   newProcess->pcb.argc = argc;
   newProcess->pcb.argv = arguments;
 
-  initializeProcessStackFrame(entryPoint, argc, arguments, newProcess->pcb.rbp);
+  // initializeProcessStackFrame(entryPoint, argc, arguments, newProcess->pcb.rbp);
+  initializeProcessStackFrame(entryPoint, argc, arguments, newProcess->pcb.rsp);
 
   newProcess->pcb.state = READY;
 
   queueProcess(processes, newProcess);
   if (newProcess->pcb.foreground && newProcess->pcb.ppid)
   {
+    printf("\n\nblocked\n");
     blockProcess(newProcess->pcb.ppid);
   }
   printf("\n\nEn el final de newProcess\n");
@@ -396,22 +398,20 @@ static int initializeProcessControlBlock(t_PCB *PCB, char *name, uint8_t foregro
   return 0;
 }
 
-static void end()
-{
-  (void)killProcess(currentProcess->pcb.pid);
-  _callTimerTick();
-}
-
 static void wrapper(void (*entryPoint)(int, char **), int argc, char **argv)
 {
+  printf("\nen wrapper\n");
+  printf("%d %s %d\n", argc, argv[0], (int)entryPoint);
   entryPoint(argc, argv);
-  end();
+  killProcess(currentProcess->pcb.pid);
+  _callTimerTick();
 }
 
 static void initializeProcessStackFrame(void (*entryPoint)(int, char **),
                                         int argc, char **argv, void *rbp)
 {
-  t_stackFrame *stackFrame = (t_stackFrame *)rbp - 1;
+  // t_stackFrame *stackFrame = (t_stackFrame *)rbp - 1;
+  t_stackFrame *stackFrame = (t_stackFrame *)rbp;
 
   stackFrame->gs = 0x001;
   stackFrame->fs = 0x002;

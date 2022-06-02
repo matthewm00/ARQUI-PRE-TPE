@@ -197,11 +197,7 @@ uint64_t dumpBuffer(char *dest, int size)
     return i;
 }
 
-int initializeKeyboard()
-{
-    if (semOpen(KEYBOARD_SEM_ID, 0) == -1)
-    {
-        return -1;
-    }
-    return 0;
-}
+// int initializeKeyboard()
+// {
+//     return semOpen(KEYBOARD_SEM_ID, 0);
+// }

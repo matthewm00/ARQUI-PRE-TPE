@@ -41,6 +41,22 @@ void strcpy(char *str1, char *str2)
 	str2[i] = 0;
 }
 
+int log2(uint32_t number)
+{
+	if (number == 0)
+	{
+		return -1;
+	}
+
+	int result = -1;
+	while (number)
+	{
+		result++;
+		number >>= 1;
+	}
+	return result;
+}
+
 static int scan(char const *fmt, va_list arg);
 
 // FUNCION DE CATEDRA

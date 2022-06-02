@@ -103,10 +103,7 @@ int main()
 	load_idt();
 	initializeVideo();
 	initializeMemoryManager((char *)sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
-	// putChar('a');
 	initializeProcessManager();
-	// putChar('b');
-	// initializeKeyboard();
 	putChar('a');
 	char *userland[] = {"Userland Init"};
 	newProcess(sampleCodeModuleAddress, 1, userland, FOREGROUND, 0);

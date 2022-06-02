@@ -10,6 +10,7 @@ void printIntHex(uint64_t num);
 void printIntBin(uint64_t num);
 int strlen(char *str);
 void printLine();
+int log2(uint32_t number);
 // void strcpy(char dest[], const char source[]);
 void strcpy(char *str1, char *str2);
 uint64_t uintToBase(uint64_t value, char *buffer, uint32_t base);

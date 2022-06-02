@@ -1,9 +1,10 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include <processManagerQueue.h>
-
+#include <prints.h>
 void queueProcess(t_process_list *processes, t_process_node *process)
 {
+  printf("\nqueue\n");
   if (queueIsEmpty(processes))
   {
     processes->first = process;
