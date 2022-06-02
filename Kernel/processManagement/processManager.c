@@ -5,10 +5,8 @@
 #include <prints.h>
 #include <processManager.h>
 #include <processManagerQueue.h>
-#include <stddef.h>
 #include <stdint.h>
 #include <videoDriver.h>
-#include <keyboardDriver.h>
 
 static void *const sampleCodeModuleAddress = (void *)0x400000;
 
@@ -46,7 +44,6 @@ typedef struct
 } t_stackFrame;
 
 static int initializeProcessControlBlock(t_PCB *PCB, char *name, uint8_t foreground, int *fd);
-static int getArguments(char **to, char **from, int count);
 static void wrapper(void (*entryPoint)(int, char **), int argc, char **argv);
 static void initializeProcessStackFrame(void (*entryPoint)(int, char **), int argc, char **argv, void *rbp);
 static void freeProcess(t_process_node *p);
@@ -64,7 +61,7 @@ static t_process_list *processes;
 static t_process_node *currentProcess = NULL;
 static t_process_node *baseProcess;
 
-static void idleProcess(int argc, char **argv)
+void idleProcess(int argc, char **argv)
 {
   printf("\en idle process\n");
   while (1)
@@ -155,6 +152,15 @@ void *processManager(void *sp)
   return currentProcess->pcb.rsp;
 }
 
+static void getArguments(char **buffer, char **argv, int argc)
+{
+  for (int i = 0; i < argc; i++)
+  {
+    buffer[i] = malloc(sizeof(char) * (strlen(argv[i]) + 1));
+    strcpy(argv[i], buffer[i]);
+  }
+}
+
 int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int foreground, int *fd)
 {
   if (entryPoint == NULL)
@@ -175,18 +181,10 @@ int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
   }
 
   char **arguments = malloc(sizeof(char *) * argc);
-  if (arguments == NULL)
-  {
-    free(newProcess);
-    return -1;
-  }
 
-  if (getArguments(arguments, argv, argc) == -1)
-  {
-    free(newProcess);
-    free(arguments);
-    return -1;
-  }
+  getArguments(arguments, argv, argc);
+
+  printf("\nen new process\n");
 
   newProcess->pcb.argc = argc;
   newProcess->pcb.argv = arguments;
@@ -200,7 +198,7 @@ int newProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
   {
     blockProcess(newProcess->pcb.ppid);
   }
-  printf("\n\n\nEn el final de newProcess");
+  printf("\n\nEn el final de newProcess\n");
 
   return newProcess->pcb.pid;
 }
@@ -377,16 +375,16 @@ static int initializeProcessControlBlock(t_PCB *PCB, char *name, uint8_t foregro
   strcpy(PCB->name, name);
   PCB->pid = getPID();
   PCB->ppid = (currentProcess == NULL ? 0 : currentProcess->pcb.pid);
-  if (foreground > 1)
+  if (foreground > 1 || foreground < 0)
   {
     return -1;
   }
 
-  PCB->foreground = (currentProcess == NULL ? foreground : (currentProcess->pcb.foreground ? foreground : 0));
+  PCB->foreground = currentProcess == NULL ? foreground : (currentProcess->pcb.foreground ? foreground : 0);
   PCB->rbp = malloc(SIZE_OF_STACK);
   PCB->priority = PCB->foreground ? FOREGROUND_PRIORITY_DEFAULT : BACKGROUND_PRIORITY_DEFAULT;
-  PCB->fileDescriptors[0] = (fd ? fd[0] : 0);
-  PCB->fileDescriptors[1] = (fd ? fd[1] : 1);
+  PCB->fileDescriptors[0] = fd ? fd[0] : 0;
+  PCB->fileDescriptors[1] = fd ? fd[1] : 1;
 
   if (PCB->rbp == NULL)
   {
@@ -395,26 +393,6 @@ static int initializeProcessControlBlock(t_PCB *PCB, char *name, uint8_t foregro
 
   PCB->rbp = (void *)((char *)PCB->rbp + SIZE_OF_STACK - 1);
   PCB->rsp = (void *)((t_stackFrame *)PCB->rbp - 1);
-  return 0;
-}
-
-static int getArguments(char **to, char **from, int count)
-{
-  for (int i = 0; i < count; i++)
-  {
-    to[i] = malloc(sizeof(char) * (strlen(from[i]) + 1));
-    if (to[i] == NULL)
-    {
-      i--;
-      while (i >= 0)
-      {
-        free(to[i]);
-        i--;
-      }
-      return -1;
-    }
-    strcpy(to[i], from[i]);
-  }
   return 0;
 }
 

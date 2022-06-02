@@ -104,14 +104,12 @@ int main()
 	initializeVideo();
 	initializeMemoryManager((char *)sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
 	// putChar('a');
-	// initializeKeyboard();
-	// putChar('c');
 	initializeProcessManager();
-	// putChar('a');
 	// putChar('b');
-	// putChar('c');
-	// char *argv2[] = {"Userland Init"};
-	// newProcess(sampleCodeModuleAddress, 1, argv2, FOREGROUND, 0);
+	// initializeKeyboard();
+	putChar('a');
+	char *userland[] = {"Userland Init"};
+	newProcess(sampleCodeModuleAddress, 1, userland, FOREGROUND, 0);
 	// ((EntryPoint)sampleCodeModuleAddress)();
 	_hlt();
 	printf("\nFATAL FAILURE\n");

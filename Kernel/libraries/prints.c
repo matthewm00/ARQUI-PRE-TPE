@@ -18,20 +18,27 @@ int strlen(char *str)
 	return size;
 }
 
-void strcpy(char dest[], const char source[])
-{
-	int i = 0;
-	while (1)
-	{
-		dest[i] = source[i];
+// void strcpy(char dest[], const char source[])
+// {
+// 	int i = 0;
+// 	while (1)
+// 	{
+// 		dest[i] = source[i];
 
-		if (dest[i] == 0)
-		{
-			break;
-		}
+// 		if (dest[i] == 0)
+// 		{
+// 			break;
+// 		}
 
-		i++;
-	}
+// 		i++;
+// 	}
+// }
+void strcpy(char *str1, char *str2)
+{ // copies str1 into str2
+	int i;
+	for (i = 0; str1[i] != 0; i++)
+		str2[i] = str1[i];
+	str2[i] = 0;
 }
 
 static int scan(char const *fmt, va_list arg);
