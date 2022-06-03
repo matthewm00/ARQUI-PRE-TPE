@@ -14,7 +14,7 @@ unsigned int PIXEL_SIZE = 3; // bytes por pixel
 unsigned int DEFAULT_BG_COLOUR = 0X000000;
 unsigned int DEFAULT_FONT_COLOUR = 0XFFFFFF;
 
-unsigned int USER_LENGHT = 12;
+unsigned int USER_LENGHT = 9;
 unsigned int lineCounter = 0;
 
 // cursor basado en codigo de ayudante en practica

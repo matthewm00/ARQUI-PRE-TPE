@@ -15,11 +15,14 @@ static int pipeWriter(char c, int idx);
 static int getNewIndex();
 static int getIndex(int pipeId);
 
-int pipeOpen(int pipeId) {
+int pipeOpen(int pipeId)
+{
   int idx;
-  if ((idx = getIndex(pipeId)) == -1) {
+  if ((idx = getIndex(pipeId)) == -1)
+  {
     idx = createPipe(pipeId);
-    if (idx == -1) {
+    if (idx == -1)
+    {
       return -1;
     }
   }
@@ -27,23 +30,28 @@ int pipeOpen(int pipeId) {
   return pipeId;
 }
 
-int pipeWrite(int pipeId, char *str) {
+int pipeWrite(int pipeId, char *str)
+{
   int idx = getIndex(pipeId);
-  if (idx == -1) {
+  if (idx == -1)
+  {
     return -1;
   }
   int i = 0;
-  while (str[i] != 0) {
+  while (str[i] != 0)
+  {
     pipeWriter(str[i], idx);
     i++;
   }
   return pipeId;
 }
 
-int pipeRead(int pipeId) {
+int pipeRead(int pipeId)
+{
   int idx = getIndex(pipeId);
 
-  if (idx == -1) {
+  if (idx == -1)
+  {
     return -1;
   }
 
@@ -62,9 +70,11 @@ int pipeRead(int pipeId) {
   return c;
 }
 
-int pipeClose(int pipeId) {
+int pipeClose(int pipeId)
+{
   int idx = getIndex(pipeId);
-  if (idx == -1) {
+  if (idx == -1)
+  {
     return -1;
   }
 
@@ -72,7 +82,8 @@ int pipeClose(int pipeId) {
 
   pipe->totalProcesses--;
 
-  if (pipe->totalProcesses > 0) {
+  if (pipe->totalProcesses > 0)
+  {
     return 1;
   }
 
@@ -84,7 +95,8 @@ int pipeClose(int pipeId) {
   return 1;
 }
 
-static int pipeWriter(char c, int idx) {
+static int pipeWriter(char c, int idx)
+{
   t_pipe *pipe = &(pipes[idx]);
 
   semWait(pipe->writeLock);
@@ -98,28 +110,36 @@ static int pipeWriter(char c, int idx) {
   return 0;
 }
 
-static int getIndex(int pipeId) {
-  for (int i = 0; i < MAX_PIPES; i++) {
-    if (pipes[i].state == IN_USE && pipes[i].id == pipeId) {
+static int getIndex(int pipeId)
+{
+  for (int i = 0; i < MAX_PIPES; i++)
+  {
+    if (pipes[i].state == IN_USE && pipes[i].id == pipeId)
+    {
       return i;
     }
   }
   return -1;
 }
 
-static int getNewIndex() {
-  for (int i = 0; i < MAX_PIPES; i++) {
-    if (pipes[i].state == EMPTY) {
+static int getNewIndex()
+{
+  for (int i = 0; i < MAX_PIPES; i++)
+  {
+    if (pipes[i].state == EMPTY)
+    {
       return i;
     }
   }
   return -1;
 }
 
-static int createPipe(int pipeId) {
+static int createPipe(int pipeId)
+{
   int idx;
 
-  if ((idx = getNewIndex()) == -1) {
+  if ((idx = getNewIndex()) == -1)
+  {
     return -1;
   }
 
@@ -129,28 +149,34 @@ static int createPipe(int pipeId) {
   pipe->state = IN_USE;
   pipe->readIndex = pipe->writeIndex = pipe->totalProcesses = 0;
 
-  if ((pipe->readLock = semOpen(initialSemId++, 0)) == -1) {
+  if ((pipe->readLock = semOpen(initialSemId++, 0)) == -1)
+  {
     return -1;
   }
-  if ((pipe->writeLock = semOpen(initialSemId++, PIPE_BUFFER_SIZE)) == -1) {
+  if ((pipe->writeLock = semOpen(initialSemId++, PIPE_BUFFER_SIZE)) == -1)
+  {
     return -1;
   }
 
   return pipeId;
 }
 
-void pipeStatus() {
+void pipeStatus()
+{
   printf("\n\nActive Pipe Status\n\n");
-  for (int i = 0; i < MAX_PIPES; i++) {
+  for (int i = 0; i < MAX_PIPES; i++)
+  {
     t_pipe pipe = pipes[i];
-    if (pipe.state == IN_USE) {
+    if (pipe.state == IN_USE)
+    {
       printf("Pipe ID: %d\n", pipe.id);
       printf("    Amount of attached processes: %d\n", pipe.totalProcesses);
       printf("    Read semaphore: %d\n", pipe.readLock);
       printf("    Write semaphore: %d\n", pipe.writeLock);
       printf("    Pipe buffer content: ");
       for (int i = pipe.readIndex; i != pipe.writeIndex;
-           i = (i + 1) % PIPE_BUFFER_SIZE) {
+           i = (i + 1) % PIPE_BUFFER_SIZE)
+      {
         putChar(pipe.buffer[i]);
       }
     }

@@ -211,7 +211,7 @@ static void printTable(int argc, char **argv)
       }
       else
       {
-        putChar('-');
+        putChar('.');
       }
       putChar(' ');
     }

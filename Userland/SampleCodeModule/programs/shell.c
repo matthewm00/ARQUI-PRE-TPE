@@ -33,7 +33,7 @@ static t_command commands[COMMAND_COUNT] = {
     {&help, "/help", "Listado de comandos"},
     {&clear, "/clear", "Limpia la pantalla actual"},
     {&getInfoReg, "/inforeg",
-     "Estado de todos los resgitros, use    Ctrl + R para capturar los mismos"},
+     "Estado de todos los resgitros, use Ctrl + R para capturar los mismos"},
     {&exit, "/exit", "Finaliza la ejecucion"},
     {&opCode, "/opcode", "Excepcion opcode invalido"},
     {&getCurrentDayTime, "/date&time", "Fecha y hora actual"},
@@ -51,7 +51,7 @@ static t_command commands[COMMAND_COUNT] = {
     {&blockProcessWrapper, "/block", "Bloquea un proceso"},
     {&unblockProcessWrapper, "/unblock", "Desbloquea un proceso"},
     {&cat, "/cat", "Imprime el texto ingresado luego de   ejecutar el comando"},
-    {&loop, "/loop", "Imprime un saludo cada 3 segundos"},
+    {&loop, "/loop", "Imprime un saludo cada X segundos"},
     {&pipeStatusWrapper, "/pipe", "Imprime el estado de los pipes"},
     {&filter, "/filter",
      "Filtra las vocales del texto ingresadoluego de ejecutar el comando"},
@@ -73,9 +73,8 @@ static t_shell shellData;
 
 void initialize(int argc, char **argv)
 {
-  printf("\n         Sistemas Operativos --- 1Q 2022\n\n");
-  printf("\n  Utilice el comando /help para obtener un manual de "
-         "usuario.\n\n\n\n");
+  printf("\n                   Sistemas Operativos --- 1Q 2022\n\n");
+  printf("\n  Utilice el comando /help para obtener un manual de usuario.\n\n\n");
   strcpy(shellData.userName, "User");
   initializeCommands();
   killProcess(USERLAND_INIT_PID);
@@ -279,20 +278,26 @@ static int runPipeCmd(int argc, char **argv, int fdin, int fdout, int foreground
 
 static void printHelpTable()
 {
-  printf("\n\n\nLista de comandos\n");
+  printf("\nLista de comandos\n");
 
   for (int i = 0; i < TEST_COMMAND_START; i++)
   {
     printRow(shellData.commands[i].name, shellData.commands[i].description, 1);
   }
+  printf("\nEjemplos de uso:  /c1 | /c2   /c1 &   /c1 arg1 ...");
+  printf("\nUse /helptest para obtener informacion de los tests");
+  printf("\nUse /helpshell para obtener informacion de la shell");
+  printf("\n");
 }
 
 static void printHelpTestTable()
 {
-  printf("\n\n\nLista de tests\n");
-  for (int i = TEST_COMMAND_START; i < COMMAND_COUNT - 2; i++)
+  printf("\nLista de tests\n");
+  int count = 0;
+  for (int i = TEST_COMMAND_START; count < TEST_COMMAND_COUNT; i++)
   {
     printRow(shellData.commands[i].name, shellData.commands[i].description, 1);
+    count++;
   }
 }
 
@@ -324,13 +329,10 @@ static void helpShell(int argc, char **argv)
   {
     return;
   }
-  printf("Instructivo para manejo de la shell");
+  printf("\nInstructivo para manejo de la shell\n");
   printf("Use Ctrl + C para terminar el proceso actual.\n");
   printf("Use Ctrl + S para capturar el valor de los registros\n");
-  printf(
-      "Use Ctrl + D para obtener resultados en comandos como \n/wc o "
-      "/filter\n");
-  printf("\n");
+  printf("Use Ctrl + D para obtener resultados en comandos como /cat , /wc o /filter\n");
 }
 
 static void helpTest(int argc, char **argv)

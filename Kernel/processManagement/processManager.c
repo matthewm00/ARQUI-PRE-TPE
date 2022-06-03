@@ -259,7 +259,9 @@ void yield()
 int setState(uint64_t pid, t_state newState)
 {
   t_process_node *process = getProcess(pid);
-  if (process == NULL || process->pcb.state == TERMINATED)
+  // if (newState == TERMINATED)
+  //   printString(process->pcb.name);
+  if (process == NULL)
   {
     return -1;
   }
@@ -513,11 +515,10 @@ static void printProcess(t_process_node *process)
   if (process != NULL)
   {
     printf(
-        "Name: %s\nPID: %d\nPPID: %d\nForeground: %s\nRSP: %x\nRBP: "
-        "%x\nPriority: %d\nState: %s\n\n",
+        "Name: %s\nPID: %d\nPPID: %d\nPriority: %d\nRSP: %x\nRBP: %x\nForeground: %s\nState: %s\n\n",
         process->pcb.name, process->pcb.pid, process->pcb.ppid,
-        fgToBoolStr((int)process->pcb.foreground), (uint64_t)process->pcb.rsp,
-        (uint64_t)process->pcb.rbp, process->pcb.priority,
+        process->pcb.priority, (uint64_t)process->pcb.rsp,
+        (uint64_t)process->pcb.rbp, fgToBoolStr((int)process->pcb.foreground),
         stateToStr(process->pcb.state));
   }
 }

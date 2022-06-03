@@ -143,7 +143,6 @@ void exit(int argc, char **argv)
   {
     return;
   }
-  printf("\nMuchas gracias por utilizar DOG-OS, esperamos su regreso.\n");
   printf("\nUsted cerro el TP, el mismo ya no funcionara.\n\n");
   (void)_syscall(SYS_EXIT_ID, 0, 0, 0, 0, 0);
 }
@@ -366,7 +365,8 @@ void loop(int argc, char **argv)
   int pid = getProcessPID();
   while (1)
   {
-    printf("Soy el proceso %d\n", pid);
+    printf("Hola, soy el proceso #%d\n", pid);
+    sleep(3);
   }
 }
 
