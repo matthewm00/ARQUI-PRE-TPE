@@ -2,16 +2,17 @@
 #include <colors.h>
 #include <syscalls.h>
 #include <lib.h>
+#include <processManager.h>
 
 #define ZERO_EXCEPTION_ID 0
 #define INVOP_EXCEPTION_ID 6
 
-#define REGISTER_AMOUNT 19
+#define REGISTER_AMOUNT 17
 
 static char *registerNames[] = {
 	"R15: ", "R14: ", "R13: ", "R12: ", "R11: ", "R10: ", "R9: ",
 	"R8: ", "RSI: ", "RDI: ", "RBP: ", "RDX: ", "RCX: ", "RBX: ",
-	"RAX: ", "RIP: ", "CS: ", "FLAGS: ", "RSP: "};
+	"RAX: ", "RIP: ", "RSP: "};
 
 static void zero_division();
 static void inv_op_code();
@@ -29,6 +30,7 @@ void exceptionDispatcher(int exception, uint64_t rsp)
 		break;
 	}
 	printRegs((uint64_t *)rsp);
+	killProcess(getProcessPID());
 	return;
 }
 

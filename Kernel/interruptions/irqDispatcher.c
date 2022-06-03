@@ -30,5 +30,5 @@ static void int_20()
 
 static void int_21(uint64_t rsp)
 {
-	keyboardHandler((uint64_t *)rsp);
+	keyboardHandler(rsp);
 }

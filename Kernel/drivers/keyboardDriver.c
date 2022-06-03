@@ -62,7 +62,7 @@ int bufferSize()
 {
     return buffSize;
 }
-void keyboardHandler(uint64_t *rsp)
+void keyboardHandler(uint64_t rsp)
 {
     uint8_t scanCode;
     uint8_t currentAction;
@@ -94,7 +94,7 @@ void keyboardHandler(uint64_t *rsp)
                 {
                     if (ctrl && charTable[scanCode][0] == 's')
                     {
-                        saveRegisters(rsp);
+                        saveRegisters((uint64_t *)rsp);
                     }
                     else if ((shift && !capsLock) || (shift && capsLock && !(charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z')) || (!shift && capsLock && charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z'))
                     {

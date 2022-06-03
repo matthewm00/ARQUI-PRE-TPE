@@ -1,7 +1,5 @@
 #include <syscalls.h>
 
-#define REGISTER_AMOUNT 19
-
 static uint64_t registers[REGISTER_AMOUNT] = {0};
 
 static int BCDtoInt(uint64_t number)
@@ -31,13 +29,33 @@ void sys_write(char *str, uint8_t len, t_color bgColor, t_color ftColor)
 {
 	if (str == 0 || len <= 0 || bgColor < 0 || ftColor < 0)
 		return;
-	for (int i = 0; str[i] != 0 && i < len; i++)
-		printChar(str[i], ftColor, bgColor, 1);
+
+	int outputFD = getCurrentProcessOutputFD();
+
+	if (outputFD == 1)
+	{
+		for (int i = 0; str[i] != 0 && i < len; i++)
+			printChar(str[i], ftColor, bgColor, 1);
+	}
+	else
+	{
+		pipeWrite(outputFD, str);
+	}
 }
 
 uint64_t sys_read()
 {
-	return getCharFromBuffer();
+	int inputFD = getCurrentProcessInputFD();
+	if (inputFD == 0)
+	{
+		if (currentProcessIsForeground() == 1)
+		{
+			return getCharFromBuffer();
+		}
+		else
+			return -1;
+	}
+	return pipeRead(inputFD);
 }
 
 uint64_t *getRegisters()

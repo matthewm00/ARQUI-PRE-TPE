@@ -5,8 +5,10 @@
 #include <colors.h>
 #include <keyboardDriver.h>
 #include <videoDriver.h>
+#include <pipes.h>
+#include <processManager.h>
 
-#define REGISTER_AMOUNT 19
+#define REGISTER_AMOUNT 17
 
 // #define SYS_RTC_ID 1
 // #define SYS_READ_ID 2
@@ -73,7 +75,7 @@ void sys_write(char *str, uint8_t len, t_color bgColor, t_color ftColor);
 uint64_t sys_read();
 void getMem(uint64_t direc, uint8_t *buffer, uint64_t bytes);
 uint8_t _getMem(uint64_t direc);
-void _exit(int n);
+void _exit();
 uint64_t *getRegisters();
 void saveRegisters(uint64_t *rsp);
 uint8_t getHour();

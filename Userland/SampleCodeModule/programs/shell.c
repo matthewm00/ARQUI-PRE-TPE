@@ -325,12 +325,10 @@ static void helpShell(int argc, char **argv)
     return;
   }
   printf("Instructivo para manejo de la shell");
-  printf("\nUse Ctrl + TAB para cambiar de pantalla.\n");
   printf("Use Ctrl + C para terminar el proceso actual.\n");
-  printf("Use Ctrl + R para capturar el valor de los registros\n");
-  printf(
-      "Use Ctrl + D para obtener resultados en comandos como \n/wc o "
-      "/filter\n");
+  printf("Use Ctrl + S para capturar el valor de los registros\n");
+  printf("Use Ctrl + D para obtener resultados en comandos como \n/wc o "
+         "/filter\n");
   printf("\n");
 }
 
