@@ -77,7 +77,7 @@ void startShell(int argc, char **argv)
   printf("\n         Sistemas Operativos --- 1Q 2022\n\n");
   printf("\n  Utilice el comando /help para obtener un manual de "
          "usuario.\n\n\n\n");
-  strcpy(shellData.userName, "DefaultUser");
+  strcpy(shellData.userName, "User");
   initializeCommands();
   killProcess(USERLAND_INIT_PID);
   shellExecute();
@@ -221,7 +221,7 @@ static int handlePipe(int pipeIndex, int argc, char **argv)
   int pipe = pipeOpen(pipeId++);
   if (pipe == -1)
   {
-    printf("\nError creating pipe.\n");
+    printf("\nError creando pipe.\n");
     return -2;
   }
 
@@ -324,9 +324,8 @@ static void helpShell(int argc, char **argv)
     return;
   }
   printf("Instructivo para manejo de la shell");
-  printf("\nUse Ctrl + TAB para cambiar de pantalla.\n");
   printf("Use Ctrl + C para terminar el proceso actual.\n");
-  printf("Use Ctrl + R para capturar el valor de los registros\n");
+  printf("Use Ctrl + S para capturar el valor de los registros\n");
   printf(
       "Use Ctrl + D para obtener resultados en comandos como \n/wc o "
       "/filter\n");

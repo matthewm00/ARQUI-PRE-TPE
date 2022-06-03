@@ -7,7 +7,6 @@ SOURCES_INTERRUPTIONS_ASM=$(wildcard interruptions/*.asm)
 SOURCES_LIBRARIES=$(wildcard libraries/*.c)
 SOURCES_DRIVERS=$(wildcard drivers/*.c)
 SOURCES_ASM=$(wildcard asm/*.asm)
-
 SOURCES_MEMORY_MANAGEMENT=$(wildcard memoryManagement/*.c)
 SOURCES_PROCESS_MANAGEMENT=$(wildcard processManagement/*.c)
 SOURCES_SEMAPHORES=$(wildcard semaphores/*.c)
@@ -19,15 +18,14 @@ OBJECTS_INTERRUPTIONS_ASM=$(SOURCES_INTERRUPTIONS_ASM:.asm=.o)
 OBJECTS_ASM=$(SOURCES_ASM:.asm=.o)
 OBJECTS_LIBRARIES=$(SOURCES_LIBRARIES:.c=.o)
 OBJECTS_DRIVERS=$(SOURCES_DRIVERS:.c=.o)
-
 OBJECTS_MEMORY_MANAGEMENT = $(SOURCES_MEMORY_MANAGEMENT:.c=.o)
 OBJECTS_PROCESS_MANAGEMENT = $(SOURCES_PROCESS_MANAGEMENT:.c=.o)
 OBJECTS_SEMAPHORES = $(SOURCES_SEMAPHORES:.c=.o)
 OBJECTS_PIPES = $(SOURCES_PIPES:.c=.o)
 
-LOADERSRC=loader.asm
-
 MM_SELECTOR=-D MEMORY_MANAGER_BUDDY
+
+LOADERSRC=loader.asm
 
 LOADEROBJECT=$(LOADERSRC:.asm=.o)
 STATICLIBS=
@@ -36,7 +34,6 @@ ALL_OBJECTS= $(LOADEROBJECT) $(OBJECTS) $(OBJECTS_ASM) $(OBJECTS_INTERRUPTIONS) 
 all: $(KERNEL)
 $(KERNEL): $(STATICLIBS) $(ALL_OBJECTS)
 	$(LD) $(LDFLAGS) -T kernel.ld -o $@ $^
-	$(LD) $(LDFLAGS) -T kernel.ld -o kernel.elf --oformat=elf64-x86-64  $^
 
 %.o: %.c
 	$(GCC) $(GCCFLAGS) -I./include -I./interruptions $(MM_SELECTOR) -c $< -o $@

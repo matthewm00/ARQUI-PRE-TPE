@@ -1,73 +1,76 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+#include <infoReg.h>
+#include <keyboardDriver.h>
+#include <pipes.h>
+#include <processManager.h>
 #include <syscalls.h>
+#include <videoDriver.h>
 
-#define REGISTER_AMOUNT 19
-
-static uint64_t registers[REGISTER_AMOUNT] = {0};
-
-static int BCDtoInt(uint64_t number)
-{
-
-	return ((number & 0xF0) >> 4) * 10 + (number & 0xF);
-}
+static uint64_t registers[16] = {0};
 
 // https://wiki.osdev.org/CMOS#Format_of_Bytes
 uint8_t getCurrentTime(uint64_t rtcID)
 {
-	uint8_t x = _getRTCInfo(rtcID);
-	// uint8_t result = ((x / 16) * 10) + (x & 0xf);
-	// return result;
-	return BCDtoInt(x);
+  uint8_t x = _getRTCInfo(rtcID);
+  uint8_t result = ((x / 16) * 10) + (x & 0xf);
+  return result;
 }
 
 void getMem(uint64_t direc, uint8_t *buffer, uint64_t bytes)
 {
-	for (uint8_t i = 0; i < bytes; i++)
-	{
-		buffer[i] = (uint8_t)_getMem(direc + i);
-	}
+  for (uint8_t i = 0; i < bytes; i++)
+  {
+    buffer[i] = (uint8_t)_getMem(direc + i);
+  }
 }
 
-void sys_write(char *str, uint8_t len, t_color bgColor, t_color ftColor)
+void sysWrite(char *str, uint8_t len, t_color bgColor, t_color ftColor, int usrLen)
 {
-	if (str == 0 || len <= 0 || bgColor < 0 || ftColor < 0)
-		return;
-	for (int i = 0; str[i] != 0 && i < len; i++)
-		printChar(str[i], ftColor, bgColor, 1);
+  if (str == 0 || len <= 0)
+  {
+    return;
+  }
+
+  int outputFD = getCurrentProcessOutputFD();
+
+  if (outputFD == 1)
+  {
+    int i = 0;
+    for (; i < len && str[i] != 0; i++)
+    {
+      printChar(str[i], ftColor, bgColor, 1);
+    }
+  }
+  else
+  {
+    pipeWrite(outputFD, str);
+  }
 }
 
-uint64_t sys_read()
+uint64_t sysRead()
 {
-	return getCharFromBuffer();
+  int inputFD = getCurrentProcessInputFD();
+  if (inputFD == 0)
+  {
+    if (currentProcessIsForeground() == 1)
+    {
+      return getChar();
+    }
+    else
+    {
+      return -1;
+    }
+  }
+  return pipeRead(inputFD);
 }
 
-uint64_t *getRegisters()
-{
-	return registers;
-}
+uint64_t *getRegisters() { return registers; }
 
-void saveRegisters(uint64_t *rsp)
+void updateRegisters(uint64_t *rsp)
 {
-	for (int i = 0; i < REGISTER_AMOUNT; i++)
-	{
-		registers[i] = rsp[i];
-	}
-}
-
-uint8_t getDecimalTime(uint64_t type)
-{
-	switch (type)
-	{
-	case 0:
-	{
-		return BCDtoInt(getHour());
-	}
-	case 1:
-	{
-		return BCDtoInt(getMins());
-	}
-	default:
-	{
-		return BCDtoInt(getSeconds());
-	}
-	}
+  for (int i = 0; i < 16; i++)
+  {
+    registers[i] = rsp[i];
+  }
 }

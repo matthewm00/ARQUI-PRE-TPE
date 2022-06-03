@@ -12,6 +12,9 @@
     "keyboarddriver.h": "c",
     "test_util.h": "c",
     "syscalldispatcher.h": "c",
-    "buddylist.h": "c"
+    "buddylist.h": "c",
+    "lib.h": "c",
+    "processmanagerqueue.h": "c",
+    "inforeg.h": "c"
   }
 }

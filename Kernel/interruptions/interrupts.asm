@@ -5,6 +5,8 @@ GLOBAL picSlaveMask
 GLOBAL haltcpu
 GLOBAL _hlt
 
+GLOBAL _xchg
+
 GLOBAL _irq00Handler
 GLOBAL _irq01Handler
 GLOBAL _irq02Handler
@@ -19,10 +21,9 @@ GLOBAL _syscallHandler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
-EXTERN syscallDispatcher
+EXTERN syscallSelector
 EXTERN getStackBase
-
-GLOBAL _xchg
+EXTERN processManager
 
 SECTION .text
 
@@ -62,17 +63,55 @@ SECTION .text
 	pop rax
 %endmacro
 
+%macro pushStateExtra 0
+	push rax
+	push rbx
+	push rcx
+	push rdx
+	push rbp
+	push rdi
+	push rsi
+	push r8
+	push r9
+	push r10
+	push r11
+	push r12
+	push r13
+	push r14
+	push r15
+	push fs
+    push gs
+%endmacro
+
+%macro popStateExtra 0
+	pop gs
+	pop fs
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop r11
+	pop r10
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	pop rbp
+	pop rdx
+	pop rcx
+	pop rbx
+	pop rax
+%endmacro
+
 
 %macro irqHandlerMaster 1
 	pushState
 
-	mov rdi, %1 ; pasaje de parametro
-	mov rsi, rsp ; pasaje del "vector" de registros
+	mov rdi, %1
+	mov rsi, rsp
 	call irqDispatcher
 
-	; signal pic EOI (End of Interrupt)
-	mov al, 20h
-	out 20h, al
+	sendEndOfInterrupt
 
 	popState
 	iretq
@@ -81,21 +120,16 @@ SECTION .text
 
 
 %macro exceptionHandler 1
-
 	pushState
 
-	mov rdi, %1 ; pasaje de parametro
-	mov rsi, rsp ; puntero al stack generado por la excepcion
+	mov rdi, %1
+	mov rsi, rsp
 	call exceptionDispatcher
-	
-	popState
- 
-	call getStackBase 
-	mov [rsp + 3*8], rax ; reset stack
-	mov rax, 0x400000 ; sampleCodeModuleAddress
-	mov [rsp], rax
-	
-	iretq
+%endmacro
+
+%macro sendEndOfInterrupt 0
+	mov al, 20h
+	out 20h, al
 %endmacro
 
 _hlt:
@@ -111,6 +145,11 @@ _cli:
 
 _sti:
 	sti
+	ret
+
+_xchg:
+	mov rax, rsi
+	xchg [rdi], eax		; put eax in [rdi] and [rdi] in eax
 	ret
 
 picMasterMask:
@@ -132,7 +171,20 @@ picSlaveMask:
 
 ;8254 Timer (Timer Tick)
 _irq00Handler:
-	irqHandlerMaster 0
+	pushStateExtra
+
+	mov rdi, 0
+	mov rsi, rsp
+	call irqDispatcher
+
+	mov rdi,rsp
+	call processManager
+	mov rsp, rax
+
+	sendEndOfInterrupt
+
+	popStateExtra
+	iretq
 
 ;Keyboard
 _irq01Handler:
@@ -162,7 +214,6 @@ _exception0Handler:
 ;Invalid OpCode Exception
 _exception6Handler:
 	exceptionHandler 6
-	
 haltcpu:
 	cli
 	hlt
@@ -170,17 +221,9 @@ haltcpu:
 
 _syscallHandler:
 
-
-	call syscallDispatcher
+	call syscallSelector
 	
 	iretq
-
-
-_xchg:
-	mov rax, rsi
-	xchg [rdi], eax		; put eax in [rdi] and [rdi] in eax
-	ret
-
 
 SECTION .bss
 	aux resq 1

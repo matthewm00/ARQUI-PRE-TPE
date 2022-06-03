@@ -1,50 +1,102 @@
+GLOBAL cpuVendor
+GLOBAL _checkCPUID
 GLOBAL _getRTCInfo
+GLOBAL _checkCPUFeatures
+
 GLOBAL _getKey
 GLOBAL _hasKey
 GLOBAL _getMem
 GLOBAL _exit
-GLOBAL getHour
-GLOBAL getMins
-GLOBAL getSeconds
 GLOBAL _callTimerTick
-
 section .text
-
-%macro pushState 0
-	push rax
-	push rbx
-	push rcx
-	push rdx
+	
+cpuVendor:
 	push rbp
-	push rdi
-	push rsi
-	push r8
-	push r9
-	push r10
-	push r11
-	push r12
-	push r13
-	push r14
-	push r15
-%endmacro
+	mov rbp, rsp
 
-%macro	popState 0
-	pop r15
-	pop r14
-	pop r13
-	pop r12
-	pop r11
-	pop r10
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	pop rbp
-	pop rdx
-	pop rcx
+    call _checkCPUID
+    cmp rax, 0
+    jz .end 
+
+	push rbx
+
+	mov rax, 0
+	cpuid
+
+
+	mov [rdi], ebx
+	mov [rdi + 4], edx
+	mov [rdi + 8], ecx
+
+	mov byte [rdi+13], 0
+
+	mov rax, rdi
+
 	pop rbx
-	pop rax
-%endmacro
+
+.end:
+	mov rsp, rbp
+	pop rbp
+	ret
+
+
+;https://www.youtube.com/watch?v=p5X1Sf5ejCc
+_checkCPUID:
+    push rbx ; save callers rbx
+    pushfq ; push the flags register
+    pop rax ; pop it into eax
+    mov rbx, rax ; save value into ebx
+    xor rax, 200000h ; set bit 21, the ID flag, to 1
+    push rax ; push this toggled flags register
+    popfq ; pop the toggled flags back into the flags register
+    pushfq ; push the flags again
+    pop rax ;pop the flags into eax again
+    
+    cmp rax, rbx ;comapre the flags to the eax version we saved earlier
+    jz No_CPUID
+
+    pop rbx
+    mov rax, 1
+    ret
+No_CPUID:
+    pop rbx
+    mov rax, 0
+    ret
+
+    
+_checkCPUFeatures:
+    push rbp
+	mov rbp, rsp
+
+    call _checkCPUID
+    cmp rax, 0
+    jz .end
+
+	push rdx
+    push rcx
+    push rbx
+
+	mov rax, 0x1 ;GET CPU FEATURES
+	cpuid
+
+    mov [rdi], edx
+    mov [rdi + 4], ecx
+
+    xor rax, rax
+    xor rcx, rcx
+	mov rax, 0x7 ;GET CPU EXTENDED FEATURES
+	cpuid
+
+    mov [rdi + 8], ebx
+    mov [rdi + 12], ecx
+
+    pop rdx
+    pop rcx
+    pop rbx
+.end:
+	mov rsp, rbp
+	pop rbp
+	ret
 
 _getRTCInfo:
     push rbp
@@ -90,54 +142,9 @@ _getMem:
 	leave
 	ret
 
-_exit:
-    jmp $ ;means calling this address continously (salta a la direcc 0x0h)
-
 _callTimerTick:
     int 20h
     ret
 
-
-;; http://helppc.netcore2k.net/hardware/cmos-clock
-
-getHour: ; recordar que clock devuelve la hora en formato BCD de 8 bits
-	push rbp
-	mov rbp,rsp
-	
-	mov rax,0
-	mov al,4
-	out 70h,al
-	mov rax,0
-	in al,71h
-
-	mov rsp,rbp
-	pop rbp
-	ret
-
-getMins:
-	push rbp
-	mov rbp,rsp
-	
-	mov rax,0
-	mov al,2
-	out 70h,al
-	mov rax,0
-	in al,71h
-
-	mov rsp,rbp
-	pop rbp
-	ret
-
-getSeconds:
-	push rbp
-	mov rbp,rsp
-	
-	mov rax,0
-	mov al,0
-	out 70h,al
-	mov rax,0
-	in al,71h
-
-	mov rsp,rbp
-	pop rbp
-	ret
+_exit:
+    jmp $

@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
-void load_idt();
+void configureIDT();
+void irqDispatcher(int n);
+void loadIdt();
 
 #endif

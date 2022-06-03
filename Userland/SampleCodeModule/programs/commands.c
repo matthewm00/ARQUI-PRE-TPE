@@ -381,7 +381,7 @@ void pipeStatusWrapper(int argc, char **argv)
 
 void wc(int argc, char **argv)
 {
-  if (checkArgCount(argc, 1) == -1)
+  if (checkArgcWrapper(argc, 1) == -1)
   {
     return;
   }

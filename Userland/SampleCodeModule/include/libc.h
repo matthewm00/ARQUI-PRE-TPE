@@ -4,12 +4,16 @@
 #include <colors.h>
 #include <stdint.h>
 
+#define C1_WIDTH 13
+#define C2_WIDTH 38
+#define TABLE_WIDHT (C1_WIDTH + C2_WIDTH + 3)
 #define EOF 96
 
 void setBGC(t_color colour);
 void setFTC(t_color colour);
 int scanf(char *str, ...);
 void printf(char *str, ...);
+void printc(t_color color, char *str, ...);
 void putChar(char c);
 char getChar();
 int strlen(const char *s);
@@ -21,9 +25,14 @@ char *reverse(char *buffer, int i, int j);
 int abs(int num);
 void swap(char *x, char *y);
 char *strcpy(char *destination, const char *source);
+void newLine();
 int readText();
 int strToHex(const char *str);
-void printIntDec(uint64_t num);
-uint64_t uintToBase(uint64_t value, char *buffer, uint32_t base);
+void sendUserData(char *userName, int len);
+void setFirstChange(int number);
 void *memset(void *destination, int32_t c, uint64_t length);
+int isVowel(char c);
+void sleep(int seconds);
+void printRow(char *str1, char *str2, int firstRow);
+void printCol(char *str, int width);
 #endif

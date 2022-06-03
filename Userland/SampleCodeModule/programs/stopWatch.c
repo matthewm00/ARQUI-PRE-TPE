@@ -2,7 +2,7 @@
 
 uint64_t getStopWatchTicks()
 {
-    return syscall(SYS_STOPWATCHTICKS_ID, 0, 0, 0, 0);
+    return _syscall(SYS_STOPWATCHTICKS_ID, 0, 0, 0, 0, 0);
 }
 
 static uint64_t secAux = 0;
@@ -19,7 +19,7 @@ void setStopWatch(int option)
     // else
     //     pause = !pause;
 
-    syscall(SYS_STOPWATCH_ID, option, 0, 0, 0);
+    _syscall(SYS_STOPWATCH_ID, option, 0, 0, 0, 0);
     return;
 }
 

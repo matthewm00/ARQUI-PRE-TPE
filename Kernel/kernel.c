@@ -1,15 +1,16 @@
-#include <stdint.h>
-#include <lib.h>
-#include <moduleLoader.h>
-#include <naiveConsole.h>
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include <idtLoader.h>
 #include <keyboardDriver.h>
-#include <videoDriver.h>
-#include <prints.h>
-
+#include <lib.h>
 #include <memoryManager.h>
-#include <buddyList.h>
+#include <moduleLoader.h>
+#include <naiveConsole.h>
 #include <processManager.h>
+#include <stdint.h>
+#include <videoDriver.h>
+
+#define HEAP_MEMORY_SIZE 1024 * 1024 * 64 // 64MB
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -26,89 +27,41 @@ static void *const sampleCodeModuleHeapAddress = (void *)0x600000;
 
 typedef int (*EntryPoint)();
 
-#define HEAP_MEMORY_SIZE 1024 * 1024 * 64 // 64MB
-
 void clearBSS(void *bssAddress, uint64_t bssSize)
 {
-	memset(bssAddress, 0, bssSize);
+  memset(bssAddress, 0, bssSize);
 }
 
 void *getStackBase()
 {
-	return (void *)((uint64_t)&endOfKernel + PageSize * 8 // The size of the stack itself, 32KiB
-					- sizeof(uint64_t)					  // Begin at the top of the stack
-	);
+  return (void *)((uint64_t)&endOfKernel +
+                  PageSize * 8       // The size of the stack itself, 32KiB
+                  - sizeof(uint64_t) // Begin at the top of the stack
+  );
 }
 
 void *initializeKernelBinary()
 {
+  void *moduleAddresses[] = {sampleCodeModuleAddress, sampleDataModuleAddress};
 
-	ncPrint("[Loading modules]");
-	ncNewline();
-	void *moduleAddresses[] = {
-		sampleCodeModuleAddress,
-		sampleDataModuleAddress};
+  loadModules(&endOfKernelBinary, moduleAddresses);
 
-	loadModules(&endOfKernelBinary, moduleAddresses);
-	ncPrint("[Done]");
-	ncNewline();
-	ncNewline();
+  clearBSS(&bss, &endOfKernel - &bss);
 
-	ncPrint("[Initializing kernel's binary]");
-	ncNewline();
-
-	clearBSS(&bss, &endOfKernel - &bss);
-
-	ncPrint("  text: 0x");
-	ncPrintHex((uint64_t)&text);
-	ncNewline();
-	ncPrint("  rodata: 0x");
-	ncPrintHex((uint64_t)&rodata);
-	ncNewline();
-	ncPrint("  data: 0x");
-	ncPrintHex((uint64_t)&data);
-	ncNewline();
-	ncPrint("  bss: 0x");
-	ncPrintHex((uint64_t)&bss);
-	ncNewline();
-
-	ncPrint("[Done]");
-	ncNewline();
-	ncNewline();
-
-	return getStackBase();
+  return getStackBase();
 }
 
 int main()
 {
-
-	// ncPrint("[Kernel Main]");
-	// ncNewline();
-	// ncPrint("  Sample code module at 0x");
-	// ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	// ncNewline();
-	// ncPrint("  Calling the sample code module returned: ");
-	// ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	// ncNewline();
-	// ncNewline();
-
-	// ncPrint("  Sample data module at 0x");
-	// ncPrintHex((uint64_t)sampleDataModuleAddress);
-	// ncNewline();
-	// ncPrint("  Sample data module contents: ");
-	// ncPrint((char *)sampleDataModuleAddress);
-	// ncNewline();
-
-	// ncPrint("[Finished]");
-	load_idt();
-	initializeVideo();
-	initializeMemoryManager((char *)sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
-	initializeProcessManager();
-	putChar('a');
-	char *userland[] = {"Userland Init"};
-	newProcess(sampleCodeModuleAddress, 1, userland, FOREGROUND, 0);
-	// ((EntryPoint)sampleCodeModuleAddress)();
-	_hlt();
-	printf("\nFATAL FAILURE\n");
-	return 0;
+  initializeMemoryManager((char *)sampleCodeModuleHeapAddress,
+                          HEAP_MEMORY_SIZE);
+  initializeVideo();
+  initializeKeyboard();
+  initializeProcessManager();
+  char *userland[] = {"Userland Init"};
+  newProcess(sampleCodeModuleAddress, 1, userland, FOREGROUND, 0);
+  loadIdt();
+  _hlt();
+  printf("\nFATAL FAILURE\n");
+  return 0;
 }

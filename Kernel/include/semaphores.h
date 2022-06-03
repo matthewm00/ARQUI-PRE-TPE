@@ -5,8 +5,8 @@
 
 #define MAX_BLOCKED_PROCESSES 20
 #define NULL ((void *)0)
-typedef struct t_semaphore
-{
+
+typedef struct t_semaphore {
   uint32_t id;
   uint64_t value;
   int blockedProcesses[MAX_BLOCKED_PROCESSES];
