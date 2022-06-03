@@ -7,7 +7,17 @@
 #include <syscalls.h>
 #include <videoDriver.h>
 
+<<<<<<< HEAD
 static uint64_t registers[16] = {0};
+=======
+static uint64_t registers[REGISTER_AMOUNT] = {0};
+
+static int BCDtoInt(uint64_t number)
+{
+
+	return ((number & 0xF0) >> 4) * 10 + (number & 0xF);
+}
+>>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
 
 // https://wiki.osdev.org/CMOS#Format_of_Bytes
 uint8_t getCurrentTime(uint64_t rtcID)
@@ -27,12 +37,45 @@ void getMem(uint64_t direc, uint8_t *buffer, uint64_t bytes)
 
 void sysWrite(char *str, uint8_t len, t_color bgColor, t_color ftColor, int usrLen)
 {
+<<<<<<< HEAD
   if (str == 0 || len <= 0)
   {
     return;
   }
 
   int outputFD = getCurrentProcessOutputFD();
+=======
+	if (str == 0 || len <= 0 || bgColor < 0 || ftColor < 0)
+		return;
+
+	int outputFD = getCurrentProcessOutputFD();
+
+	if (outputFD == 1)
+	{
+		for (int i = 0; str[i] != 0 && i < len; i++)
+			printChar(str[i], ftColor, bgColor, 1);
+	}
+	else
+	{
+		pipeWrite(outputFD, str);
+	}
+}
+
+uint64_t sys_read()
+{
+	int inputFD = getCurrentProcessInputFD();
+	if (inputFD == 0)
+	{
+		if (currentProcessIsForeground() == 1)
+		{
+			return getCharFromBuffer();
+		}
+		else
+			return -1;
+	}
+	return pipeRead(inputFD);
+}
+>>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
 
   if (outputFD == 1)
   {

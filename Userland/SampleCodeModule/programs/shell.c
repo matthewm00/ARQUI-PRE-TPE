@@ -14,7 +14,6 @@
 #define USERLAND_INIT_PID 1
 
 static int getCommandArgs(char *userInput, char *argv[MAX_ARGUMENTS]);
-static void shellExecute();
 static void initializeCommands();
 static int getCommandIdx(char *command);
 static void help(int argc, char **argv);
@@ -58,7 +57,7 @@ static t_command commands[COMMAND_COUNT] = {
      "Filtra las vocales del texto ingresadoluego de ejecutar el comando"},
     {&wc, "/wc",
      "Cantidad de lineas del texto ingresadoluego de ejecutar el comando"},
-    {&philoProblem, "/phylo", "Problema de filosofos comensales"},
+    {&phyloProblem, "/phylo", "Problema de filosofos comensales"},
 
     // limite
     {&testMemoryWrapper, "/memtest", "Testeo de memory manager"},
@@ -72,7 +71,7 @@ static t_command commands[COMMAND_COUNT] = {
 
 static t_shell shellData;
 
-void startShell(int argc, char **argv)
+void initialize(int argc, char **argv)
 {
   printf("\n         Sistemas Operativos --- 1Q 2022\n\n");
   printf("\n  Utilice el comando /help para obtener un manual de "
@@ -85,11 +84,13 @@ void startShell(int argc, char **argv)
 
 void printUser()
 {
+  char peso[] = "$ ";
+  char pico[] = " > ";
   int len = strlen(shellData.userName);
   len += 4;
-  printf("$ ");
-  sendUserData(shellData.userName, len);
-  printf(" > ");
+  _syscall(SYS_WRITE_ID, (uint64_t)peso, 2, BLACK, GREEN, 0);
+  _syscall(SYS_WRITE_ID, (uint64_t)shellData.userName, len + 1, BLACK, GREEN, 0);
+  _syscall(SYS_WRITE_ID, (uint64_t)pico, 3, BLACK, GREEN, 0);
 }
 
 static void initializeCommands()
@@ -102,7 +103,7 @@ static void initializeCommands()
   }
 }
 
-static void shellExecute()
+void shellExecute()
 {
   char userInput[BUFFER_SIZE] = {0};
   int foreground;
@@ -326,9 +327,14 @@ static void helpShell(int argc, char **argv)
   printf("Instructivo para manejo de la shell");
   printf("Use Ctrl + C para terminar el proceso actual.\n");
   printf("Use Ctrl + S para capturar el valor de los registros\n");
+<<<<<<< HEAD
   printf(
       "Use Ctrl + D para obtener resultados en comandos como \n/wc o "
       "/filter\n");
+=======
+  printf("Use Ctrl + D para obtener resultados en comandos como \n/wc o "
+         "/filter\n");
+>>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
   printf("\n");
 }
 

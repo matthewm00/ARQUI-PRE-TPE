@@ -42,6 +42,7 @@ void *getStackBase()
 
 void *initializeKernelBinary()
 {
+<<<<<<< HEAD
   void *moduleAddresses[] = {sampleCodeModuleAddress, sampleDataModuleAddress};
 
   loadModules(&endOfKernelBinary, moduleAddresses);
@@ -49,10 +50,17 @@ void *initializeKernelBinary()
   clearBSS(&bss, &endOfKernel - &bss);
 
   return getStackBase();
+=======
+	void *moduleAddresses[] = {sampleCodeModuleAddress, sampleDataModuleAddress};
+	loadModules(&endOfKernelBinary, moduleAddresses);
+	clearBSS(&bss, &endOfKernel - &bss);
+	return getStackBase();
+>>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
 }
 
 int main()
 {
+<<<<<<< HEAD
   initializeMemoryManager((char *)sampleCodeModuleHeapAddress,
                           HEAP_MEMORY_SIZE);
   initializeVideo();
@@ -64,4 +72,15 @@ int main()
   _hlt();
   printf("\nFATAL FAILURE\n");
   return 0;
+=======
+	initializeMemoryManager((char *)sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
+	initializeVideo();
+	initializeKeyboard();
+	initializeProcessManager();
+	char *userland[] = {"Userland Init"};
+	newProcess(sampleCodeModuleAddress, 1, userland, FOREGROUND, 0);
+	load_idt();
+	_hlt();
+	return 0;
+>>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
 }

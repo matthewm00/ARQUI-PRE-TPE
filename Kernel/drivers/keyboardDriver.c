@@ -51,7 +51,10 @@ void cleanKeyboardBuffer()
   widx = 0;
   ridx = 0;
 }
+<<<<<<< HEAD
 int bufferSize() { return buffSize; }
+=======
+>>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
 void keyboardHandler(uint64_t rsp)
 {
   if (_hasKey())
@@ -106,7 +109,48 @@ void keyboardHandler(uint64_t rsp)
           {
             if (charTable[scanCode][0] == 96)
             {
+<<<<<<< HEAD
               return;
+=======
+                ctrl = 1;
+            }
+            else if (scanCode >= 58 || scanCode & 0x80 || (scanCode == 15 && ctrl == 0))
+            {
+                return; // NO ASCII
+            }
+            else
+            {
+                if (charTable[scanCode][0] != 0)
+                {
+                    if (ctrl && charTable[scanCode][0] == 's')
+                    {
+                        saveRegisters((uint64_t *)rsp);
+                    }
+                    else if ((shift && !capsLock) || (shift && capsLock && !(charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z')) || (!shift && capsLock && charTable[scanCode][0] >= 'a' && charTable[scanCode][0] <= 'z'))
+                    {
+                        putCharInBuffer(charTable[scanCode][1]);
+                    }
+                    else if (ctrl && charTable[scanCode][0] == 'c')
+                    {
+                        // killCurrentFGProcess();
+                    }
+                    else
+                    {
+                        putCharInBuffer(charTable[scanCode][0]);
+                    }
+                }
+            }
+        }
+        else if (currentAction == RELEASE)
+        {
+            if (scanCode == LEFT_SHIFT + 0x80 || scanCode == RIGHT_SHIFT + 0x80)
+            {
+                shift = 0;
+            }
+            else if (scanCode == CTRL + 0x80)
+            {
+                ctrl = 0;
+>>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
             }
             putCharInBuffer(charTable[scanCode][0]);
           }
@@ -128,10 +172,17 @@ void keyboardHandler(uint64_t rsp)
 }
 void putCharInBuffer(char c)
 {
+<<<<<<< HEAD
   semPost(KEYBOARD_SEM_ID);
   if (c != 0)
   {
     buffer[widx] = c;
+=======
+    semPost(KEYBOARD_SEM_ID);
+    if (c != 0)
+    {
+        buffer[widx] = c;
+>>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
 
     widx++;
     if (widx == BUFF_LEN)
@@ -163,6 +214,7 @@ char getChar()
     c = removeCharFromBuffer();
     if (c == '\b')
     {
+<<<<<<< HEAD
       removeCharFromBuffer();
     }
     while (c == -1)
@@ -170,6 +222,23 @@ char getChar()
       cursor();
       _hlt();
       c = removeCharFromBuffer();
+=======
+        semWait(KEYBOARD_SEM_ID);
+        char c = 0;
+        c = removeCharFromBuffer();
+        if (c == '\b')
+        {
+            removeCharFromBuffer();
+        }
+        while (c == -1)
+        {
+            cursor();
+            _hlt();
+            c = removeCharFromBuffer();
+        }
+        stopCursor();
+        return c;
+>>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
     }
     stopCursor();
     return c;
@@ -209,9 +278,14 @@ uint64_t dumpBuffer(char *dest, int size)
 
 int initializeKeyboard()
 {
+<<<<<<< HEAD
   if (semOpen(KEYBOARD_SEM_ID, 0) == -1)
   {
     return -1;
   }
   return 0;
 }
+=======
+    return semOpen(KEYBOARD_SEM_ID, 0);
+}
+>>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a

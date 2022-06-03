@@ -24,4 +24,11 @@ void irqDispatcher(uint64_t irq, uint64_t rsp) {
 
 static void int_20() { timerHandler(); }
 
+<<<<<<< HEAD
 static void int_21(uint64_t rsp) { keyboardHandler(rsp); }
+=======
+static void int_21(uint64_t rsp)
+{
+	keyboardHandler(rsp);
+}
+>>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
