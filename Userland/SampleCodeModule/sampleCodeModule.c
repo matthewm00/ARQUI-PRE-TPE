@@ -5,17 +5,10 @@
 #include <shell.h>
 #include <userSyscalls.h>
 
-<<<<<<< HEAD
-int main() {
-  char *argv[] = {"Shell"};
-  newProcess(startShell, 1, argv, FOREGROUND, NULL);
-  return 0;
-=======
 int main()
 {
 	// _setStack();
 	char *argv[] = {"Shell"};
 	newProcess(initialize, 1, argv, FOREGROUND, NULL);
 	return 0;
->>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
 }

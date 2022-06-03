@@ -327,14 +327,9 @@ static void helpShell(int argc, char **argv)
   printf("Instructivo para manejo de la shell");
   printf("Use Ctrl + C para terminar el proceso actual.\n");
   printf("Use Ctrl + S para capturar el valor de los registros\n");
-<<<<<<< HEAD
   printf(
       "Use Ctrl + D para obtener resultados en comandos como \n/wc o "
       "/filter\n");
-=======
-  printf("Use Ctrl + D para obtener resultados en comandos como \n/wc o "
-         "/filter\n");
->>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
   printf("\n");
 }
 

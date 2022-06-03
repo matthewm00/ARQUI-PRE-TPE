@@ -10,25 +10,20 @@
 static void int_20();
 static void int_21();
 
-void irqDispatcher(uint64_t irq, uint64_t rsp) {
-  switch (irq) {
-    case TIMER:
-      int_20();
-      break;
-    case KEYBOARD:
-      int_21(rsp);
-      break;
+void irqDispatcher(uint64_t irq, uint64_t rsp)
+{
+  switch (irq)
+  {
+  case TIMER:
+    int_20();
+    break;
+  case KEYBOARD:
+    int_21(rsp);
+    break;
   }
   return;
 }
 
 static void int_20() { timerHandler(); }
 
-<<<<<<< HEAD
 static void int_21(uint64_t rsp) { keyboardHandler(rsp); }
-=======
-static void int_21(uint64_t rsp)
-{
-	keyboardHandler(rsp);
-}
->>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a

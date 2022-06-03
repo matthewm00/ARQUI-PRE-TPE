@@ -32,15 +32,8 @@ int strToHex(const char *str);
 void sendUserData(char *userName, int len);
 void setFirstChange(int number);
 void *memset(void *destination, int32_t c, uint64_t length);
-<<<<<<< HEAD
 int isVowel(char c);
 void sleep(int seconds);
 void printRow(char *str1, char *str2, int firstRow);
 void printCol(char *str, int width);
-=======
-void printRow(char *str1, char *str2, int firstRow);
-void printCol(char *str, int width);
-void sleep(int seconds);
-int isVowel(char c);
->>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
 #endif

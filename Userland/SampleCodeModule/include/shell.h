@@ -1,27 +1,6 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-<<<<<<< HEAD
-#define USER_SIZE 25
-#define BUFFER_SIZE 1000
-#define MAX_ARGUMENTS 5
-#define COMMAND_COUNT 36
-#define TEST_COMMAND_COUNT 5
-#define TEST_COMMAND_START (COMMAND_COUNT - TEST_COMMAND_COUNT) - 2
-
-void startShell(int argc, char **argv);
-void printUser();
-
-typedef struct t_command {
-  void (*commandFn)(int, char **);
-  char *name;
-  char *description;
-} t_command;
-
-typedef struct t_shell {
-  char userName[USER_SIZE];
-  t_command commands[COMMAND_COUNT];
-=======
 #include <libc.h>
 #include <commands.h>
 #include <stdint.h>
@@ -47,15 +26,14 @@ void _setStack();
 
 typedef struct t_command
 {
-    void (*commandFn)(int, char **);
-    char *name;
-    char *description;
+  void (*commandFn)(int, char **);
+  char *name;
+  char *description;
 } t_command;
 
 typedef struct t_shell
 {
-    char userName[USER_SIZE];
-    t_command commands[COMMAND_COUNT];
->>>>>>> 4952e0d119666c812b43ed3d08c647ea077f623a
+  char userName[USER_SIZE];
+  t_command commands[COMMAND_COUNT];
 } t_shell;
 #endif
