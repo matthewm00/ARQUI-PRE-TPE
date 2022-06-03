@@ -2,15 +2,7 @@
 #define COMMANDS_H
 
 #include <shell.h>
-#include <stdint.h>
-#include <libc.h>
-#include <userSyscalls.h>
-#include <RTCID.h>
-#include <games.h>
 
-#define REGISTER_AMOUNT 19
-
-void help(int argc, char **argv);
 void getCurrentDayTime(int argc, char **argv);
 void getInfoReg(int argc, char **argv);
 void divZero(int argc, char **argv);
@@ -19,23 +11,25 @@ void clear(int argc, char **argv);
 void exit(int argc, char **argv);
 void getMem(int argc, char **argv);
 void _opcodeExp(void);
-void _divZeroExp(void);
-// void changeColour(int argc, char **argv, int bg);
-void games(int argc, char **argv);
-
-int checkArgCount(int argc, int argsAllowed);
-void callMemStatus(int argc, char **argv);
-void callSemStatus(int argc, char **argv);
-void callProcessStatus(int argc, char **argv);
-void callKillProcess(int argc, char **argv);
-void callSetPriority(int argc, char **argv);
-void callBlockProcess(int argc, char **argv);
-void callUnblockProcess(int argc, char **argv);
-
+void changeFtColour(int argc, char **argv);
+void changeBgColour(int argc, char **argv);
+void semStatusWrapper(int argc, char **argv);
+void memStatusWrapper(int argc, char **argv);
+void processStatusWrapper(int argc, char **argv);
+void setPriorityWrapper(int argc, char **argv);
+void killProcessWrapper(int argc, char **argv);
+void blockProcessWrapper(int argc, char **argv);
+void testPriorityWrapper(int argc, char **argv);
+void testSyncWrapper(int argc, char **argv);
+void testNoSyncWrapper(int argc, char **argv);
+void testProcessesWrapper(int argc, char **argv);
+void testMemoryWrapper(int argc, char **argv);
+void unblockProcessWrapper(int argc, char **argv);
 void cat(int argc, char **argv);
 void loop(int argc, char **argv);
-void callPipeStatus(int argc, char **argv);
+void pipeStatusWrapper(int argc, char **argv);
 void filter(int argc, char **argv);
 void wc(int argc, char **argv);
-
+int checkArgcWrapper(int argc, int argumentsPermitted);
+void games(int argc, char **argv);
 #endif
