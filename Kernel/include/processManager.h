@@ -24,5 +24,4 @@ int currentProcessIsForeground();
 int getCurrentProcessInputFD();
 int getCurrentProcessOutputFD();
 void wait(int pid);
-void idleProcess(int argc, char **argv);
 #endif

@@ -226,6 +226,16 @@ static int ishexdigit(char ch)
     return isdigit(ch) || (ch >= 'A' && ch <= 'F') || (ch >= 'a' && ch <= 'f');
 }
 
+int isVowel(char c)
+{
+    if (c >= 'A' && c <= 'Z')
+    {
+        // uppercase
+        return (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
+    }
+    return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
+}
+
 int strToInt(char *str, int *size)
 {
     *size = 0;
@@ -427,4 +437,52 @@ void *memset(void *destination, int32_t c, uint64_t length)
         dst[length] = chr;
 
     return destination;
+}
+void sleep(int seconds)
+{
+    int wait = getSecondsElapsed() + seconds;
+    while (getSecondsElapsed() < wait)
+        ;
+}
+void printRow(char *str1, char *str2, int firstRow)
+{
+    printCol(str1, COL1_WIDTH);
+    printCol(str2, COL2_WIDTH);
+    if (firstRow)
+    {
+        printf("\n");
+    }
+}
+
+void printCol(char *str, int width)
+{
+    int done = 0;
+    printf(" ");
+    for (int i = 0; i < width; i++)
+    {
+        if (!done)
+        {
+            if (str[i])
+            {
+                printf("%c", str[i]);
+            }
+            else
+            {
+                done = 1;
+            }
+        }
+        if (done)
+        {
+            printf(" ");
+        }
+    }
+    if (done)
+    {
+        ;
+    }
+    else
+    {
+        printf("\n");
+        printRow(" ", str + width, 0);
+    }
 }

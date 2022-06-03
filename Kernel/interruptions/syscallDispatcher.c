@@ -101,9 +101,9 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
     case SYS_SEM_STATUS_ID:
         semStatus();
         break;
-    // case SYS_SEC_ELAPSED_ID:
-    //     return getSecondsElapsed();
-    //     break;
+    case SYS_SEC_ELAPSED_ID:
+        return seconds_elapsed();
+        break;
     case SYS_PIPE_STATUS_ID:
         pipeStatus();
         break;

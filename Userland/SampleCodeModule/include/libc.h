@@ -5,7 +5,8 @@
 #include <stdint.h>
 
 #define EOF 96
-
+#define COL1_WIDTH 13
+#define COL2_WIDTH 38
 void setBGC(t_color colour);
 void setFTC(t_color colour);
 int scanf(char *str, ...);
@@ -26,4 +27,8 @@ int strToHex(const char *str);
 void printIntDec(uint64_t num);
 uint64_t uintToBase(uint64_t value, char *buffer, uint32_t base);
 void *memset(void *destination, int32_t c, uint64_t length);
+void printRow(char *str1, char *str2, int firstRow);
+void printCol(char *str, int width);
+void sleep(int seconds);
+int isVowel(char c);
 #endif

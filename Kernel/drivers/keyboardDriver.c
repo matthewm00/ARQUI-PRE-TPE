@@ -126,6 +126,7 @@ void keyboardHandler(uint64_t *rsp)
 }
 void putCharInBuffer(char c)
 {
+    semPost(KEYBOARD_SEM_ID);
     if (c != 0)
     {
         buffer[widx] = c;
@@ -153,6 +154,7 @@ char getCharFromBuffer()
 {
     if (isCursorOn()) // si no esta en games
     {
+        semWait(KEYBOARD_SEM_ID);
         char c = 0;
         c = removeCharFromBuffer();
         if (c == '\b')
@@ -197,7 +199,7 @@ uint64_t dumpBuffer(char *dest, int size)
     return i;
 }
 
-// int initializeKeyboard()
-// {
-//     return semOpen(KEYBOARD_SEM_ID, 0);
-// }
+int initializeKeyboard()
+{
+    return semOpen(KEYBOARD_SEM_ID, 0);
+}

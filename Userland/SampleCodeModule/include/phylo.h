@@ -13,14 +13,13 @@
 
 void phyloProblem(int argc, char **argv);
 
-
 void thinkOrEat();
 void phyloMain(int argc, char **argv);
 void takeForks(int i);
 void putForks(int i);
 void test(int i);
 int addPhylo();
-int removePhilo();
+int removePhylo();
 void printTable(int argc, char **argv);
 
 #endif
