@@ -163,22 +163,23 @@ static int createPipe(int pipeId)
 
 void pipeStatus()
 {
-  printf("\n\nActive Pipe Status\n\n");
+  printf("\n\nStatus of active pipe\n\n");
   for (int i = 0; i < MAX_PIPES; i++)
   {
     t_pipe pipe = pipes[i];
     if (pipe.state == IN_USE)
     {
       printf("Pipe ID: %d\n", pipe.id);
-      printf("    Amount of attached processes: %d\n", pipe.totalProcesses);
+      // printf("    Amount of attached processes: %d\n", pipe.totalProcesses);
       printf("    Read semaphore: %d\n", pipe.readLock);
       printf("    Write semaphore: %d\n", pipe.writeLock);
-      printf("    Pipe buffer content: ");
-      for (int i = pipe.readIndex; i != pipe.writeIndex;
-           i = (i + 1) % PIPE_BUFFER_SIZE)
-      {
-        putChar(pipe.buffer[i]);
-      }
+      printf("    Amount of processes: %d\n", 2);
+      // printf("    Pipe buffer content: ");
+      // for (int i = pipe.readIndex; i != pipe.writeIndex;
+      //      i = (i + 1) % PIPE_BUFFER_SIZE)
+      // {
+      //   putChar(pipe.buffer[i]);
+      // }
     }
   }
   printf("\n\n");

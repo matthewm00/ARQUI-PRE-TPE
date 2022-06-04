@@ -130,7 +130,7 @@ void shellExecute()
 
     pipeIndex = findPipe(argc, argv);
 
-    if (pipeIndex >= 0)
+    if (pipeIndex != -1)
     {
       initializePipe(pipeIndex, argc, argv);
       continue;
@@ -222,7 +222,7 @@ static int handlePipe(int pipeIndex, int argc, char **argv)
   if (pipe == -1)
   {
     printf("\nError creando pipe.\n");
-    return -2;
+    return -1;
   }
 
   for (int i = pipeIndex + 1, j = 0; i < argc; i++, j++)
@@ -254,6 +254,8 @@ static int handlePipe(int pipeIndex, int argc, char **argv)
 
   int endOfFile = EOF;
   pipeWrite(pipe, (char *)&endOfFile);
+
+  wait(pids[0]);
 
   pipeClose(pipe);
   putChar('\n');

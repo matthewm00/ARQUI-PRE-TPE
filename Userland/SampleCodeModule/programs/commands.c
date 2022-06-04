@@ -312,13 +312,14 @@ void filter(int argc, char **argv)
   int i = 0;
   while ((c = getChar()) != EOF)
   {
-    putChar(c);
+    // putChar(c);
     if (!isVowel(c))
     {
-      filterString[i++] = (char)c;
+      putChar(c);
+      // filterString[i++] = (char)c;
     }
   }
-  printf("\n%s\n", filterString);
+  // printf("\n%s\n", filterString);
 }
 
 void testPriorityWrapper(int argc, char **argv)
@@ -351,9 +352,9 @@ void cat(int argc, char **argv)
   while ((c = getChar()) != EOF)
   {
     putChar(c);
-    catString[i++] = (char)c;
+    // catString[i++] = (char)c;
   }
-  printf("%s", catString);
+  // printf("%s", catString);
 }
 
 void loop(int argc, char **argv)
