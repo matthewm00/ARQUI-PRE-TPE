@@ -13,60 +13,52 @@
 
 #define USERLAND_INIT_PID 1
 
-static int getCommandArgs(char *userInput, char *argv[MAX_ARGUMENTS]);
+static int getCommands(char *userInput, char *argv[MAX_ARGUMENTS]);
 static void initializeCommands();
-static int getCommandIdx(char *command);
+static int getCommandIndex(char *command);
 static void help(int argc, char **argv);
 static void helpTest(int argc, char **argv);
 static void helpShell(int argc, char **argv);
 static void printHelpTable();
 static void printHelpTestTable();
 
-static int findPipe(int argc, char **argv);
+static int getPipeIndex(int argc, char **argv);
 static void initializePipe(int pipeIndex, int argc, char **argv);
-static int handlePipe(int pipeIndex, int argc, char **argv);
-static int runPipeCmd(int argc, char **argv, int fdin, int fdout, int foreground);
+static int pipeDispatch(int pipeIndex, int argc, char **argv);
+static int pipeRunCommand(int argc, char **argv, int fdin, int fdout, int foreground);
 
 static int pipeId = 70;
 
 static t_command commands[COMMAND_COUNT] = {
-    {&help, "/help", "Listado de comandos"},
-    {&clear, "/clear", "Limpia la pantalla actual"},
-    {&getInfoReg, "/inforeg",
-     "Estado de todos los resgitros, use Ctrl + R para capturar los mismos"},
-    {&exit, "/exit", "Finaliza la ejecucion"},
-    {&opCode, "/opcode", "Excepcion opcode invalido"},
-    {&getCurrentDayTime, "/date&time", "Fecha y hora actual"},
-    {&getMem, "/printmem",
-     "Volcado de memoria de 32 bytes a      partir de direccion de memoria en "
-     "hexa"
-     "ingresada como argumento."},
-    {&divZero, "/divzero", "Excepcion division por cero"},
-    {&games, "/games", "4 ventanas que cuentan con los juegos sudoku y ahorcado, un cronometro y un timer"},
-    {&memStatusWrapper, "/mem", "Imprime el estado de la memoria"},
-    {&semStatusWrapper, "/sem", "Imprime el estado de los semaforos"},
-    {&processStatusWrapper, "/ps", "Imprime el estado de los procesos"},
-    {&setPriorityWrapper, "/nice", "Cambia la prioridad de un proceso"},
-    {&killProcessWrapper, "/kill", "Mata un proceso"},
-    {&blockProcessWrapper, "/block", "Bloquea un proceso"},
-    {&unblockProcessWrapper, "/unblock", "Desbloquea un proceso"},
-    {&cat, "/cat", "Imprime el texto ingresado luego de   ejecutar el comando"},
-    {&loop, "/loop", "Imprime un saludo cada X segundos"},
-    {&pipeStatusWrapper, "/pipe", "Imprime el estado de los pipes"},
-    {&filter, "/filter",
-     "Filtra las vocales del texto ingresadoluego de ejecutar el comando"},
-    {&wc, "/wc",
-     "Cantidad de lineas del texto ingresadoluego de ejecutar el comando"},
-    {&phyloProblem, "/phylo", "Problema de filosofos comensales"},
-
-    // limite
-    {&testMemoryWrapper, "/memtest", "Testeo de memory manager"},
-    {&testProcessesWrapper, "/proctest", "Testeo de process manager"},
-    {&testPriorityWrapper, "/priotest", "Testeo de prioridad process manager"},
-    {&testSyncWrapper, "/semtest", "Testeo de semaforos con uso"},
-    {&testNoSyncWrapper, "/nosemtest", "Testeo de semaforos sin uso"},
-    {&helpTest, "/helptest", "Instrucciones acerca de los tests"},
-    {&helpShell, "/helpshell", "Instrucciones acerca de la shell"},
+    {&help, "/help", "Listado de comandos."},
+    {&clear, "/clear", "Limpia la pantalla actual."},
+    {&getInfoReg, "/inforeg", "Estado de todos los resgitros, use Ctrl + R  para capturar el valor de los mismos."},
+    {&exit, "/exit", "Finaliza la ejecucion."},
+    {&opCode, "/opcode", "Excepcion opcode invalido."},
+    {&getCurrentDayTime, "/date&time", "Fecha y hora actual."},
+    {&getMem, "/printmem", "Volcado de memoria de 32 bytes a partir de   la direccion de memoria en hexa ingresada    como argumento."},
+    {&divZero, "/divzero", "Excepcion division por cero."},
+    {&games, "/games", "4 ventanas que cuentan con los juegos sudoku y ahorcado, un cronometro y un timer."},
+    {&memStatusWrapper, "/mem", "Imprime el estado de la memoria."},
+    {&semStatusWrapper, "/sem", "Imprime el estado de los semaforos."},
+    {&processStatusWrapper, "/ps", "Imprime el estado de los procesos."},
+    {&setPriorityWrapper, "/nice", "Cambia la prioridad de un proceso."},
+    {&killProcessWrapper, "/kill", "Mata un proceso."},
+    {&blockProcessWrapper, "/block", "Bloquea un proceso."},
+    {&unblockProcessWrapper, "/unblock", "Desbloquea un proceso."},
+    {&cat, "/cat", "Imprime el texto ingresado luego de ejecutar el comando."},
+    {&loop, "/loop", "Imprime un saludo cada X segundos."},
+    {&pipeStatusWrapper, "/pipe", "Imprime el estado de los pipes."},
+    {&filter, "/filter", "Filtra las vocales del texto ingresado luego de ejecutar el comando."},
+    {&wc, "/wc", "Cantidad de lineas del texto ingresado luego de ejecutar el comando."},
+    {&phyloProblem, "/phylo", "Problema de los filosofos comensales."},
+    {&testMemoryWrapper, "/memtest", "Testeo de memory manager."},
+    {&testProcessesWrapper, "/proctest", "Testeo de process manager."},
+    {&testPriorityWrapper, "/priotest", "Testeo de prioridad process manager."},
+    {&testSyncWrapper, "/semtest", "Testeo de semaforos con uso."},
+    {&testNoSyncWrapper, "/nosemtest", "Testeo de semaforos sin uso."},
+    {&helpTest, "/helptest", "Instrucciones acerca de los tests."},
+    {&helpShell, "/helpshell", "Instrucciones acerca de la shell."},
 };
 
 static t_shell shellData;
@@ -74,7 +66,7 @@ static t_shell shellData;
 void initialize(int argc, char **argv)
 {
   printf("\n                   Sistemas Operativos --- 1Q 2022\n\n");
-  printf("\n  Utilice el comando /help para obtener un manual de usuario.\n\n\n");
+  printf("\n  Utilice el comando /help para acceder al manual de usuario.\n\n\n");
   strcpy(shellData.userName, "User");
   initializeCommands();
   killProcess(USERLAND_INIT_PID);
@@ -118,17 +110,14 @@ void shellExecute()
 
     scanf("%s", userInput);
 
-    argc = getCommandArgs(userInput, argv);
+    argc = getCommands(userInput, argv);
 
     if (argc == -1)
     {
-      printf(
-          "\nIngreso argumentos de mas.\nLa maxima cantidad de argumentos "
-          "permitida es: %d.\n\n",
-          MAX_ARGUMENTS);
+      printf("\nError en el ingreso de argumentos\n\n");
     }
 
-    pipeIndex = findPipe(argc, argv);
+    pipeIndex = getPipeIndex(argc, argv);
 
     if (pipeIndex != -1)
     {
@@ -142,11 +131,11 @@ void shellExecute()
       argc--;
     }
 
-    int commandIdx = getCommandIdx(argv[0]);
+    int commandIdx = getCommandIndex(argv[0]);
 
     if (commandIdx >= 0)
     {
-      newProcess(
+      createProcess(
           (void (*)(int, char **))shellData.commands[commandIdx].commandFn,
           argc, (char **)argv, foreground, NULL);
     }
@@ -157,7 +146,7 @@ void shellExecute()
   }
 }
 
-static int getCommandArgs(char *userInput, char **argv)
+static int getCommands(char *userInput, char **argv)
 {
   int argc = 0;
 
@@ -185,7 +174,7 @@ static int getCommandArgs(char *userInput, char **argv)
   return argc;
 }
 
-static int findPipe(int argc, char **argv)
+static int getPipeIndex(int argc, char **argv)
 {
   for (int i = 0; i < argc; i++)
   {
@@ -204,15 +193,15 @@ static void initializePipe(int pipeIndex, int argc, char **argv)
     printf("\nPipe (|) debe ser usado entre dos comandos.\n\n");
     return;
   }
-  int pipe = handlePipe(pipeIndex, argc, argv);
+  int pipe = pipeDispatch(pipeIndex, argc, argv);
   if (pipe == -1)
   {
-    printf("\nUno de los comandos es invalido. Use /help.\n\n");
+    printf("\nComando invalido. Use /help.\n\n");
     return;
   }
 }
 
-static int handlePipe(int pipeIndex, int argc, char **argv)
+static int pipeDispatch(int pipeIndex, int argc, char **argv)
 {
   char *currentArgv[MAX_ARGUMENTS];
   int currentArgc = 0;
@@ -231,7 +220,7 @@ static int handlePipe(int pipeIndex, int argc, char **argv)
     currentArgc++;
   }
 
-  pids[0] = runPipeCmd(currentArgc, currentArgv, pipe, 1, BACKGROUND);
+  pids[0] = pipeRunCommand(currentArgc, currentArgv, pipe, 1, BACKGROUND);
   if (pids[0] == -1)
   {
     pipeClose(pipe);
@@ -245,7 +234,7 @@ static int handlePipe(int pipeIndex, int argc, char **argv)
     currentArgc++;
   }
 
-  pids[1] = runPipeCmd(currentArgc, currentArgv, 0, pipe, FOREGROUND);
+  pids[1] = pipeRunCommand(currentArgc, currentArgv, 0, pipe, FOREGROUND);
   if (pids[1] == -1)
   {
     pipeClose(pipe);
@@ -262,10 +251,10 @@ static int handlePipe(int pipeIndex, int argc, char **argv)
   return 1;
 }
 
-static int runPipeCmd(int argc, char **argv, int fdin, int fdout, int foreground)
+static int pipeRunCommand(int argc, char **argv, int fdin, int fdout, int foreground)
 {
   int fd[2];
-  int commandIdx = getCommandIdx(argv[0]);
+  int commandIdx = getCommandIndex(argv[0]);
   if (commandIdx == -1)
   {
     return -1;
@@ -274,8 +263,8 @@ static int runPipeCmd(int argc, char **argv, int fdin, int fdout, int foreground
   fd[0] = fdin;
   fd[1] = fdout;
 
-  return newProcess(shellData.commands[commandIdx].commandFn, argc, argv,
-                    foreground, fd);
+  return createProcess(shellData.commands[commandIdx].commandFn, argc, argv,
+                       foreground, fd);
 }
 
 static void printHelpTable()
@@ -286,9 +275,8 @@ static void printHelpTable()
   {
     printRow(shellData.commands[i].name, shellData.commands[i].description, 1);
   }
-  printf("\nEjemplos de uso:  /c1 | /c2   /c1 &   /c1 arg1 ...");
-  printf("\nUse /helptest para obtener informacion de los tests");
-  printf("\nUse /helpshell para obtener informacion de la shell");
+  printRow("/helptest", "Obtener informacion de los tests.", 1);
+  printRow("/helpshell", "Obtener informacion de la shell.", 1);
   printf("\n");
 }
 
@@ -303,7 +291,7 @@ static void printHelpTestTable()
   }
 }
 
-static int getCommandIdx(char *command)
+static int getCommandIndex(char *command)
 {
   for (int i = 0; i < COMMAND_COUNT; i++)
   {
@@ -332,9 +320,10 @@ static void helpShell(int argc, char **argv)
     return;
   }
   printf("\nInstructivo para manejo de la shell\n");
-  printf("Use Ctrl + C para terminar el proceso actual.\n");
-  printf("Use Ctrl + S para capturar el valor de los registros\n");
-  printf("Use Ctrl + D para obtener resultados en comandos como /cat , /wc o /filter\n");
+  printf("Ejemplos de uso:  /c1 | /c2   /c1 &   /c1 arg1\n");
+  printf("Ctrl + C para terminar el proceso actual.\n");
+  printf("Ctrl + S para capturar el valor de los registros\n");
+  printf("Ctrl + D para obtener los resultados de /cat , /wc y /filter\n");
 }
 
 static void helpTest(int argc, char **argv)

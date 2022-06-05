@@ -143,7 +143,6 @@ void exit(int argc, char **argv)
   {
     return;
   }
-  printf("\nUsted cerro el TP, el mismo ya no funcionara.\n\n");
   (void)_syscall(SYS_EXIT_ID, 0, 0, 0, 0, 0);
 }
 
@@ -308,8 +307,8 @@ void filter(int argc, char **argv)
     return;
   }
   char c;
-  char filterString[BUFFER_SIZE] = {0};
-  int i = 0;
+  // char filterString[BUFFER_SIZE] = {0};
+  // int i = 0;
   while ((c = getChar()) != EOF)
   {
     // putChar(c);
@@ -347,8 +346,8 @@ void cat(int argc, char **argv)
     return;
   }
   int c;
-  char catString[BUFFER_SIZE] = {0};
-  int i = 0;
+  // char catString[BUFFER_SIZE] = {0};
+  // int i = 0;
   while ((c = getChar()) != EOF)
   {
     putChar(c);
@@ -411,14 +410,12 @@ int checkArgcWrapper(int argc, int argumentsPermitted)
 
 void games(int argc, char **argv)
 {
-  if (argc != 1)
+  if (checkArgcWrapper(argc, 1) == -1)
   {
-    printf("\nCantidad invalida de argumentos.\n\n");
     return;
   }
   clear(argc, argv);
   startGames();
   clear(argc, argv);
-  printf("Volviendo a la shell...\n");
   return;
 }

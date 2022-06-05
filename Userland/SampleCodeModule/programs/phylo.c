@@ -56,7 +56,7 @@ void phyloProblem(int argc, char **argv)
          FRONTEND_WAIT_SECONDS);
 
   char *args[] = {"Phylo Table"};
-  int tablePID = newProcess(&printTable, 1, args, BACKGROUND, NULL);
+  int tablePID = createProcess(&printTable, 1, args, BACKGROUND, NULL);
 
   sleep(FRONTEND_WAIT_SECONDS);
 
@@ -78,18 +78,11 @@ void phyloProblem(int argc, char **argv)
       }
       break;
     case 'r':
-      if (removePhilo() == -1)
-      {
-        printc(BLUE, "\nPor favor no se vaya.\n\n");
-      }
-      else
-      {
-        printc(RED, "\nSe retiro un comensal.\n\n");
-      }
+      removePhilo();
+      printc(RED, "\nSe retiro un comensal.\n\n");
       break;
     case 'q':
-      printf(
-          "\nMesa cerrada.\n\n");
+      printf("\nMesa cerrada.\n\n");
       tableOpen = 0;
       break;
     default:
@@ -128,7 +121,7 @@ static int addPhilo()
   intToStr(philosopherCount, index, 10);
 
   char *argv[] = {"philosopher", index};
-  philosopher->pid = newProcess(&philoMain, 2, argv, BACKGROUND, NULL);
+  philosopher->pid = createProcess(&philoMain, 2, argv, BACKGROUND, NULL);
 
   philosophers[philosopherCount++] = philosopher;
 

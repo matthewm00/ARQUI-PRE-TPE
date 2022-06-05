@@ -60,8 +60,8 @@ typedef enum
 
 uint64_t _syscall(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx,
                   uint64_t r8, uint64_t r9);
-int newProcess(void (*entryPoint)(int, char **), int argc, char **argv,
-               int foreground, int *fd);
+int createProcess(void (*entryPoint)(int, char **), int argc, char **argv,
+                  int foreground, int *fd);
 int killProcess(uint64_t pid);
 int getProcessPID();
 void processStatus();
