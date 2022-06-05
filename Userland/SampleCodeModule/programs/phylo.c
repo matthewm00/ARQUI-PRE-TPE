@@ -78,8 +78,10 @@ void phyloProblem(int argc, char **argv)
       }
       break;
     case 'r':
-      removePhilo();
-      printc(RED, "\nSe retiro un comensal.\n\n");
+      if (removePhilo() != -1)
+      {
+        printc(RED, "\nSe retiro un comensal.\n\n");
+      }
       break;
     case 'q':
       printf("\nMesa cerrada.\n\n");
