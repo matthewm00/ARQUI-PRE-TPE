@@ -1,5 +1,5 @@
-MM_SELECTOR=MEMORY_MANAGER_BUDDY
-
+# MM_SELECTOR=MEMORY_MANAGER_BUDDY
+MM_SELECTOR=MEMORY_MANAGER_FREE
 all:  bootloader kernel userland image
 
 bootloader:
