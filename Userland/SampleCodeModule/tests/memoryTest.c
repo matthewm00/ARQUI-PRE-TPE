@@ -49,7 +49,7 @@ void testMemory()
       {
         if (!memcheck(mm_rqs[i].address, i, mm_rqs[i].size))
         {
-          printf("ERROR!\n");
+          printf("ERROR\n");
         }
       }
 
