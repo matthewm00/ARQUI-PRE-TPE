@@ -9,6 +9,6 @@ int main()
 {
 	// _setStack();
 	char *argv[] = {"Shell"};
-	newProcess(initialize, 1, argv, FOREGROUND, NULL);
+	createProcess(initialize, 1, argv, FOREGROUND, NULL);
 	return 0;
 }

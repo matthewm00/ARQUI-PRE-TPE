@@ -81,7 +81,7 @@ void initializeProcessManager()
 
   char *argv[] = {"Initial Idle Process"};
 
-  newProcess(&idleProcess, 1, argv, BACKGROUND, 0);
+  createProcess(&idleProcess, 1, argv, BACKGROUND, 0);
 
   baseProcess = dequeueProcess(processes);
 }
@@ -143,55 +143,55 @@ void *processManager(void *sp)
   return currentProcess->pcb.rsp;
 }
 
-int newProcess(void (*entryPoint)(int, char **), int argc, char **argv,
-               int foreground, int *fd)
+int createProcess(void (*entryPoint)(int, char **), int argc, char **argv,
+                  int foreground, int *fd)
 {
   if (entryPoint == NULL)
   {
     return -1;
   }
 
-  t_process_node *newProcess = malloc(sizeof(t_process_node));
-  if (newProcess == NULL)
+  t_process_node *createProcess = malloc(sizeof(t_process_node));
+  if (createProcess == NULL)
   {
     return -1;
   }
 
-  if (initializeProcessControlBlock(&newProcess->pcb, argv[0], foreground,
+  if (initializeProcessControlBlock(&createProcess->pcb, argv[0], foreground,
                                     fd) == -1)
   {
-    free(newProcess);
+    free(createProcess);
     return -1;
   }
 
   char **arguments = malloc(sizeof(char *) * argc);
   if (arguments == NULL)
   {
-    free(newProcess);
+    free(createProcess);
     return -1;
   }
 
   if (getArguments(arguments, argv, argc) == -1)
   {
-    free(newProcess);
+    free(createProcess);
     free(arguments);
     return -1;
   }
 
-  newProcess->pcb.argc = argc;
-  newProcess->pcb.argv = arguments;
+  createProcess->pcb.argc = argc;
+  createProcess->pcb.argv = arguments;
 
-  initializeProcessStackFrame(entryPoint, argc, arguments, newProcess->pcb.rbp);
+  initializeProcessStackFrame(entryPoint, argc, arguments, createProcess->pcb.rbp);
 
-  newProcess->pcb.state = READY;
+  createProcess->pcb.state = READY;
 
-  queueProcess(processes, newProcess);
-  if (newProcess->pcb.foreground && newProcess->pcb.ppid)
+  queueProcess(processes, createProcess);
+  if (createProcess->pcb.foreground && createProcess->pcb.ppid)
   {
-    blockProcess(newProcess->pcb.ppid);
+    blockProcess(createProcess->pcb.ppid);
   }
 
-  return newProcess->pcb.pid;
+  return createProcess->pcb.pid;
 }
 
 int killProcess(uint64_t pid)

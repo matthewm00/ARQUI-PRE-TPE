@@ -78,11 +78,11 @@ static int memDumpWrapper(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8,
   memoryDump();
   return 0;
 }
-static int newProcessWrapper(uint64_t rsi, uint64_t rdx, uint64_t rcx,
-                             uint64_t r8, uint64_t r9)
+static int createProcessWrapper(uint64_t rsi, uint64_t rdx, uint64_t rcx,
+                                uint64_t r8, uint64_t r9)
 {
-  return newProcess((void (*)(int, char **))rsi, (int)rdx, (char **)rcx,
-                    (int)r8, (int *)r9);
+  return createProcess((void (*)(int, char **))rsi, (int)rdx, (char **)rcx,
+                       (int)r8, (int *)r9);
 }
 
 static int killProcessWrapper(uint64_t rsi, uint64_t rdx, uint64_t rcx,
@@ -265,7 +265,7 @@ static functionPointer syscall[] = {
     mallocWrapper,
     freeWrapper,
     memDumpWrapper,
-    newProcessWrapper,
+    createProcessWrapper,
     killProcessWrapper,
     getProcessPIDWrapper,
     processStatusWrapper,

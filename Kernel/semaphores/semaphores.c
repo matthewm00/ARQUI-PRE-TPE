@@ -16,17 +16,21 @@ static void removeSemaphore(t_semaphore *sem);
 static void blockedProcessesDump(int *blockedProcesses,
                                  uint16_t blockedProcessesAmount);
 
-int semOpen(uint32_t id, uint64_t initialValue) {
+int semOpen(uint32_t id, uint64_t initialValue)
+{
   t_semaphore *semaphore = getSemaphore(id);
 
-  if (semaphore == NULL) {
+  if (semaphore == NULL)
+  {
     semaphore = createSemaphore(id, initialValue);
-    if (semaphore == NULL) {
+    if (semaphore == NULL)
+    {
       return -1;
     }
   }
 
-  if (semaphore->listeningProcesses >= MAX_BLOCKED_PROCESSES) {
+  if (semaphore->listeningProcesses >= MAX_BLOCKED_PROCESSES)
+  {
     return -1;
   }
 
@@ -34,17 +38,22 @@ int semOpen(uint32_t id, uint64_t initialValue) {
   return id;
 }
 
-int semWait(uint32_t id) {
+int semWait(uint32_t id)
+{
   t_semaphore *sem;
-  if ((sem = getSemaphore(id)) == NULL) {
+  if ((sem = getSemaphore(id)) == NULL)
+  {
     return -1;
   }
 
   acquire(&(sem->lock));
-  if (sem->value > 0) {
+  if (sem->value > 0)
+  {
     sem->value--;
     release(&(sem->lock));
-  } else {
+  }
+  else
+  {
     int currentPID = getProcessPID();
     sem->blockedProcesses[sem->blockedProcessesAmount++] = currentPID;
     release(&(sem->lock));
@@ -53,16 +62,21 @@ int semWait(uint32_t id) {
   return 0;
 }
 
-int semPost(uint32_t id) {
+int semPost(uint32_t id)
+{
   t_semaphore *sem;
-  if ((sem = getSemaphore(id)) == NULL) {
+  if ((sem = getSemaphore(id)) == NULL)
+  {
     return -1;
   }
 
   acquire(&(sem->lock));
-  if (sem->blockedProcessesAmount > 0) {
+  if (sem->blockedProcessesAmount > 0)
+  {
     unblockSemProcess(sem);
-  } else {
+  }
+  else
+  {
     sem->value++;
   }
 
@@ -70,51 +84,64 @@ int semPost(uint32_t id) {
   return 0;
 }
 
-int semClose(uint32_t id) {
+int semClose(uint32_t id)
+{
   t_semaphore *sem;
-  if ((sem = getSemaphore(id)) == NULL) {
+  if ((sem = getSemaphore(id)) == NULL)
+  {
     return -1;
   }
 
-  if (sem->listeningProcesses > 0) {
+  if (sem->listeningProcesses > 0)
+  {
     sem->listeningProcesses--;
   }
 
-  if (sem->listeningProcesses == 0) {
+  if (sem->listeningProcesses == 0)
+  {
     removeSemaphore(sem);
   }
 
   return 0;
 }
 
-void semStatus() {
-  printf("\nActive Semaphore Status\n\n");
+void semStatus()
+{
+  printf("\nStatus of active semaphores\n\n");
   t_semaphore *sem = semaphores;
-  while (sem) {
+  while (sem)
+  {
     printf("Semaphore ID: %d\n", sem->id);
-    printf("     Value: %d\n", sem->value);
-    printf("     Attached processes amount: %d\n", sem->listeningProcesses);
-    printf("     Blocked processes amount: %d\n", sem->blockedProcessesAmount);
-    printf("     Blocked processes:\n");
+    printf("  Value: %d\n", sem->value);
+    printf("  Number of attached processes: %d\n", sem->listeningProcesses);
+    printf("  Number of blocked processes: %d\n", sem->blockedProcessesAmount);
+    printf("  Blocked processes:\n");
     blockedProcessesDump(sem->blockedProcesses, sem->blockedProcessesAmount);
     sem = sem->next;
   }
 }
 
 static void blockedProcessesDump(int *blockedProcesses,
-                                 uint16_t blockedProcessesAmount) {
-  for (int i = 0; i < blockedProcessesAmount; i++) {
-    printf("         PID: %d\n", blockedProcesses[i]);
+                                 uint16_t blockedProcessesAmount)
+{
+  for (int i = 0; i < blockedProcessesAmount; i++)
+  {
+    printf("    PID: %d\n", blockedProcesses[i]);
   }
   printf("\n");
 }
 
-static void removeSemaphore(t_semaphore *sem) {
+static void removeSemaphore(t_semaphore *sem)
+{
   t_semaphore *semListAux = semaphores;
-  if (sem == semListAux) {
+  if (sem == semListAux)
+  {
     semaphores = semListAux->next;
-  } else {
-    while (semListAux->next != sem) {
+  }
+  else
+  {
+    while (semListAux->next != sem)
+    {
       semListAux = semListAux->next;
     }
     semListAux->next = sem->next;
@@ -122,9 +149,11 @@ static void removeSemaphore(t_semaphore *sem) {
   free(sem);
 }
 
-static t_semaphore *createSemaphore(uint32_t id, uint64_t initialValue) {
+static t_semaphore *createSemaphore(uint32_t id, uint64_t initialValue)
+{
   t_semaphore *newSem = malloc(sizeof(t_semaphore));
-  if (newSem != NULL) {
+  if (newSem != NULL)
+  {
     newSem->id = id;
     newSem->value = initialValue;
     newSem->blockedProcessesAmount = 0;
@@ -136,22 +165,30 @@ static t_semaphore *createSemaphore(uint32_t id, uint64_t initialValue) {
   return newSem;
 }
 
-static void addSemaphoreToList(t_semaphore *newSem) {
+static void addSemaphoreToList(t_semaphore *newSem)
+{
   t_semaphore *tailSem = semaphores;
-  if (tailSem == NULL) {
+  if (tailSem == NULL)
+  {
     semaphores = newSem;
-  } else {
-    while (tailSem->next != NULL) {
+  }
+  else
+  {
+    while (tailSem->next != NULL)
+    {
       tailSem = tailSem->next;
     }
     tailSem->next = newSem;
   }
 }
 
-static t_semaphore *getSemaphore(uint32_t id) {
+static t_semaphore *getSemaphore(uint32_t id)
+{
   t_semaphore *result = semaphores;
-  while (result) {
-    if (result->id == id) {
+  while (result)
+  {
+    if (result->id == id)
+    {
       return result;
     }
     result = result->next;
@@ -159,9 +196,11 @@ static t_semaphore *getSemaphore(uint32_t id) {
   return NULL;
 }
 
-static void unblockSemProcess(t_semaphore *sem) {
+static void unblockSemProcess(t_semaphore *sem)
+{
   int readyPID = sem->blockedProcesses[0];
-  for (int i = 0; i < sem->blockedProcessesAmount - 1; i++) {
+  for (int i = 0; i < sem->blockedProcessesAmount - 1; i++)
+  {
     sem->blockedProcesses[i] = sem->blockedProcesses[i + 1];
   }
   sem->blockedProcessesAmount--;

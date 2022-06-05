@@ -59,7 +59,7 @@ int main()
   initializeKeyboard();
   initializeProcessManager();
   char *userland[] = {"Userland Init"};
-  newProcess(sampleCodeModuleAddress, 1, userland, FOREGROUND, 0);
+  createProcess(sampleCodeModuleAddress, 1, userland, FOREGROUND, 0);
   loadIdt();
   _hlt();
   printf("\nFATAL FAILURE\n");
