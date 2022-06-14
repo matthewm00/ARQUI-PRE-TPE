@@ -56,6 +56,7 @@ typedef enum
   SYS_PIPE_WRITE_ID,
   SYS_PIPE_READ_ID,
   SYS_WAIT_ID,
+  SYS_SHM
 } t_syscall_id;
 
 uint64_t _syscall(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx,
@@ -85,4 +86,5 @@ int pipeClose(int pipeID);
 int pipeWrite(int pipeID, char *str);
 int pipeRead(int pipeID);
 void wait(int pipeID);
+int sharedMemory(int id);
 #endif

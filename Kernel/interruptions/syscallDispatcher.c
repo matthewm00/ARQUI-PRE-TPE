@@ -10,6 +10,7 @@
 #include <syscalls.h>
 #include <time.h>
 #include <videoDriver.h>
+#include <sharedMemory.h>
 
 typedef int (*functionPointer)(uint64_t rsi, uint64_t rdx, uint64_t rcx,
                                uint64_t r8, uint64_t r9);
@@ -246,6 +247,12 @@ static int stopwatchticksWrapper(uint64_t rsi, uint64_t rdx, uint64_t rcx,
   return getStopwatchTicks();
 }
 
+static int sharedMWrapper(uint64_t rsi, uint64_t rdx, uint64_t rcx,
+                          uint64_t r8, uint64_t r9)
+{
+  return sharedMem(rsi);
+}
+
 static functionPointer syscall[] = {
     getCurrentTimeWrapper,
     sysReadWrapper,
@@ -286,7 +293,8 @@ static functionPointer syscall[] = {
     pipeWriteWrapper,
     pipeReadWrapper,
     waitWrapper,
-};
+
+    sharedMWrapper};
 
 int syscallSelector(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx,
                     uint64_t r8, uint64_t r9)

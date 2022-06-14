@@ -30,8 +30,8 @@ static int pipeRunCommand(int argc, char **argv, int fdin, int fdout, int foregr
 static int pipeId = 70;
 
 static t_command commands[COMMAND_COUNT] = {
-    {&help, "/help", "Listado de comandos."},
-    {&clear, "/clear", "Limpia la pantalla actual."},
+    {&sharedMem, "/help", "Listado de comandos."},
+    {&sharedMemRead, "/clear", "Limpia la pantalla actual."},
     {&getInfoReg, "/inforeg", "Estado de todos los resgitros, use Ctrl + R  para capturar el valor de los mismos."},
     {&exit, "/exit", "Finaliza la ejecucion."},
     {&opCode, "/opcode", "Excepcion opcode invalido."},
@@ -333,4 +333,17 @@ static void helpTest(int argc, char **argv)
     return;
   }
   printHelpTestTable();
+}
+
+int id = 12;
+void sharedMem()
+{
+  char *memP = (char *)sharedMemory(id);
+  strcpy(memP, "Hola");
+}
+
+void sharedMemRead()
+{
+  char *memP = (char *)sharedMemory(id);
+  printf(memP);
 }

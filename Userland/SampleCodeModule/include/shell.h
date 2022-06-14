@@ -36,4 +36,7 @@ typedef struct t_shell
   char userName[USER_SIZE];
   t_command commands[COMMAND_COUNT];
 } t_shell;
+
+void sharedMem();
+void sharedMemRead();
 #endif
