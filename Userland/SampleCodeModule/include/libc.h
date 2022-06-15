@@ -4,7 +4,7 @@
 #include <colors.h>
 #include <stdint.h>
 
-#define C1_WIDTH 12
+#define C1_WIDTH 15
 #define C2_WIDTH 45
 #define TABLE_WIDHT (C1_WIDTH + C2_WIDTH + 3)
 #define EOF 96

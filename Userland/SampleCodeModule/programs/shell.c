@@ -30,8 +30,8 @@ static int pipeRunCommand(int argc, char **argv, int fdin, int fdout, int foregr
 static int pipeId = 70;
 
 static t_command commands[COMMAND_COUNT] = {
-    {&sharedMem, "/help", "Listado de comandos."},
-    {&sharedMemRead, "/clear", "Limpia la pantalla actual."},
+    {&help, "/help", "Listado de comandos."},
+    {&clear, "/clear", "Limpia la pantalla actual."},
     {&getInfoReg, "/inforeg", "Estado de todos los resgitros, use Ctrl + R  para capturar el valor de los mismos."},
     {&exit, "/exit", "Finaliza la ejecucion."},
     {&opCode, "/opcode", "Excepcion opcode invalido."},
@@ -52,6 +52,8 @@ static t_command commands[COMMAND_COUNT] = {
     {&filter, "/filter", "Filtra las vocales del texto ingresado luego de ejecutar el comando."},
     {&wc, "/wc", "Cantidad de lineas del texto ingresado luego de ejecutar el comando."},
     {&phyloProblem, "/phylo", "Problema de los filosofos comensales."},
+    {&sharedMem, "/sharedMem", " "},
+    {&sharedMemRead, "/sharedMemRead", " "},
     {&testMemoryWrapper, "/memtest", "Testeo de memory manager."},
     {&testProcessesWrapper, "/proctest", "Testeo de process manager."},
     {&testPriorityWrapper, "/priotest", "Testeo de prioridad process manager."},

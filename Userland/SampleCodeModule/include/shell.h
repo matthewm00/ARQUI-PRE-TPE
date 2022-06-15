@@ -15,9 +15,9 @@
 #define BUFFER_SIZE 100
 #define MAX_ARGUMENTS 5
 #define USER_SIZE 25
-#define COMMAND_COUNT 29
+#define COMMAND_COUNT 31
 #define TEST_COMMAND_COUNT 5
-#define TEST_COMMAND_START 22
+#define TEST_COMMAND_START 24
 
 void initialize(int argc, char **argv);
 void shellExecute();
